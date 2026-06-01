@@ -10,7 +10,9 @@ const buttonVariants = cva(
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/80",
         brutalism:
-          "border-border border-2 bg-main aria-expanded:bg-muted  aria-expanded:text-foreground cursor-pointer -translate-y-[1px] hover:translate-[3px] hover:shadow-none shadow-[3px_3px_0px_0px_#323232]",
+          "border-border bg-white border-2 aria-expanded:bg-muted  aria-expanded:text-foreground cursor-pointer",
+        brutalismLime:
+          "border-border border-2 bg-lime aria-expanded:bg-muted  aria-expanded:text-foreground cursor-pointer -translate-y-[1px] hover:translate-[3px] hover:shadow-none shadow-[3px_3px_0px_0px_#323232]",
         outline:
           "border-border border-2 bg-transparent aria-expanded:bg-muted  aria-expanded:text-foreground",
         secondary:
@@ -25,11 +27,12 @@ const buttonVariants = cva(
         default:
           "h-10 gap-1.5 px-6 has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4",
         xs: "h-7 gap-1 px-3 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-9 gap-1 px-4 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3",
-        lg: "h-11 gap-1.5 px-8 has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5",
+        sm: "h-9 gap-1 px-4 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3 -translate-y-[1px] hover:translate-[3px] hover:shadow-none shadow-[3px_3px_0px_0px_#323232]",
+        lg: "h-11 gap-1.5 px-8 has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5 -translate-y-[4px] hover:translate-[6px] hover:shadow-none shadow-[6px_6px_0px_0px_#323232]",
         icon: "size-10",
         "icon-xs": "size-7 [&_svg:not([class*='size-'])]:size-3",
-        "icon-sm": "size-9",
+        "icon-sm":
+          "size-9 -translate-y-[1px] hover:translate-[3px] hover:shadow-none shadow-[3px_3px_0px_0px_#323232]",
         "icon-lg": "size-11",
       },
     },
