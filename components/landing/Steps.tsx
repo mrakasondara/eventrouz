@@ -3,9 +3,15 @@ import { Banknote, PartyPopper, Search, Ticket } from "lucide-react";
 export const Steps = () => {
   return (
     <section className="flex gap-40 flex-col justify-center items-center py-40 px-5 font-grotesk border-b-2 bg-purple-600">
-      <h2 className=" text-center text-white text-5xl font-extrabold uppercase">
-        Pesan Tiket Dalam 4 Langkah
-      </h2>
+      <div className="flex flex-col gap-2 text-center text-white">
+        <h2 className="text-5xl font-extrabold uppercase">
+          Pesan Tiket Dalam 4 Langkah
+        </h2>
+        <p className="md:w-1/2 mx-auto text-lg font-light capitalize">
+          "Mulai perjalananmu menuju pengalaman event yang luar biasa dengan
+          proses pemesanan yang sederhana dan cepat."
+        </p>
+      </div>
       <div className="flex flex-col md:flex-row gap-0 justify-center items-center">
         {steps.map((step, index) => {
           return <StepCard {...step} key={index} />;
