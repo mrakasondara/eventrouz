@@ -2,7 +2,7 @@ import { Music, Palette, Trophy, Users, Lightbulb } from "lucide-react";
 
 export const RunningCategories = () => {
   return (
-    <div className="overflow-hidden border-b-5 bg-lime flex">
+    <div className="overflow-hidden border-b-2 bg-lime flex">
       <ul className="flex gap-10 p-4 text-md lg:text-xl font-grotesk uppercase font-bold animate-[infinite-scroll_10s_linear_infinite] whitespace-nowrap">
         {categories.concat(categories).map((category, index) => {
           return (
@@ -18,7 +18,7 @@ export const RunningCategories = () => {
 };
 
 const categories = [
-  { name: "Konser Musil", icon: Music },
+  { name: "Konser Musik", icon: Music },
   { name: "Teater dan Kesenian", icon: Palette },
   { name: "Acara Olahraga", icon: Trophy },
   { name: "Acara Komunitas", icon: Users },

@@ -1,0 +1,65 @@
+import { Banknote, PartyPopper, Search, Ticket } from "lucide-react";
+
+export const Steps = () => {
+  return (
+    <section className="flex gap-40 flex-col justify-center items-center py-40 px-5 font-grotesk border-b-2 bg-purple-600">
+      <h2 className=" text-center text-white text-5xl font-extrabold uppercase">
+        Pesan Tiket Dalam 4 Langkah
+      </h2>
+      <div className="flex flex-col md:flex-row gap-0 justify-center items-center">
+        {steps.map((step, index) => {
+          return <StepCard {...step} key={index} />;
+        })}
+      </div>
+    </section>
+  );
+};
+
+const StepCard = ({
+  title,
+  bgColor,
+  icon,
+  rotate,
+}: {
+  title: string;
+  bgColor: string;
+  icon: any;
+  rotate: string;
+}) => {
+  const Icon = icon;
+  return (
+    <div
+      className={`flex flex-col justify-between gap-5 border-border ${bgColor} ${rotate} w-60 lg:w-70 h-50 p-4 border-2 uppercase font-bold -translate-y-[1px] hover:translate-[3px] hover:shadow-none shadow-[10px_10px_0px_0px_black] transition`}
+    >
+      <Icon size={60} strokeWidth={2.5} />
+      <h4 className="text-3xl">{title}</h4>
+    </div>
+  );
+};
+
+const steps = [
+  {
+    title: "Cari Event",
+    bgColor: "bg-blue",
+    icon: Search,
+    rotate: "-rotate-6 z-10",
+  },
+  {
+    title: "Pilih Tiket",
+    bgColor: "bg-magenta",
+    icon: Ticket,
+    rotate: "rotate-5 md:-ml-8 z-20",
+  },
+  {
+    title: "Bayar",
+    bgColor: "bg-lime",
+    icon: Banknote,
+    rotate: "-rotate-3 md:-ml-8 z-30",
+  },
+  {
+    title: "Datang dan Nikmati",
+    bgColor: "bg-beige",
+    icon: PartyPopper,
+    rotate: "rotate-6 md:-ml-8 z-40",
+  },
+];
