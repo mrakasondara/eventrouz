@@ -2,7 +2,7 @@ import { stepsItem } from "../../lib/stepsItem";
 
 export const Steps = () => {
   return (
-    <section className="flex gap-40 flex-col justify-center items-center py-40 px-5 font-grotesk border-b-2 bg-purple-600">
+    <section className="flex gap-40 flex-col justify-center items-center py-40 px-5 font-grotesk border-b-3 bg-purple-600">
       <div className="flex flex-col gap-2 text-center text-white">
         <h2 className="text-5xl font-extrabold uppercase">
           Pesan Tiket Dalam 4 Langkah
