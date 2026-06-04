@@ -4,7 +4,7 @@ import { TicketCard } from "./TicketCard";
 
 export const Hero = () => {
   return (
-    <div className="flex flex-col w-full md:relative lg:static border border-b-2 bg-beige">
+    <section className="flex flex-col w-full md:relative lg:static border border-b-2 bg-beige">
       <div className="flex items-center md:items-start gap-y-10 md:gap-y-5 flex-col py-15 px-5 gap-x-5 w-full lg:w-3/4 lg:mx-auto bg-beige">
         <div className="flex w-full justify-between md:static lg:relative">
           <h2 className="text-[4rem] leading-20 text-center md:text-start md:leading-26 lg:leading-28 md:text-[5rem] lg:text-[6rem] w-full lg:w-3/4 font-grotesk font-extrabold">
@@ -26,6 +26,6 @@ export const Hero = () => {
           <span>Join Us</span>
         </Button>
       </div>
-    </div>
+    </section>
   );
 };

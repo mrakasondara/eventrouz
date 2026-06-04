@@ -1,4 +1,4 @@
-import { stepsItem } from "../../lib/steps";
+import { stepsItem } from "../../lib/stepsItem";
 
 export const Steps = () => {
   return (
