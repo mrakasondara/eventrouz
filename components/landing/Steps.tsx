@@ -1,4 +1,4 @@
-import { Banknote, PartyPopper, Search, Ticket } from "lucide-react";
+import { stepsItem } from "../../lib/steps";
 
 export const Steps = () => {
   return (
@@ -13,7 +13,7 @@ export const Steps = () => {
         </p>
       </div>
       <div className="flex flex-col md:flex-row gap-0 justify-center items-center">
-        {steps.map((step, index) => {
+        {stepsItem.map((step, index) => {
           return <StepCard {...step} key={index} />;
         })}
       </div>
@@ -42,30 +42,3 @@ const StepCard = ({
     </div>
   );
 };
-
-const steps = [
-  {
-    title: "Cari Event",
-    bgColor: "bg-blue",
-    icon: Search,
-    rotate: "-rotate-6 z-10",
-  },
-  {
-    title: "Pilih Tiket",
-    bgColor: "bg-magenta",
-    icon: Ticket,
-    rotate: "rotate-5 md:-ml-8 z-20",
-  },
-  {
-    title: "Bayar",
-    bgColor: "bg-lime",
-    icon: Banknote,
-    rotate: "-rotate-3 md:-ml-8 z-30",
-  },
-  {
-    title: "Datang dan Nikmati",
-    bgColor: "bg-beige",
-    icon: PartyPopper,
-    rotate: "rotate-6 md:-ml-8 z-40",
-  },
-];
