@@ -1,8 +1,29 @@
+import Image from "next/image";
+import Link from "next/link";
+
 export const Footer = () => {
   return (
     <footer className="flex flex-col md:flex-row bg-black text-white py-8 px-5 md:px-20">
       <div className="flex flex-col gap-3 md:w-3/4">
         <h1 className="text-lg font-bold">Eventrouz</h1>
+        <div className="flex gap-2">
+          <Link href="">
+            <Image
+              src="https://thesvg.org/icons/instagram/default.svg"
+              alt="Instagram"
+              width={24}
+              height={24}
+            />
+          </Link>
+          <Link href="">
+            <Image
+              src="https://thesvg.org/icons/facebook/default.svg"
+              alt="Facebook"
+              width={24}
+              height={24}
+            />
+          </Link>
+        </div>
       </div>
       <div className="flex mt-5 md:mt-0 md:w-1/4 lg:w-[20%] md:justify-between lg:justify-end lg:gap-10 lg:mx-auto">
         <div className="flex flex-col">
