@@ -1,11 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Geist,
-  Space_Grotesk,
-  Noto_Sans,
-  Playfair_Display,
-  Chewy,
-} from "next/font/google";
+import { Space_Grotesk, Noto_Sans, Lilita_One, Chewy } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/layout/Header";
@@ -22,6 +16,13 @@ const chewy = Chewy({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-chewy",
+  display: "swap", // Improves performance
+});
+
+const lilita = Lilita_One({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-lilita",
   display: "swap", // Improves performance
 });
 
@@ -48,7 +49,8 @@ export default function RootLayout({
         spaceGrotesk.variable,
         "font-sans",
         notoSans.variable,
-        chewy.variable
+        chewy.variable,
+        lilita.variable
       )}
     >
       <body className="min-h-full flex flex-col">

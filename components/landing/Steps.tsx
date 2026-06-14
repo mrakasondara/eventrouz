@@ -2,12 +2,12 @@ import { stepsItem } from "../../lib/stepsItem";
 
 export const Steps = () => {
   return (
-    <section className="flex gap-40 flex-col justify-center items-center py-40 px-5 font-chewy border-b-3 bg-purple-600">
+    <section className="flex gap-30 flex-col justify-center items-center py-20 px-5 font-chewy border-b-3 bg-purple-600">
       <div className="flex flex-col gap-2 text-center">
-        <h2 className="text-7xl uppercase text-white">
+        <h2 className="text-7xl uppercase text-white text-shadow-lg text-shadow-black">
           Pesan Tiket Dalam 4 Langkah
         </h2>
-        <p className="md:w-1/2 mx-auto text-lg  text-[#E0E0E0] font-grotesk capitalize">
+        <p className="md:w-1/2 mx-auto text-lg text-[#E0E0E0] font-grotesk capitalize">
           "Mulai perjalananmu menuju pengalaman event yang luar biasa dengan
           proses pemesanan yang sederhana dan cepat."
         </p>
