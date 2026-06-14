@@ -16,14 +16,14 @@ const chewy = Chewy({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-chewy",
-  display: "swap", // Improves performance
+  display: "swap",
 });
 
 const lilita = Lilita_One({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-lilita",
-  display: "swap", // Improves performance
+  display: "swap",
 });
 
 export const metadata: Metadata = {
