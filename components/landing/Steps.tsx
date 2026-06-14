@@ -2,8 +2,8 @@ import { stepsItem } from "../../lib/stepsItem";
 
 export const Steps = () => {
   return (
-    <section className="flex gap-30 flex-col justify-center items-center py-20 px-5 font-chewy border-b-3 bg-purple-600">
-      <div className="flex flex-col gap-2 text-center">
+    <section className="flex gap-30 flex-col justify-center items-center py-20 px-5 border-b-3 bg-purple-600">
+      <div className="flex flex-col gap-2 text-center font-lilita">
         <h2 className="text-7xl uppercase text-white text-shadow-lg text-shadow-black">
           Pesan Tiket Dalam 4 Langkah
         </h2>
