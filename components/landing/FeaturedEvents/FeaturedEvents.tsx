@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { FeaturedCard } from "./FeaturedCard";
 
 export const FeaturedEvents = () => {
@@ -21,7 +22,12 @@ export const FeaturedEvents = () => {
         <FeaturedCard />
         <FeaturedCard />
       </div>
-      <p>Lihat event lainnya</p>
+      <Link
+        href="/"
+        className="-mt-25 mb-5 px-5 underline md:w-3/4 lg:w-1/2 md:mx-auto cursor-pointer z-10"
+      >
+        Lihat event lainnya
+      </Link>
     </section>
   );
 };

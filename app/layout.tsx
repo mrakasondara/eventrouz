@@ -4,31 +4,32 @@ import {
   Space_Grotesk,
   Noto_Sans,
   Playfair_Display,
+  Chewy,
 } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
-const playfairDisplayHeading = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-heading",
-});
-
 const notoSans = Noto_Sans({ subsets: ["latin"], variable: "--font-sans" });
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
 });
 
+const chewy = Chewy({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-chewy",
+  display: "swap", // Improves performance
+});
+
 export const metadata: Metadata = {
-  title: "Eventrouz",
+  title: {
+    default: "Eventrouz - Book your event",
+    template: "%s - Eventrouz",
+  },
   description:
     "Eventrouze brings tremendous experiences closer to you. Explore exciting events, secure your tickets, and create unforgettable memories.",
 };
@@ -44,11 +45,10 @@ export default function RootLayout({
       className={cn(
         "h-full",
         "antialiased",
-        geistSans.variable,
         spaceGrotesk.variable,
         "font-sans",
         notoSans.variable,
-        playfairDisplayHeading.variable
+        chewy.variable
       )}
     >
       <body className="min-h-full flex flex-col">

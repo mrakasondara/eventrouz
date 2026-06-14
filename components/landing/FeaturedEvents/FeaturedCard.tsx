@@ -10,7 +10,9 @@ export const FeaturedCard = () => {
         12-15 Feb 2025
       </span>
       <div className="flex justify-between">
-        <h4 className="p-3 text-lg font-bold w-full bg-white">Konser Musik</h4>
+        <h4 className="p-3 text-center md:text-start md:text-lg font-bold w-full bg-white">
+          Konser Musik
+        </h4>
         <p className="bg-[#091413] text-white font-semibold p-3">Rp.15K</p>
       </div>
     </div>

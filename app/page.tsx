@@ -9,7 +9,7 @@ export default function Home() {
     <main className="flex flex-1 w-full flex-col">
       <Hero />
       <RunningCategories />
-      <FeaturedEvents/>
+      <FeaturedEvents />
       <Steps />
       <Questions />
     </main>

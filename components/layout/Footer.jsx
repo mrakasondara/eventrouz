@@ -1,9 +1,16 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export const Footer = () => {
+  const pathname = usePathname();
   return (
-    <footer className="flex flex-col md:flex-row bg-black text-white py-8 px-5 md:px-20">
+    <footer
+      className={`${
+        pathname === "/signin" || pathname === "signup" ? "hidden" : "flex"
+      } flex-col md:flex-row bg-black text-white py-8 px-5 md:px-20`}
+    >
       <div className="flex flex-col gap-3 md:w-3/4">
         <h1 className="text-lg font-bold">Eventrouz</h1>
         <div className="flex gap-2">
