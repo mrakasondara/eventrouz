@@ -3,6 +3,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { ShoppingCart, Search, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export const Header = () => {
   const pathname = usePathname();
@@ -40,9 +41,11 @@ export const Header = () => {
             </Button>
           )}
           {pathname === "/" && (
-            <Button variant="brutalism" size="sm">
-              Join Us
-            </Button>
+            <Link href="/signin">
+              <Button variant="brutalism" size="sm">
+                Join Us
+              </Button>
+            </Link>
           )}
         </div>
       </div>
