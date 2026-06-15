@@ -25,21 +25,25 @@ export const Header = () => {
         </div>
         <div className="flex gap-2 ml-auto justify-end items-center">
           {pathname != "/" && (
-            <Button variant="brutalism" size="icon-sm">
-              <Search />
-            </Button>
+            <>
+              <Button variant="brutalism" size="icon-sm">
+                <Search />
+              </Button>
+              <Button variant="brutalism" size="icon-sm">
+                <Menu />
+              </Button>
+            </>
           )}
           {isAuth && (
             <Button variant="brutalism" size="icon-sm">
               <ShoppingCart />
             </Button>
           )}
-          <Button variant="brutalism" size="sm">
-            Join Us
-          </Button>
-          <Button variant="brutalism" size="icon-sm">
-            <Menu />
-          </Button>
+          {pathname === "/" && (
+            <Button variant="brutalism" size="sm">
+              Join Us
+            </Button>
+          )}
         </div>
       </div>
     </header>
