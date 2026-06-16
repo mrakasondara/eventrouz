@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { questionsItem } from "@/lib/questionsItem";
+import { questionsItem } from "@/lib/questions-items";
 
 interface QuestionCardProps {
   title: string;
