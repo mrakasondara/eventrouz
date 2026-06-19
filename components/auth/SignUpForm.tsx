@@ -1,24 +1,53 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { Mail, Lock, User } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Mail, Lock } from "lucide-react";
+import { toast } from "sonner";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "../ui/spinner";
+import { errorStyle, successStyle } from "@/lib/toaster-styles";
+import { EventsAPI } from "@/lib/services/api/events-api";
 
 export const SignUpForm = () => {
-  const [username, setUsername] = useState("");
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const onSignUp = (e: React.SubmitEvent<HTMLFormElement>): void => {
+  const onSignUp = async (
+    e: React.SubmitEvent<HTMLFormElement>
+  ): Promise<string | number | undefined> => {
     e.preventDefault();
-    console.log({ email, password });
+    const user = { email, password };
+
+    if (password !== confirmPassword) {
+      return toast.error("Password doesn't match", { style: errorStyle });
+    }
+
+    try {
+      setLoading(true);
+      const response = await EventsAPI.signup(user);
+      if (response.success) {
+        toast.success(response.message, { style: successStyle });
+        setTimeout(() => {
+          router.push("/signin");
+        }, 500);
+      } else {
+        return toast.error(response.message, { style: errorStyle });
+      }
+    } catch (error) {
+      return toast.error("something error", { style: errorStyle });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -34,24 +63,11 @@ export const SignUpForm = () => {
       <div className="flex flex-col my-4 gap-3">
         <InputGroup>
           <InputGroupInput
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            type="text"
-            placeholder="Username"
-            className={
-              username ? "bg-white border-2 border-l-0 border-black" : ""
-            }
-          />
-          <InputGroupAddon>
-            <User strokeWidth={4} />
-          </InputGroupAddon>
-        </InputGroup>
-        <InputGroup>
-          <InputGroupInput
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             type="email"
             placeholder="Email"
+            required
             className={email ? "bg-white border-2 border-l-0 border-black" : ""}
           />
           <InputGroupAddon>
@@ -63,7 +79,27 @@ export const SignUpForm = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type="password"
+            autoComplete="new-password"
+            minLength={6}
             placeholder="Password"
+            required
+          />
+          <InputGroupAddon>
+            <Lock strokeWidth={4} />
+          </InputGroupAddon>
+        </InputGroup>
+        <InputGroup>
+          <InputGroupInput
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            type="password"
+            autoComplete="new-password"
+            minLength={6}
+            placeholder="Confirm Password"
+            required
+            className={
+              confirmPassword ? "bg-white border-2 border-l-0 border-black" : ""
+            }
           />
           <InputGroupAddon>
             <Lock strokeWidth={4} />
@@ -77,6 +113,7 @@ export const SignUpForm = () => {
         size="lg"
         className="text-md font-bold capitalize bg-lime"
       >
+        {loading ? <Spinner /> : ""}
         Sign Up
       </Button>
 

@@ -29,9 +29,10 @@ const userSchema = new Schema(
     gender: {
       type: String,
       enum: {
-        value: ["male", "female"],
-        message: "{VALUE} is not a valid status option",
+        values: ["male", "female"],
+        message: "{VALUE} is not a valid gender option",
       },
+      default: "male",
     },
     favorite_events: [favoriteEventsSchema],
   },
