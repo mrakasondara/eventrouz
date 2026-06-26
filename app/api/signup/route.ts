@@ -1,5 +1,5 @@
 import { mongoURI } from "@/constant";
-import { connectDB } from "@/database";
+import { connectDB, encryptPassword } from "@/database";
 import { User } from "@/database/models/user";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -18,7 +18,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    await User.create({ email, password });
+    const encryptedPassword = await encryptPassword(password);
+
+    await User.create({ email, password: encryptedPassword });
+
     return NextResponse.json(
       { success: true, message: "Sign up success!" },
       { status: 201 }
