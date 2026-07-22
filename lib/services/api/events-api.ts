@@ -6,10 +6,30 @@ interface userRegister {
 }
 
 export class EventsAPI {
-  static async signup(user: userRegister) {
+  static async register(user: userRegister) {
     try {
-      const response = await fetch(`${BASE_API}/signup`, {
+      const response = await fetch(`${BASE_API}/register`, {
         method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+      return response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  static async login(user: userRegister) {
+    try {
+      const response = await fetch(`${BASE_API}/login`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(user),
       });
       return response.json();

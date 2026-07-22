@@ -10,15 +10,40 @@ import {
 } from "@/components/ui/input-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "../ui/spinner";
+import { signIn } from "next-auth/react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const SignInForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isRemember, setIsRemember] = useState("false");
+  const [loading, setLoading] = useState(false);
 
-  const onSignIn = (e: React.SubmitEvent<HTMLFormElement>): void => {
+  const router = useRouter();
+
+  const onSignIn = async (e: React.SubmitEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    console.log({ email, password, isRemember });
+
+    setLoading(true);
+
+    const response = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    setLoading(false);
+
+    if (response?.error) {
+      toast.error("Email atau password salah");
+    } else {
+      toast.success("Login berhasil");
+      setTimeout(() => {
+        router.push("/profile");
+      }, 700);
+    }
   };
 
   return (
@@ -77,6 +102,7 @@ export const SignInForm = () => {
         size="lg"
         className="text-md font-bold capitalize bg-blue"
       >
+        {loading && <Spinner />}
         Sign In
       </Button>
       <div className="flex flex-col items-center mt-6 border-t gap-2 relative">

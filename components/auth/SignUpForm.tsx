@@ -34,7 +34,7 @@ export const SignUpForm = () => {
 
     try {
       setLoading(true);
-      const response = await EventsAPI.signup(user);
+      const response = await EventsAPI.register(user);
       if (response.success) {
         toast.success(response.message, { style: successStyle });
         setTimeout(() => {
