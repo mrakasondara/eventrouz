@@ -1,8 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Mail, Lock } from "lucide-react";
+import { User, Mail, Lock } from "lucide-react";
 import { toast } from "sonner";
 import {
   InputGroup,
@@ -13,20 +13,27 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "../ui/spinner";
 import { errorStyle, successStyle } from "@/lib/toaster-styles";
 import { EventsAPI } from "@/lib/services/api/events-api";
+import { useSession } from "next-auth/react";
 
 export const SignUpForm = () => {
   const router = useRouter();
+  const { data: session, status } = useSession();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (session) router.push("/profile");
+  }, [status, router]);
+
   const onSignUp = async (
     e: React.SubmitEvent<HTMLFormElement>
   ): Promise<string | number | undefined> => {
     e.preventDefault();
-    const user = { email, password };
+    const user = { name, email, password };
 
     if (password !== confirmPassword) {
       return toast.error("Password doesn't match", { style: errorStyle });
@@ -61,6 +68,19 @@ export const SignUpForm = () => {
       </div>
 
       <div className="flex flex-col my-4 gap-3">
+        <InputGroup>
+          <InputGroupInput
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            type="text"
+            placeholder="Name"
+            required
+            className={name ? "bg-white border-2 border-l-0 border-black" : ""}
+          />
+          <InputGroupAddon>
+            <User strokeWidth={4} />
+          </InputGroupAddon>
+        </InputGroup>
         <InputGroup>
           <InputGroupInput
             value={email}
