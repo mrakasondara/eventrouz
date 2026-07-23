@@ -1,14 +1,17 @@
 "use client";
-import { useState } from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
 import { ShoppingCart, Search, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { getAccessToken } from "@/app/actions/auth";
+import { EventsAPI } from "@/lib/services/api/events-api";
+import { toast } from "sonner";
 
 export const Header = () => {
   const pathname = usePathname();
-  const [isAuth, setIsAuth] = useState(false);
 
+  const { data: session } = useSession();
   return (
     <header
       className={`${
@@ -25,20 +28,41 @@ export const Header = () => {
           <h1 className="text-xl font-bold">Eventrouz</h1>
         </div>
         <div className="flex gap-2 ml-auto justify-end items-center">
-          {pathname != "/" && (
+          {session && (
             <>
-              <Button variant="brutalism" size="icon-sm">
-                <Search />
+              <Button
+                variant="brutalism"
+                className="bg-red-500 text-white border-black"
+                size="sm"
+                onClick={async () => {
+                  const token = await getAccessToken();
+                  const response = await EventsAPI.logout(token);
+                  if (response.success) {
+                    toast.success(response.message);
+                    setTimeout(() => {
+                      signOut({ callbackUrl: "/signin" });
+                    }, 700);
+                  } else {
+                    toast.error(response.message);
+                  }
+                }}
+              >
+                Logout
               </Button>
               <Button variant="brutalism" size="icon-sm">
-                <Menu />
+                <ShoppingCart />
               </Button>
+              {pathname != "/" && (
+                <>
+                  <Button variant="brutalism" size="icon-sm">
+                    <Search />
+                  </Button>
+                  <Button variant="brutalism" size="icon-sm">
+                    <Menu />
+                  </Button>
+                </>
+              )}
             </>
-          )}
-          {isAuth && (
-            <Button variant="brutalism" size="icon-sm">
-              <ShoppingCart />
-            </Button>
           )}
           {pathname === "/" && (
             <Link href="/signin">
