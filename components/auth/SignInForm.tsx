@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, Lock } from "lucide-react";
@@ -11,19 +11,30 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "../ui/spinner";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 export const SignInForm = () => {
+  const router = useRouter();
+  const { data: session, status } = useSession();
+
+  const rememberEmailKey = "remember-email";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isRemember, setIsRemember] = useState("false");
   const [loading, setLoading] = useState(false);
 
-  const router = useRouter();
+  useEffect(() => {
+    if (session) router.push("/profile");
+    const storedEmail = localStorage.getItem(rememberEmailKey);
+    if (storedEmail) setEmail(storedEmail);
+  }, [status, router]);
 
-  const onSignIn = async (e: React.SubmitEvent<HTMLFormElement>): void => {
+  const onSignIn = async (
+    e: React.SubmitEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
 
     setLoading(true);
@@ -40,6 +51,9 @@ export const SignInForm = () => {
       toast.error("Email atau password salah");
     } else {
       toast.success("Login berhasil");
+      if (isRemember) {
+        window.localStorage.setItem(rememberEmailKey, email);
+      }
       setTimeout(() => {
         router.push("/profile");
       }, 700);
