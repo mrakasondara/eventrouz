@@ -49,6 +49,13 @@ export const Header = () => {
               >
                 Logout
               </Button>
+
+              <Link href="/dashboard">
+                <Button variant="brutalism" size="sm" className="bg-blue">
+                  Dashboard
+                </Button>
+              </Link>
+
               <Button variant="brutalism" size="icon-sm">
                 <ShoppingCart />
               </Button>
@@ -65,7 +72,7 @@ export const Header = () => {
             </>
           )}
           {pathname === "/" && (
-            <Link href="/signin">
+            <Link href="/signin" className={`${session ? "hidden" : "block"}`}>
               <Button variant="brutalism" size="sm">
                 Join Us
               </Button>
