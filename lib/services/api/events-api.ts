@@ -77,4 +77,19 @@ export class EventsAPI {
 
     return await handlerAuthAPI({ url, method, token });
   }
+
+  // events
+  static async getFeaturedEvents(limit: number) {
+    try {
+      const response = await fetch(`${BASE_API}/events?limit=${limit}`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+      return response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }

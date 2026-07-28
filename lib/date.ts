@@ -1,0 +1,68 @@
+export const getEventDate = ({
+  start_at,
+  end_at,
+  type,
+}: {
+  start_at: string;
+  end_at: string;
+  type: string;
+}) => {
+  const startDate = new Date(start_at);
+  const endDate = new Date(end_at);
+
+  const checkIsOnlyADay =
+    startDate.getDate() == endDate.getDate() &&
+    startDate.getMonth() == endDate.getMonth();
+  const date = `${
+    checkIsOnlyADay
+      ? startDate.getDate()
+      : startDate.getDate() - endDate.getDate()
+  } ${getMonthName({
+    monthNumber: endDate.getMonth(),
+    type,
+  })}  ${endDate.getFullYear()}`;
+
+  return date;
+};
+
+const getMonthName = ({
+  monthNumber,
+  type,
+}: {
+  monthNumber: number;
+  type: string;
+}) => {
+  const shortMonths = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "Mei",
+    "Jun",
+    "Jul",
+    "Agu",
+    "Sep",
+    "Okt",
+    "Nov",
+    "Des",
+  ];
+
+  const fullMonths = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ];
+
+  return type == "full"
+    ? fullMonths[monthNumber - 1]
+    : shortMonths[monthNumber - 1];
+};
