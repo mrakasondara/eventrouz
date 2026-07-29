@@ -6,6 +6,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import Providers from "@/components/provider";
 import { Toaster } from "sonner";
+import { AppSidebar } from "@/components/layout/sidebar/app-sidebar";
+import { SidebarProviderWrapper } from "@/components/layout/sidebar/sidebar-provider-wrapper";
 
 const notoSans = Noto_Sans({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -57,10 +59,17 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <Providers>
-          <Header />
-          <Toaster position="top-right" />
-          {children}
-          <Footer />
+          <SidebarProviderWrapper>
+            <div className="w-full flex">
+              <AppSidebar />
+              <section className="flex flex-col w-full">
+                <Header />
+                <Toaster position="top-right" />
+                {children}
+                <Footer />
+              </section>
+            </div>
+          </SidebarProviderWrapper>
         </Providers>
       </body>
     </html>

@@ -15,11 +15,7 @@ export const Header = () => {
 
   const { data: session } = useSession();
   return (
-    <header
-      className={`${
-        pathname === "/signin" || pathname === "/signup" ? "hidden" : "flex"
-      } w-full py-3 px-5 border-b-4 items-center`}
-    >
+    <header className="flex w-full py-3 px-5 border-b-4 items-center">
       <div className="flex w-full items-center lg:w-3/4 mx-auto">
         <div className="flex gap-1 items-center">
           <img

@@ -1,11 +1,12 @@
 "use client";
-import { getAccessToken } from "@/app/actions/auth";
+import { getAccessToken, removeAccessToken } from "@/app/actions/auth";
 import { EventsAPI } from "@/lib/services/api/events-api";
 import { errorStyle } from "@/lib/toaster-styles";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Loading } from "../layout/Loading";
 import { Button } from "../ui/button";
+import { signOut } from "next-auth/react";
 
 interface userProfile {
   id?: Number;
@@ -26,11 +27,12 @@ export const ProfileContent = () => {
     try {
       setLoading(true);
       const response = await EventsAPI.getProfile(token ?? "");
-      console.log(response);
       if (response.success) {
         setUser(response.data);
       } else {
-        toast.error(response.message, { style: errorStyle });
+        toast.error("Silahkan login ulang", { style: errorStyle });
+        await removeAccessToken();
+        signOut({ callbackUrl: "/signin" });
       }
     } catch (error) {
       toast.error("something error", { style: errorStyle });
@@ -50,11 +52,12 @@ export const ProfileContent = () => {
         loading && "justify-center"
       }`}
     >
-      <div className="w-full h-20 bg-gradient"></div>
-
-      <section className={`${loading && "blur"} flex flex-col gap-3 px-8 mt-1`}>
-        {!loading && (
-          <>
+      {!loading && (
+        <>
+          <div className="w-full h-50 lg:h-30 bg-gradient"></div>
+          <section
+            className={`${loading && "blur"} flex flex-col gap-3 px-8 mt-5`}
+          >
             <div className="flex flex-col md:flex-row gap-2 items-center">
               <img
                 src="/images/profile.webp"
@@ -62,25 +65,27 @@ export const ProfileContent = () => {
                 alt=""
               />
 
-              <div className="flex flex-col font-grotesk items-center md:items-start gap-2 ml-3">
-                <h4 className="capitalize font-bold text-xl">
+              <div className="flex flex-col items-center md:items-start gap-2 ml-3">
+                <h4 className="capitalize font-sans font-bold text-xl">
                   {user?.name ?? "-"}
                 </h4>
-                <p className="text-black/50">{user?.email ?? "-"}</p>
+                <p className="text-black/50 font-grotesk">
+                  {user?.email ?? "-"}
+                </p>
               </div>
 
               <div className="flex justify-center items-center mx-auto md:mx-0 md:ml-auto">
                 <Button
                   variant="brutalism"
                   size="md"
-                  className="font-bold mt-2 bg-blue"
+                  className="font-bold mt-2 bg-red-600 text-white border-black"
                 >
                   Edit
                 </Button>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-y-6 gap-x-10 mt-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-y-6 gap-x-10 mt-2 font-grotesk">
               <div className="flex flex-col gap-2">
                 <h2 className="font-semibold">Address</h2>
                 <p className="px-3 py-2 capitalize bg-gray text-sm border-border border shadow-[3px_3px_0px_0px_#323232]">
@@ -90,7 +95,7 @@ export const ProfileContent = () => {
               <div className="flex flex-col gap-2">
                 <h2 className="font-semibold">Phone Number</h2>
                 <p className="px-3 py-2 bg-gray capitalize text-sm border-border border shadow-[3px_3px_0px_0px_#323232]">
-                  {user?.phone_number ?? "Fill your phone number"}
+                  {user?.phone_number == "" && "Fill your phone number"}
                 </p>
               </div>
               <div className="flex flex-col gap-2">
@@ -103,15 +108,15 @@ export const ProfileContent = () => {
                 <Button
                   variant="brutalism"
                   size="md"
-                  className="font-bold bg-blue"
+                  className="font-bold bg-red-600 text-white border-black"
                 >
                   Edit
                 </Button>
               </div>
             </div>
-          </>
-        )}
-      </section>
+          </section>
+        </>
+      )}
       {loading && <Loading />}
     </div>
   );
