@@ -30,10 +30,11 @@ export const authOptions: AuthOptions = {
         if (response.success) {
           await setAccessToken(response.data.token);
           return {
-            id: response.data.id,
-            name: response.data.id,
-            email: response.data.email,
-            role: response.data.role,
+            id: response.data.user.id,
+            name: response.data.user.name,
+            email: response.data.user.email,
+            role: response.data.user.role,
+            image: response.data.user.image_profile || "/images/profile.webp",
           };
         }
 
@@ -46,15 +47,22 @@ export const authOptions: AuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role;
+        token.name = user.name;
         token.email = user.email;
+        token.image = user.image;
       }
       return token;
     },
 
     async session({ session, token }) {
-      if (token) {
-        session.role = token.role as string;
-        session.user.email = token.email;
+      if (token && session) {
+        session.user = {
+          ...(session.user || {}),
+          role: token.role as string,
+          name: token.name as string,
+          email: token.email as string,
+          image: token.image as string,
+        };
       }
       return session;
     },
