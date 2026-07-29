@@ -32,9 +32,9 @@ export const Footer = () => {
           </Link>
         </div>
       </div>
-      <div className="flex mt-5 md:mt-0 md:w-1/4 lg:w-[20%] md:justify-between lg:justify-end lg:gap-10 lg:mx-auto">
+      <div className="flex mt-10 md:mt-0 md:w-1/4 lg:w-[20%] justify-between lg:justify-end lg:gap-10 lg:mx-auto">
         <div className="flex flex-col">
-          <ul className="flex flex-col gap-2 text-[13px] md:text-xs font-sans font-light cursor-pointer">
+          <ul className="flex flex-col gap-2 text-[13px] md:text-md font-sans font-light cursor-pointer">
             <li className="font-semibold">Linkes</li>
             <li>Home</li>
             <li>Service</li>
@@ -43,7 +43,7 @@ export const Footer = () => {
           </ul>
         </div>
         <div className="flex flex-col">
-          <ul className="flex flex-col gap-2 text-[13px] md:text-xs font-sans font-light cursor-pointer">
+          <ul className="flex flex-col gap-2 text-[13px] md:text-md font-sans font-light cursor-pointer">
             <li className="font-semibold">Legal & Terms</li>
             <li>Privacy</li>
             <li>Terms</li>

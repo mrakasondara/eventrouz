@@ -7,9 +7,11 @@ import { Button } from "@/components/ui/button";
 import { getAccessToken } from "@/app/actions/auth";
 import { EventsAPI } from "@/lib/services/api/events-api";
 import { toast } from "sonner";
+import { useSidebarStore } from "@/lib/store";
 
 export const Header = () => {
   const pathname = usePathname();
+  const toggle = useSidebarStore((s) => s.toggle);
 
   const { data: session } = useSession();
   return (
@@ -32,7 +34,7 @@ export const Header = () => {
             <>
               <Button
                 variant="brutalism"
-                className="bg-red-500 text-white border-black"
+                className="hidden md:block bg-red-500 text-white border-black"
                 size="sm"
                 onClick={async () => {
                   const token = await getAccessToken();
@@ -50,9 +52,9 @@ export const Header = () => {
                 Logout
               </Button>
 
-              <Link href="/dashboard">
+              <Link href="/events" className="hidden md:block">
                 <Button variant="brutalism" size="sm" className="bg-blue">
-                  Dashboard
+                  Beranda
                 </Button>
               </Link>
 
@@ -64,7 +66,7 @@ export const Header = () => {
                   <Button variant="brutalism" size="icon-sm">
                     <Search />
                   </Button>
-                  <Button variant="brutalism" size="icon-sm">
+                  <Button variant="brutalism" size="icon-sm" onClick={toggle}>
                     <Menu />
                   </Button>
                 </>
