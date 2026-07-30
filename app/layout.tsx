@@ -8,6 +8,7 @@ import Providers from "@/components/provider";
 import { Toaster } from "sonner";
 import { AppSidebar } from "@/components/layout/sidebar/app-sidebar";
 import { SidebarProviderWrapper } from "@/components/layout/sidebar/sidebar-provider-wrapper";
+import { SidebarInset } from "@/components/ui/sidebar";
 
 const notoSans = Noto_Sans({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -48,7 +49,6 @@ export default function RootLayout({
     <html
       lang="en"
       className={cn(
-        "h-full",
         "antialiased",
         spaceGrotesk.variable,
         "font-sans",
@@ -57,18 +57,21 @@ export default function RootLayout({
         lilita.variable
       )}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-screen w-full bg-background antialiased">
         <Providers>
           <SidebarProviderWrapper>
-            <div className="w-full flex">
-              <AppSidebar />
-              <section className="flex flex-col w-full">
-                <Header />
-                <Toaster position="top-right" />
-                {children}
-                <Footer />
-              </section>
-            </div>
+            <AppSidebar />
+
+            <SidebarInset className="flex flex-col min-h-screen w-full flex-1">
+              <Header />
+              <Toaster position="top-right" />
+
+              <main className="flex-1 flex flex-col w-full min-h-full">
+                {/*  Wrapper children biarkan auto height (fleksibel) */}
+                <div className="flex-1 w-full">{children}</div>
+              </main>
+              <Footer />
+            </SidebarInset>
           </SidebarProviderWrapper>
         </Providers>
       </body>
