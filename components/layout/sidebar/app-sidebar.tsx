@@ -10,10 +10,12 @@ export const AppSidebar = () => {
   const pathname = usePathname();
   const { data: session } = useSession();
 
+  if (pathname == "/") return;
+
   return (
-    <Sidebar className={` ${pathname == "/" && "hidden"} h-full !border-r-4 `}>
+    <Sidebar className="h-full border-r-4! z-20">
       <SidebarHeaderWrapper />
-      <SidebarContentWrapper />
+      <SidebarContentWrapper session={session} />
 
       {session && <SidebarFooterWrapper />}
     </Sidebar>

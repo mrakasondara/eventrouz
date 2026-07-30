@@ -33,7 +33,7 @@ export const SidebarFooterWrapper = () => {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="border-2 shadow-[2px_2px_0px_0px_#323232]">
-          <DropdownMenuGroup className="">
+          <DropdownMenuGroup>
             <DropdownMenuItem
               className="cursor-pointer hover:bg-red-500 hover:text-white hover:border-2 hover:border-black"
               onClick={async () => {
