@@ -19,7 +19,7 @@ export const SidebarFooterWrapper = () => {
   return (
     <SidebarFooter className="mb-5 px-3 font-grotesk">
       <DropdownMenu>
-        <DropdownMenuTrigger className="hover:bg-blue hover:border-2 hover:border-black p-2 hover:shadow-[2px_2px_0px_0px_#323232] cursor-pointer">
+        <DropdownMenuTrigger className="hover:bg-blue hover:border-2 hover:border-black p-2 hover:shadow-[2px_2px_0px_0px_#323232] cursor-pointer transition-all ease-in">
           <div className="flex items-center">
             <Avatar size="lg">
               <AvatarImage src={session?.user?.image || ""} alt="shadcn" />

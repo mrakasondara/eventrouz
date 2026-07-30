@@ -6,10 +6,11 @@ import { EventsAPI } from "@/lib/services/api/events-api";
 import { toast } from "sonner";
 import { errorStyle } from "@/lib/toaster-styles";
 import { FeaturedEvents as FeaturedEventsInterface } from "@/types/event";
+import { SkeletonFeaturedEvents } from "@/components/skeleton/SkeletonFeaturedEvents";
 
 export const FeaturedEvents = () => {
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const fetchFeaturedEvents = async () => {
     try {
@@ -30,7 +31,7 @@ export const FeaturedEvents = () => {
   };
 
   useEffect(() => {
-    fetchFeaturedEvents();
+    // fetchFeaturedEvents();
   }, []);
   return (
     <section className="flex flex-col font-grotesk border-b-2 bg-white">
@@ -43,19 +44,23 @@ export const FeaturedEvents = () => {
           </span>
         </h2>
       </div>
-      <div className="grid grid-cols-2 md:w-3/4 lg:w-1/2 gap-5 -mt-15 pb-30 z-10 mx-auto px-5">
-        {loading
-          ? "Loading..."
-          : events?.map((event: FeaturedEventsInterface, index) => {
-              return <FeaturedCard key={index} {...event} />;
-            })}
+      <div className="w-full grid grid-cols-2 md:w-3/4 lg:w-1/2 gap-5 -mt-15 pb-30 z-10 mx-auto px-5">
+        {loading ? (
+          <SkeletonFeaturedEvents />
+        ) : (
+          events?.map((event: FeaturedEventsInterface, index) => {
+            return <FeaturedCard key={index} {...event} />;
+          })
+        )}
       </div>
-      <Link
-        href="/"
-        className="-mt-25 mb-5 px-5 underline md:w-3/4 lg:w-1/2 md:mx-auto cursor-pointer z-10"
-      >
-        Lihat event lainnya
-      </Link>
+      {!loading && (
+        <Link
+          href="/"
+          className="-mt-25 mb-5 px-5 underline md:w-3/4 lg:w-1/2 md:mx-auto cursor-pointer z-10"
+        >
+          Lihat event lainnya
+        </Link>
+      )}
     </section>
   );
 };
