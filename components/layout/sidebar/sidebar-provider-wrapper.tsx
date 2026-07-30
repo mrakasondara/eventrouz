@@ -12,7 +12,11 @@ export const SidebarProviderWrapper = ({
 }) => {
   const { isOpen, setOpen } = useSidebarStore();
   return (
-    <SidebarProvider open={isOpen} onOpenChange={setOpen}>
+    <SidebarProvider
+      open={isOpen}
+      onOpenChange={setOpen}
+      className="min-h-screen w-full flex"
+    >
       <SidebarMobileSync />
       {children}
     </SidebarProvider>

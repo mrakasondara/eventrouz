@@ -79,7 +79,7 @@ export class EventsAPI {
   }
 
   // events
-  static async getFeaturedEvents(limit: number) {
+  static async getEvents(limit: number) {
     try {
       const response = await fetch(`${BASE_API}/events?limit=${limit}`, {
         headers: {

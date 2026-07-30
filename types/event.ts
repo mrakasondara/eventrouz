@@ -1,4 +1,4 @@
-export interface FeaturedEvents {
+export interface EventCard {
   id: number;
   title: string;
   image_thumb: string;

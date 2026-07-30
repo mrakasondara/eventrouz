@@ -5,17 +5,17 @@ import { FeaturedCard } from "./FeaturedCard";
 import { EventsAPI } from "@/lib/services/api/events-api";
 import { toast } from "sonner";
 import { errorStyle } from "@/lib/toaster-styles";
-import { FeaturedEvents as FeaturedEventsInterface } from "@/types/event";
+import { EventCard as FeaturedEventsInterface } from "@/types/event";
 import { SkeletonFeaturedEvents } from "@/components/skeleton/SkeletonFeaturedEvents";
 
 export const FeaturedEvents = () => {
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const fetchFeaturedEvents = async () => {
     try {
       setLoading(true);
-      const response = await EventsAPI.getFeaturedEvents(5);
+      const response = await EventsAPI.getEvents(5);
       if (response.success) {
         setEvents(response.data);
       } else {
@@ -31,7 +31,7 @@ export const FeaturedEvents = () => {
   };
 
   useEffect(() => {
-    // fetchFeaturedEvents();
+    fetchFeaturedEvents();
   }, []);
   return (
     <section className="flex flex-col font-grotesk border-b-2 bg-white">
@@ -55,7 +55,7 @@ export const FeaturedEvents = () => {
       </div>
       {!loading && (
         <Link
-          href="/"
+          href="/events"
           className="-mt-25 mb-5 px-5 underline md:w-3/4 lg:w-1/2 md:mx-auto cursor-pointer z-10"
         >
           Lihat event lainnya

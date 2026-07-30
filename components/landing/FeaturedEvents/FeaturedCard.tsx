@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getEventDate } from "@/lib/date";
-import { FeaturedEvents } from "@/types/event";
+import { EventCard } from "@/types/event";
 
 export const FeaturedCard = ({
   id,
@@ -9,7 +9,7 @@ export const FeaturedCard = ({
   start_at,
   end_at,
   location,
-}: FeaturedEvents) => {
+}: EventCard) => {
   const date = getEventDate({ start_at, end_at, type: "short" });
 
   return (
@@ -33,7 +33,6 @@ export const FeaturedCard = ({
           <h4 className="p-3 text-center md:text-start md:text-lg font-bold w-full bg-white">
             {title}
           </h4>
-          {/* <p className="bg-[#091413] text-white font-semibold p-3">Rp.15K</p> */}
         </div>
       </article>
     </Link>
