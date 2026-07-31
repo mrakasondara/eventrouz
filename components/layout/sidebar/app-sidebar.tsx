@@ -11,11 +11,10 @@ export const AppSidebar = () => {
   const { data: session } = useSession();
 
   if (pathname == "/") return;
-
   return (
     <Sidebar className="h-full border-r-4! z-20">
       <SidebarHeaderWrapper />
-      <SidebarContentWrapper session={session} />
+      <SidebarContentWrapper data={session} />
 
       {session && <SidebarFooterWrapper />}
     </Sidebar>

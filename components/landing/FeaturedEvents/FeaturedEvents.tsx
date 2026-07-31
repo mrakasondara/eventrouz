@@ -15,7 +15,9 @@ export const FeaturedEvents = () => {
   const fetchFeaturedEvents = async () => {
     try {
       setLoading(true);
-      const response = await EventsAPI.getEvents(5);
+      const limit = 5;
+      const response = await EventsAPI.getEvents({ limit });
+      console.log(response);
       if (response.success) {
         setEvents(response.data);
       } else {

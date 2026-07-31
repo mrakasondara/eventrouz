@@ -2,20 +2,25 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import { ShoppingCart, Search, Menu } from "lucide-react";
+import { ShoppingCart, Search, Menu, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getAccessToken } from "@/app/actions/auth";
 import { EventsAPI } from "@/lib/services/api/events-api";
 import { toast } from "sonner";
 import { useSidebarStore } from "@/lib/store";
+import { SearchDialog } from "./SearchDialog";
 
 export const Header = () => {
   const pathname = usePathname();
   const toggle = useSidebarStore((s) => s.toggle);
+  const { isOpen } = useSidebarStore();
 
   const { data: session } = useSession();
+
+  if (pathname === "/signin" || pathname === "/signup") return;
+
   return (
-    <header className="flex w-full py-3 px-5 border-b-4 items-center">
+    <header className="flex w-full py-3 px-5 border-b-4 bg-white items-center fixed top-0 left-0 z-50">
       <div className="flex w-full items-center lg:w-3/4 mx-auto">
         <div className="flex gap-1 items-center">
           <img
@@ -27,48 +32,51 @@ export const Header = () => {
         </div>
         <div className="flex gap-2 ml-auto justify-end items-center">
           {session && (
+            <Button
+              variant="brutalism"
+              className="hidden md:block bg-red-500 text-white border-black"
+              size="sm"
+              onClick={async () => {
+                const token = await getAccessToken();
+                const response = await EventsAPI.logout(token);
+                if (response.success) {
+                  toast.success(response.message);
+                  setTimeout(() => {
+                    signOut({ callbackUrl: "/signin" });
+                  }, 700);
+                } else {
+                  toast.error(response.message);
+                }
+              }}
+            >
+              Logout
+            </Button>
+          )}
+
+          <Link
+            href={pathname === "/" ? "/events" : "/"}
+            className="hidden md:block"
+          >
+            <Button variant="brutalism" size="sm" className="bg-blue">
+              {pathname === "/" ? "Cari Event" : "Beranda"}
+            </Button>
+          </Link>
+
+          {session && (
+            <Button variant="brutalism" size="icon-sm">
+              <ShoppingCart />
+            </Button>
+          )}
+
+          {pathname != "/" && (
             <>
-              <Button
-                variant="brutalism"
-                className="hidden md:block bg-red-500 text-white border-black"
-                size="sm"
-                onClick={async () => {
-                  const token = await getAccessToken();
-                  const response = await EventsAPI.logout(token);
-                  if (response.success) {
-                    toast.success(response.message);
-                    setTimeout(() => {
-                      signOut({ callbackUrl: "/signin" });
-                    }, 700);
-                  } else {
-                    toast.error(response.message);
-                  }
-                }}
-              >
-                Logout
+              <SearchDialog />
+              <Button variant="brutalism" size="icon-sm" onClick={toggle}>
+                {isOpen ? <XIcon /> : <Menu />}
               </Button>
-
-              <Link href="/events" className="hidden md:block">
-                <Button variant="brutalism" size="sm" className="bg-blue">
-                  Beranda
-                </Button>
-              </Link>
-
-              <Button variant="brutalism" size="icon-sm">
-                <ShoppingCart />
-              </Button>
-              {pathname != "/" && (
-                <>
-                  <Button variant="brutalism" size="icon-sm">
-                    <Search />
-                  </Button>
-                  <Button variant="brutalism" size="icon-sm" onClick={toggle}>
-                    <Menu />
-                  </Button>
-                </>
-              )}
             </>
           )}
+
           {pathname === "/" && (
             <Link href="/signin" className={`${session ? "hidden" : "block"}`}>
               <Button variant="brutalism" size="sm">

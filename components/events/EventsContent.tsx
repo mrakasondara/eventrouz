@@ -6,15 +6,22 @@ import { EventsAPI } from "@/lib/services/api/events-api";
 import { SkeletonEvents } from "../skeleton/SkeletonEvents";
 import { EventItem } from "./EventItem";
 import { EventCard } from "@/types/event";
+import { EventFilterSection } from "./EventFilterSection";
 
-export const EventsContent = () => {
+interface EventsContent {
+  search?: string;
+  status?: string;
+}
+
+export const EventsContent = ({ search, status }: EventsContent) => {
   const [loading, setLoading] = useState(false);
   const [events, setEvents] = useState([]);
 
   const fetchEvents = async () => {
     try {
       setLoading(true);
-      const response = await EventsAPI.getEvents(0);
+      const limit = 0;
+      const response = await EventsAPI.getEvents({ limit, search, status });
       if (response.success) {
         setEvents(response.data);
       } else {
@@ -31,7 +38,7 @@ export const EventsContent = () => {
 
   useEffect(() => {
     fetchEvents();
-  }, []);
+  }, [search, status]);
   return (
     <div className="flex flex-col w-full lg:w-3/4 mx-auto py-30 font-grotesk">
       <div className="flex flex-col gap-2">
@@ -44,8 +51,10 @@ export const EventsContent = () => {
         </p>
       </div>
 
+      {!loading && <EventFilterSection resultLength={events.length} />}
+
       <section
-        className={`grid grid-cols-2 md:grid-cols-3 gap-8 mt-20 ${
+        className={`grid grid-cols-2 md:grid-cols-3 gap-8 mt-10 ${
           loading ? "" : "min-h-screen"
         }`}
       >

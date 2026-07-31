@@ -11,6 +11,13 @@ interface typeHandlerAuthAPI {
   method: string;
   token?: string;
 }
+
+interface getEvents {
+  limit?: number;
+  search?: string;
+  status?: string;
+}
+
 const handlerAuthAPI = async ({ url, method, token }: typeHandlerAuthAPI) => {
   try {
     const response = await fetch(`${url}`, {
@@ -79,14 +86,23 @@ export class EventsAPI {
   }
 
   // events
-  static async getEvents(limit: number) {
+  static async getEvents({ limit, search, status }: getEvents) {
+    const searchParams = new URLSearchParams();
+
+    if (limit) searchParams.set("limit", String(limit));
+    if (search) searchParams.set("search", String(search));
+    if (status) searchParams.set("status", String(status));
+
     try {
-      const response = await fetch(`${BASE_API}/events?limit=${limit}`, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${BASE_API}/events?${searchParams.toString()}`,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
       return response.json();
     } catch (error) {
       console.error(error);

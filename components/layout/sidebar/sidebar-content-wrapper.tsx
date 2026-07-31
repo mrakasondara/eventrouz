@@ -10,9 +10,8 @@ import {
 } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
 
-export const SidebarContentWrapper = (session: any) => {
+export const SidebarContentWrapper = (data: any) => {
   const pathActive = usePathname();
-
   const authLinks = [
     {
       path: "/tickets",
@@ -52,7 +51,7 @@ export const SidebarContentWrapper = (session: any) => {
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
-          {session &&
+          {data.session &&
             authLinks.map((link) => {
               const Icon = <link.icon />;
               return (
@@ -74,7 +73,7 @@ export const SidebarContentWrapper = (session: any) => {
         </div>
       </SidebarGroup>
 
-      {session && (
+      {data.session && (
         <SidebarGroup>
           <SidebarSeparator className="border mt-4" />
           <SidebarGroupLabel className="text-lg mt-4 mb-3">
