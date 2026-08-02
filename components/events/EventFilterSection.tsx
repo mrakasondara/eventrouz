@@ -26,10 +26,10 @@ export const EventFilterSection = ({
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+
   const [searchTerm, setSearchTerm] = useState(
     searchParams.get("search")?.toString() ?? ""
   );
-
   const [status, setStatus] = useState<string | null>(
     searchParams.get("status")?.toString() ?? ""
   );
@@ -41,7 +41,6 @@ export const EventFilterSection = ({
 
   const onSubmitHandler = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("test");
     updateSearchandFilter({ search: searchTerm, status });
   };
 
@@ -60,30 +59,6 @@ export const EventFilterSection = ({
 
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
-
-  // const handleSearch = (term: string) => {
-  //   setSearchTerm(term);
-
-  //   const params = new URLSearchParams(searchParams);
-  //   if (term) {
-  //     params.set("search", term);
-  //   } else {
-  //     params.delete("search");
-  //   }
-
-  //   replace(`${pathname}?${params.toString()}`, { scroll: false });
-  // };
-
-  // const handleFilter = (term: string | null) => {
-  //   const params = new URLSearchParams(searchParams);
-  //   if (term) {
-  //     params.set("status", term.toLowerCase());
-  //   } else {
-  //     params.delete("status");
-  //   }
-
-  //   replace(`${pathname}?${params.toString()}`, { scroll: false });
-  // };
 
   return (
     <section className="flex flex-col gap-8 mt-10 w-full">
