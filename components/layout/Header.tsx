@@ -31,6 +31,14 @@ export const Header = () => {
           <h1 className="text-xl font-bold">Eventrouz</h1>
         </div>
         <div className="flex gap-2 ml-auto justify-end items-center">
+          {!session && (
+            <Link href="/signin" className={`${session ? "hidden" : "block"}`}>
+              <Button variant="brutalism" size="sm">
+                Join Us
+              </Button>
+            </Link>
+          )}
+
           {session && (
             <Button
               variant="brutalism"
@@ -75,14 +83,6 @@ export const Header = () => {
                 {isOpen ? <XIcon /> : <Menu />}
               </Button>
             </>
-          )}
-
-          {pathname === "/" && (
-            <Link href="/signin" className={`${session ? "hidden" : "block"}`}>
-              <Button variant="brutalism" size="sm">
-                Join Us
-              </Button>
-            </Link>
           )}
         </div>
       </div>
