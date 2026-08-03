@@ -1,24 +1,17 @@
+import {
+  typeHandlerAuthAPI,
+  userRegister,
+  getEvents,
+  editPersonalInformation,
+} from "@/types/api";
 const BASE_API = process.env.NEXT_PUBLIC_BASE_API;
 
-interface userRegister {
-  name?: string;
-  email: string;
-  password: string;
-}
-
-interface typeHandlerAuthAPI {
-  url: string;
-  method: string;
-  token?: string;
-}
-
-interface getEvents {
-  limit?: number;
-  search?: string;
-  status?: string;
-}
-
-const handlerAuthAPI = async ({ url, method, token }: typeHandlerAuthAPI) => {
+const handlerAuthAPI = async ({
+  url,
+  method,
+  token,
+  body,
+}: typeHandlerAuthAPI) => {
   try {
     const response = await fetch(`${url}`, {
       method,
@@ -27,6 +20,7 @@ const handlerAuthAPI = async ({ url, method, token }: typeHandlerAuthAPI) => {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
+      body,
     });
     return response.json();
   } catch (error) {
@@ -83,6 +77,18 @@ export class EventsAPI {
     const method = "GET";
 
     return await handlerAuthAPI({ url, method, token });
+  }
+
+  static async editPersonalInformation({
+    token,
+    data,
+  }: editPersonalInformation) {
+    const url = `${BASE_API}/profile/personal-information`;
+    const method = "PUT";
+
+    const body = JSON.stringify(data);
+
+    return await handlerAuthAPI({ url, method, token, body });
   }
 
   // events

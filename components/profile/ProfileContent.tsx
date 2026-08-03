@@ -7,15 +7,16 @@ import { toast } from "sonner";
 import { Loading } from "../layout/Loading";
 import { Button } from "../ui/button";
 import { signOut } from "next-auth/react";
+import { PersonalEditDialog } from "./PersonalEditDialog";
 
 interface userProfile {
   id?: Number;
-  name?: String;
-  gender?: String;
-  email?: String;
-  address?: String;
-  phone_number?: String;
-  image_thumb?: String;
+  name?: string;
+  gender?: string;
+  email?: string;
+  address?: string;
+  phone_number?: string;
+  image_thumb?: string;
 }
 
 export const ProfileContent = () => {
@@ -48,13 +49,13 @@ export const ProfileContent = () => {
 
   return (
     <div
-      className={`flex flex-col w-full lg:w-3/4 mx-auto pb-[6rem] h-full border-border border-2 shadow-[5px_5px_0px_0px_#323232] ${
+      className={`flex flex-col w-full lg:w-3/4 mx-auto pb-10 h-full border-border border-2 shadow-[5px_5px_0px_0px_#323232] mt-20 ${
         loading && "justify-center"
       }`}
     >
       {!loading && (
         <>
-          <div className="w-full h-50 lg:h-30 bg-gradient"></div>
+          <div className="w-full h-30 bg-gradient"></div>
           <section
             className={`${loading && "blur"} flex flex-col gap-3 px-8 mt-5`}
           >
@@ -85,33 +86,39 @@ export const ProfileContent = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-y-6 gap-x-10 mt-2 font-grotesk">
-              <div className="flex flex-col gap-2">
-                <h2 className="font-semibold">Address</h2>
-                <p className="px-3 py-2 capitalize bg-gray text-sm border-border border shadow-[3px_3px_0px_0px_#323232]">
-                  {user?.address ?? "Fill your address"}
-                </p>
-              </div>
-              <div className="flex flex-col gap-2">
-                <h2 className="font-semibold">Phone Number</h2>
-                <p className="px-3 py-2 bg-gray capitalize text-sm border-border border shadow-[3px_3px_0px_0px_#323232]">
-                  {user?.phone_number == "" && "Fill your phone number"}
-                </p>
-              </div>
-              <div className="flex flex-col gap-2">
-                <h2 className="font-semibold">Gender</h2>
-                <p className="px-3 py-2 capitalize bg-gray text-sm border-border border shadow-[3px_3px_0px_0px_#323232]">
-                  {user?.gender ?? "Fill your gender"}
-                </p>
-              </div>
-              <div className="flex items-end justify-end">
-                <Button
-                  variant="brutalism"
-                  size="md"
-                  className="font-bold bg-red-600 text-white border-black"
-                >
-                  Edit
-                </Button>
+            <div className="flex flex-col gap-3 mt-6">
+              <h4 className="font-bold text-[18px]">Personal Information</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-y-6 gap-x-10 font-grotesk">
+                <div className="flex flex-col gap-2">
+                  <h2 className="font-semibold">Alamat</h2>
+                  <p className="px-3 py-2 capitalize bg-gray text-sm border-border border shadow-[3px_3px_0px_0px_#323232]">
+                    {user?.address ?? "isi Alamat anda"}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <h2 className="font-semibold">No. Handphone</h2>
+                  <p className="px-3 py-2 bg-gray capitalize text-sm border-border border shadow-[3px_3px_0px_0px_#323232]">
+                    {user?.phone_number == ""
+                      ? "Isi nomor handphone anda"
+                      : `+62${user?.phone_number}`}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <h2 className="font-semibold">Jenis Kelamin</h2>
+                  <p className="px-3 py-2 capitalize bg-gray text-sm border-border border shadow-[3px_3px_0px_0px_#323232]">
+                    {user?.gender
+                      ? `${
+                          user?.gender == "female" ? "Perempuan" : "Laki - Laki"
+                        }`
+                      : "Isi jenis kelamin anda"}
+                  </p>
+                </div>
+                <div className="flex items-end justify-end">
+                  <PersonalEditDialog
+                    data={user}
+                    fetchProfile={getProfileData}
+                  />
+                </div>
               </div>
             </div>
           </section>
