@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { LayoutDashboard, List, TicketCheck, User } from "lucide-react";
+import {
+  LayoutDashboard,
+  List,
+  Ticket,
+  TicketCheck,
+  User,
+  Users,
+} from "lucide-react";
 import {
   SidebarContent,
   SidebarGroup,
@@ -11,8 +18,28 @@ import {
 import { usePathname } from "next/navigation";
 
 export const SidebarContentWrapper = (data: any) => {
+  const { data: session } = data;
   const pathActive = usePathname();
-  const authLinks = [
+
+  const adminLinks = [
+    {
+      path: "/admin/events",
+      title: "daftar event",
+      icon: List,
+    },
+    {
+      path: "/admin/tickets",
+      title: "daftar tiket",
+      icon: Ticket,
+    },
+    {
+      path: "/admin/users",
+      title: "daftar pengguna",
+      icon: Users,
+    },
+  ];
+
+  const mainLinks = [
     {
       path: "/tickets",
       title: "tiket saya",
@@ -51,8 +78,9 @@ export const SidebarContentWrapper = (data: any) => {
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
-          {data.session &&
-            authLinks.map((link) => {
+          {session?.user &&
+            session?.user.role != "admin" &&
+            mainLinks.map((link) => {
               const Icon = <link.icon />;
               return (
                 <SidebarMenuItem key={link.title}>
@@ -73,7 +101,37 @@ export const SidebarContentWrapper = (data: any) => {
         </div>
       </SidebarGroup>
 
-      {data.session && (
+      {session?.user && session?.user.role == "admin" && (
+        <SidebarGroup>
+          <SidebarSeparator className="border mt-4" />
+          <SidebarGroupLabel className="text-lg mt-4 mb-3">
+            Admin
+          </SidebarGroupLabel>
+
+          <div className="flex flex-col w-full gap-2 px-2 list-none">
+            {adminLinks.map((link) => {
+              const Icon = <link.icon />;
+              return (
+                <SidebarMenuItem key={link.title}>
+                  <Link href={link.path}>
+                    <SidebarMenuButton
+                      className={`gap-5 text-md ${
+                        pathActive == link.path &&
+                        "bg-blue border-2 font-semibold shadow-[3px_3px_0px_0px_#323232]"
+                      } hover:border-2 hover:bg-blue hover:shadow-[3px_3px_0px_0px_#323232] transition-all ease-in-out capitalize cursor-pointer`}
+                    >
+                      {Icon}
+                      {link.title}
+                    </SidebarMenuButton>
+                  </Link>
+                </SidebarMenuItem>
+              );
+            })}
+          </div>
+        </SidebarGroup>
+      )}
+
+      {session?.user && (
         <SidebarGroup>
           <SidebarSeparator className="border mt-4" />
           <SidebarGroupLabel className="text-lg mt-4 mb-3">

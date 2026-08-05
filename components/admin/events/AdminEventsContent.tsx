@@ -1,0 +1,30 @@
+import { Button } from "@/components/ui/button";
+import { Users } from "lucide-react";
+import { TableEvents } from "./table/TableEvents";
+
+export const AdminEventsContent = () => {
+  return (
+    <div className="flex flex-col w-full lg:w-3/4 mx-auto pb-10 h-full mt-20">
+      <section className="flex gap-5 font-grotesk items-center">
+        <p className="p-3 border-2 bg-blue shadow-[3px_3px_0px_0px_#323232]">
+          <Users size={30} color="white" />
+        </p>
+        <div className="flex flex-col gap-1">
+          <h2 className="text-xl font-semibold">Daftar Event</h2>
+          <p className="text-sm text-muted-foreground">
+            Terakhir diperbarui 20 des 2023
+          </p>
+        </div>
+        <Button
+          variant="brutalism"
+          size="sm"
+          className="bg-blue capitalize ml-auto self-start"
+        >
+          + tambah event baru
+        </Button>
+      </section>
+
+      <TableEvents />
+    </div>
+  );
+};
