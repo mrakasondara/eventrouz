@@ -25,6 +25,25 @@ export const getEventDate = ({
   return date;
 };
 
+export const getEventSingleDateandTime = ({
+  date,
+  type,
+}: {
+  date: string | undefined;
+  type: string;
+}) => {
+  const splittedDate = date?.split(" ");
+  if (splittedDate) {
+    const getDate = new Date(splittedDate[0]);
+    const getTime = splittedDate[1];
+    const monthNumber = getDate.getMonth();
+    return `${getDate.getDate()} ${getMonthName({
+      monthNumber,
+      type,
+    })} ${getDate.getFullYear()} ${getTime}`;
+  }
+};
+
 const getMonthName = ({
   monthNumber,
   type,

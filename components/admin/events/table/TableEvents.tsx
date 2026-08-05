@@ -13,8 +13,8 @@ import {
 import { EventsAPI } from "@/lib/services/api/events-api";
 import { errorStyle } from "@/lib/toaster-styles";
 import { TableActions } from "./TableActions";
-import { Spinner } from "@/components/ui/spinner";
 import { Loading } from "@/components/layout/Loading";
+import { getEventSingleDateandTime } from "@/lib/date";
 
 const badgeClass = (status: string | undefined) => {
   switch (status) {
@@ -92,8 +92,18 @@ export const TableEvents = () => {
                       {event.title}
                     </Link>
                   </TableCell>
-                  <TableCell>{event.start_at}</TableCell>
-                  <TableCell>{event.end_at}</TableCell>
+                  <TableCell>
+                    {getEventSingleDateandTime({
+                      date: event.start_at,
+                      type: "short",
+                    })}
+                  </TableCell>
+                  <TableCell>
+                    {getEventSingleDateandTime({
+                      date: event.end_at,
+                      type: "short",
+                    })}
+                  </TableCell>
                   <TableCell>{event.location}</TableCell>
                   <TableCell>
                     <span
