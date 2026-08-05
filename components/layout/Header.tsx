@@ -54,6 +54,7 @@ export const Header = () => {
                   }, 700);
                 } else {
                   toast.error(response.message);
+                  signOut({ callbackUrl: "/signin" });
                 }
               }}
             >
