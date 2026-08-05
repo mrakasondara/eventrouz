@@ -3,6 +3,7 @@ import {
   userRegister,
   getEvents,
   editPersonalInformation,
+  getTicketCategories,
 } from "@/types/api";
 const BASE_API = process.env.NEXT_PUBLIC_BASE_API;
 
@@ -113,5 +114,17 @@ export class EventsAPI {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  // tickets
+  static async getTickets({ search, token }: getTicketCategories) {
+    const searchParams = new URLSearchParams();
+
+    if (search) searchParams.set("search", String(search));
+
+    const url = `${BASE_API}/events/ticket-categories?${searchParams.toString()}`;
+    const method = "GET";
+
+    return await handlerAuthAPI({ url, method, token });
   }
 }

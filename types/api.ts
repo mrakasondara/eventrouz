@@ -17,6 +17,11 @@ export interface getEvents {
   status?: string;
 }
 
+export interface getTicketCategories {
+  search?: string;
+  token?: string;
+}
+
 export interface editPersonalInformation {
   token?: string;
   data: dataPersonalInformation;

@@ -44,6 +44,21 @@ export const getEventSingleDateandTime = ({
   }
 };
 
+export const getSingleDate = ({
+  date,
+  type,
+}: {
+  date: string;
+  type: string;
+}) => {
+  const getDate = new Date(date);
+  const monthNumber = getDate.getMonth();
+  return `${getDate.getDate()} ${getMonthName({
+    monthNumber,
+    type,
+  })} ${getDate.getFullYear()}`;
+};
+
 const getMonthName = ({
   monthNumber,
   type,
