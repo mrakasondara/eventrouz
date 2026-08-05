@@ -1,8 +1,13 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Users } from "lucide-react";
 import { TableEvents } from "./table/TableEvents";
+import { useState } from "react";
+import { getSingleDate } from "@/lib/date";
 
 export const AdminEventsContent = () => {
+  const [latestUpdate, setLatestUpdate] = useState<string | undefined>("");
+
   return (
     <div className="flex flex-col w-full lg:w-3/4 mx-auto pb-10 h-full mt-20">
       <section className="flex gap-5 font-grotesk items-center">
@@ -12,7 +17,10 @@ export const AdminEventsContent = () => {
         <div className="flex flex-col gap-1">
           <h2 className="text-xl font-semibold">Daftar Event</h2>
           <p className="text-sm text-muted-foreground">
-            Terakhir diperbarui 20 des 2023
+            Terakhir diperbarui{" "}
+            {latestUpdate !== ""
+              ? getSingleDate({ date: latestUpdate ?? "", type: "full" })
+              : "-"}
           </p>
         </div>
         <Button
@@ -24,7 +32,7 @@ export const AdminEventsContent = () => {
         </Button>
       </section>
 
-      <TableEvents />
+      <TableEvents setUpdate={setLatestUpdate} />
     </div>
   );
 };

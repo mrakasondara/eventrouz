@@ -7,10 +7,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { DeleteDialog } from "./DeleteDialog";
+import { DeleteEventsDialog } from "./DeleteEventsDialog";
 import { useState } from "react";
 
-export const TableActions = ({ id }: { id: number | undefined }) => {
+export const TableEventsActions = ({ id }: { id: number | undefined }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -30,7 +30,7 @@ export const TableActions = ({ id }: { id: number | undefined }) => {
           <DropdownMenuGroup>
             <DropdownMenuItem className="cursor-pointer">Ubah</DropdownMenuItem>
 
-            <DeleteDialog id={id} open={open} setOpen={setOpen} />
+            <DeleteEventsDialog id={id} open={open} setOpen={setOpen} />
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>

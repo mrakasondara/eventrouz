@@ -1,7 +1,7 @@
 "use client";
-import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
+import Link from "next/link";
 import {
   Table,
   TableBody,
@@ -12,9 +12,9 @@ import {
 } from "@/components/ui/table";
 import { EventsAPI } from "@/lib/services/api/events-api";
 import { errorStyle } from "@/lib/toaster-styles";
-import { TableActions } from "./TableActions";
-import { Loading } from "@/components/layout/Loading";
 import { getEventSingleDateandTime } from "@/lib/date";
+import { TableEventsActions } from "./TableEventsActions";
+import { Loading } from "@/components/layout/Loading";
 
 const badgeClass = (status: string | undefined) => {
   switch (status) {
@@ -38,7 +38,11 @@ interface Event {
   location?: string;
 }
 
-export const TableEvents = () => {
+export const TableEvents = ({
+  setUpdate,
+}: {
+  setUpdate: Dispatch<SetStateAction<string | undefined>>;
+}) => {
   const [loading, setLoading] = useState(false);
   const [events, setEvents] = useState<Event[]>([]);
 
@@ -48,6 +52,7 @@ export const TableEvents = () => {
       const response = await EventsAPI.getEvents({});
       if (response.success) {
         setEvents(response.data);
+        setUpdate(response.data[0]?.updated_at);
       } else {
         toast.error("Silahkan login ulang", { style: errorStyle });
       }
@@ -115,7 +120,7 @@ export const TableEvents = () => {
                     </span>
                   </TableCell>
                   <TableCell className="text-right">
-                    <TableActions id={event?.id} />
+                    <TableEventsActions id={event?.id} />
                   </TableCell>
                 </TableRow>
               );

@@ -9,9 +9,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
-export const DeleteDialog = ({
+export const DeleteEventsDialog = ({
   id,
   open,
   setOpen,
