@@ -42,7 +42,7 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
-  secret: process.env.NEXT_AUTHSECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
