@@ -17,7 +17,6 @@ export const FeaturedEvents = () => {
       setLoading(true);
       const limit = 5;
       const response = await EventsAPI.getEvents({ limit });
-      console.log(response);
       if (response.success) {
         setEvents(response.data);
       } else {
