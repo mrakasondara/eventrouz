@@ -1,12 +1,12 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Users } from "lucide-react";
 import { TableEvents } from "./table/TableEvents";
 import { useState } from "react";
 import { getSingleDate } from "@/lib/date";
+import { AddEventDialog } from "./add-dialog/AddEventDialog";
 
-export const AdminEventsContent = () => {
-  const [latestUpdate, setLatestUpdate] = useState<string | undefined>("");
+export const AdminEventsContent = ({ events }: { events: any }) => {
+  const latestUpdate = events?.data[0].updated_at;
 
   return (
     <div className="flex flex-col w-full lg:w-3/4 mx-auto pb-10 h-full mt-20">
@@ -23,16 +23,11 @@ export const AdminEventsContent = () => {
               : "-"}
           </p>
         </div>
-        <Button
-          variant="brutalism"
-          size="sm"
-          className="bg-blue capitalize ml-auto self-start"
-        >
-          + tambah event baru
-        </Button>
+
+        <AddEventDialog />
       </section>
 
-      <TableEvents setUpdate={setLatestUpdate} />
+      <TableEvents events={events?.data} />
     </div>
   );
 };
