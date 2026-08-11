@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/table";
 import { getEventSingleDateandTime } from "@/lib/date";
 import { TableEventsActions } from "./TableEventsActions";
-import { Loading } from "@/components/layout/Loading";
 import { ListEvent } from "@/types/event";
 
 const badgeClass = (status: string | undefined) => {

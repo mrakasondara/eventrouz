@@ -6,7 +6,7 @@ import { SquareArrowOutUpRight } from "lucide-react";
 export const EventItem = ({
   id,
   title,
-  image_thumb,
+  image_thumb_url,
   start_at,
   end_at,
   location,
@@ -22,7 +22,7 @@ export const EventItem = ({
       </div>
 
       <img
-        src={image_thumb}
+        src={image_thumb_url}
         alt="thumb-event"
         className="h-60 object-cover"
         loading="lazy"
