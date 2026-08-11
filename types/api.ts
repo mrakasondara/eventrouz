@@ -9,6 +9,7 @@ export interface typeHandlerAuthAPI {
   method: string;
   token?: string;
   body?: string;
+  isImageUpload: boolean;
 }
 
 export interface getEvents {

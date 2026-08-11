@@ -10,7 +10,7 @@ export const AppSidebar = () => {
   const pathname = usePathname();
   const { data: session } = useSession();
 
-  if (pathname == "/") return;
+  if (pathname == "/" || pathname == '/signin' || pathname == '/signup') return;
   return (
     <Sidebar className="h-full border-r-4! z-20">
       <SidebarHeaderWrapper />

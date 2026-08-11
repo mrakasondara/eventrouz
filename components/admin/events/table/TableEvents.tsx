@@ -1,20 +1,19 @@
 "use client";
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { toast } from "sonner";
+import { useState } from "react";
 import Link from "next/link";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { EventsAPI } from "@/lib/services/api/events-api";
-import { errorStyle } from "@/lib/toaster-styles";
 import { getEventSingleDateandTime } from "@/lib/date";
 import { TableEventsActions } from "./TableEventsActions";
 import { Loading } from "@/components/layout/Loading";
+import { ListEvent } from "@/types/event";
 
 const badgeClass = (status: string | undefined) => {
   switch (status) {
@@ -27,68 +26,27 @@ const badgeClass = (status: string | undefined) => {
   }
 };
 
-interface Event {
-  id?: number;
-  title?: string;
-  description?: string;
-  status?: string;
-  image_thumb?: string;
-  start_at?: string;
-  end_at?: string;
-  location?: string;
-}
-
-export const TableEvents = ({
-  setUpdate,
-}: {
-  setUpdate: Dispatch<SetStateAction<string | undefined>>;
-}) => {
-  const [loading, setLoading] = useState(false);
-  const [events, setEvents] = useState<Event[]>([]);
-
-  const getEvents = async () => {
-    try {
-      setLoading(true);
-      const response = await EventsAPI.getEvents({});
-      if (response.success) {
-        setEvents(response.data);
-        setUpdate(response.data[0]?.updated_at);
-      } else {
-        toast.error("Silahkan login ulang", { style: errorStyle });
-      }
-    } catch (error) {
-      toast.error("something error", { style: errorStyle });
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getEvents();
-  }, []);
-
+export const TableEvents = ({ events }: { events: ListEvent[] }) => {
   return (
     <section className="flex flex-col gap-2 mt-5">
-      {loading ? (
-        <div className="flex flex-col gap-2 mt-20">
-          <Loading />
-        </div>
-      ) : (
-        <Table>
-          <TableHeader className="bg-gray font-sans font-semibold">
-            <TableRow>
-              <TableHead className="w-[80px]">ID</TableHead>
-              <TableHead>Event</TableHead>
-              <TableHead>Waktu Mulai</TableHead>
-              <TableHead>Waktu Selesai</TableHead>
-              <TableHead>Lokasi</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right"></TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {events.map((event: Event) => {
+      <Table>
+        {!events.length && (
+          <TableCaption>Daftar event tidak tersedia.</TableCaption>
+        )}
+        <TableHeader className="bg-gray font-sans font-semibold">
+          <TableRow>
+            <TableHead className="w-[80px]">ID</TableHead>
+            <TableHead>Event</TableHead>
+            <TableHead>Waktu Mulai</TableHead>
+            <TableHead>Waktu Selesai</TableHead>
+            <TableHead>Lokasi</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead className="text-right"></TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {events.length &&
+            events.map((event: ListEvent) => {
               return (
                 <TableRow key={event.id}>
                   <TableCell className="font-medium">{event.id}</TableCell>
@@ -125,9 +83,8 @@ export const TableEvents = ({
                 </TableRow>
               );
             })}
-          </TableBody>
-        </Table>
-      )}
+        </TableBody>
+      </Table>
     </section>
   );
 };

@@ -12,15 +12,23 @@ const handlerAuthAPI = async ({
   method,
   token,
   body,
+  isImageUpload,
 }: typeHandlerAuthAPI) => {
   try {
+    const headersWithoutImage = {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+
+    const headersWithImage = {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+
     const response = await fetch(`${url}`, {
       method,
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
+      headers: isImageUpload ? headersWithImage : headersWithoutImage,
       body,
     });
     return response.json();
@@ -68,7 +76,7 @@ export class EventsAPI {
     const url = `${BASE_API}/logout`;
     const method = "POST";
 
-    return await handlerAuthAPI({ url, method, token });
+    return await handlerAuthAPI({ url, method, token, isImageUpload: false });
   }
 
   // user
@@ -77,7 +85,7 @@ export class EventsAPI {
     const url = `${BASE_API}/profile`;
     const method = "GET";
 
-    return await handlerAuthAPI({ url, method, token });
+    return await handlerAuthAPI({ url, method, token, isImageUpload: false });
   }
 
   static async editPersonalInformation({
@@ -89,7 +97,13 @@ export class EventsAPI {
 
     const body = JSON.stringify(data);
 
-    return await handlerAuthAPI({ url, method, token, body });
+    return await handlerAuthAPI({
+      url,
+      method,
+      token,
+      body,
+      isImageUpload: false,
+    });
   }
 
   // events
@@ -116,6 +130,19 @@ export class EventsAPI {
     }
   }
 
+  static async addEvent({ formData, token }: { formData: any; token: any }) {
+    const url = `${BASE_API}/events`;
+    const method = "POST";
+
+    return await handlerAuthAPI({
+      url,
+      method,
+      token,
+      body: formData,
+      isImageUpload: true,
+    });
+  }
+
   // tickets
   static async getTickets({ search, token }: getTicketCategories) {
     const searchParams = new URLSearchParams();
@@ -125,6 +152,6 @@ export class EventsAPI {
     const url = `${BASE_API}/events/ticket-categories?${searchParams.toString()}`;
     const method = "GET";
 
-    return await handlerAuthAPI({ url, method, token });
+    return await handlerAuthAPI({ url, method, token, isImageUpload: false });
   }
 }
