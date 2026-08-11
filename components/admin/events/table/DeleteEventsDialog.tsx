@@ -1,3 +1,7 @@
+import { useTransition } from "react";
+import { toast } from "sonner";
+import { ActionResponse, deleteEventState } from "@/app/actions/actions";
+import { successStyle, errorStyle } from "@/lib/toaster-styles";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,6 +13,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Spinner } from "@/components/ui/spinner";
+
+const initialState: ActionResponse = {
+  success: false,
+  message: "",
+};
 
 export const DeleteEventsDialog = ({
   id,
@@ -19,6 +29,22 @@ export const DeleteEventsDialog = ({
   open: boolean;
   setOpen: (open: boolean) => void;
 }) => {
+  const [pending, startTransition] = useTransition();
+
+  const handlerDelete = () => {
+    const stringId = id?.toString();
+    startTransition(async () => {
+      const response = await deleteEventState(initialState, stringId);
+      console.log(response);
+      if (response.success) {
+        toast.success(response.message, { style: successStyle });
+        setOpen(false);
+      } else {
+        toast.error(response.message, { style: errorStyle });
+      }
+    });
+  };
+
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger className="group/dropdown-menu-item relative flex cursor-default items-center gap-2.5 rounded-none px-3 py-2 text-xs font-medium tracking-wider uppercase outline-hidden select-none hover:bg-gray w-full cursor-pointer">
@@ -34,7 +60,9 @@ export const DeleteEventsDialog = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Hapus</AlertDialogAction>
+          <AlertDialogAction onClick={handlerDelete} className="bg-red-500 ">
+            {pending && <Spinner />}Hapus
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

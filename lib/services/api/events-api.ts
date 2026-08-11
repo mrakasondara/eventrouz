@@ -143,6 +143,24 @@ export class EventsAPI {
     });
   }
 
+  static async deleteEvent({
+    id,
+    token,
+  }: {
+    id: string | undefined;
+    token: any;
+  }) {
+    const url = `${BASE_API}/events/${id}`;
+    const method = "DELETE";
+
+    return await handlerAuthAPI({
+      url,
+      method,
+      token,
+      isImageUpload: false,
+    });
+  }
+
   // tickets
   static async getTickets({ search, token }: getTicketCategories) {
     const searchParams = new URLSearchParams();

@@ -43,3 +43,37 @@ export const addEventState = async (
     };
   }
 };
+
+export const deleteEventState = async (
+  prevState: ActionResponse,
+  id: string | undefined
+): Promise<ActionResponse> => {
+  try {
+    const token = await getAccessToken();
+    const response = await EventsAPI.deleteEvent({ id, token });
+    if (response?.success) {
+      revalidatePath("/admin/events");
+      return {
+        success: true,
+        message: response.message,
+      };
+    } else {
+      if (response.message == "Unauthenticated.") {
+        return {
+          success: false,
+          message: "Sesi kedaluarsa, silahkan login ulang",
+        };
+      } else {
+        return {
+          success: false,
+          message: response.message,
+        };
+      }
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something error!",
+    };
+  }
+};
