@@ -16,7 +16,7 @@ export const getEventDate = ({
   const date = `${
     checkIsOnlyADay
       ? startDate.getDate()
-      : startDate.getDate() - endDate.getDate()
+      : `${startDate.getDate()} - ${endDate.getDate()}`
   } ${getMonthName({
     monthNumber: endDate.getMonth(),
     type,
