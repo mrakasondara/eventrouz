@@ -5,7 +5,7 @@ import { EventCard } from "@/types/event";
 export const FeaturedCard = ({
   id,
   title,
-  image_thumb,
+  image_thumb_url,
   start_at,
   end_at,
   location,
@@ -16,7 +16,7 @@ export const FeaturedCard = ({
     <Link href={`/event/${id}`}>
       <article className="flex hover:-translate-[3px] flex-col border-2 shadow-[3px_4px_0px_0px_#091413] hover:shadow-[5px_7px_0px_0px_#091413] relative cursor-pointer">
         <img
-          src={image_thumb}
+          src={image_thumb_url}
           alt="thumb-event"
           className="h-60 object-fit"
           loading="lazy"
