@@ -1,6 +1,7 @@
 export interface EventCard {
   id: number;
   title: string;
+  description?: string;
   image_thumb_url: string;
   start_at: string;
   end_at: string;
