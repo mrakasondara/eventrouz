@@ -34,7 +34,7 @@ export const TableEvents = ({ events }: { events: ListEvent[] }) => {
         )}
         <TableHeader className="bg-gray font-sans font-semibold">
           <TableRow>
-            <TableHead className="w-[80px]">ID</TableHead>
+            <TableHead>Cover</TableHead>
             <TableHead>Event</TableHead>
             <TableHead>Waktu Mulai</TableHead>
             <TableHead>Waktu Selesai</TableHead>
@@ -48,7 +48,15 @@ export const TableEvents = ({ events }: { events: ListEvent[] }) => {
             events.map((event: ListEvent) => {
               return (
                 <TableRow key={event.id}>
-                  <TableCell className="font-medium">{event.id}</TableCell>
+                  <TableCell>
+                    <a
+                      href={event.image_thumb_url}
+                      className="hover:underline"
+                      target="_blank"
+                    >
+                      🖼️
+                    </a>
+                  </TableCell>
                   <TableCell>
                     <Link href={`/events/${event.id}`} className="underline">
                       {event.title}
