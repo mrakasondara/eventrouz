@@ -1,5 +1,7 @@
 "use client";
+
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import Link from "next/link";
 import { toast } from "sonner";
 import {
   Table,
@@ -102,7 +104,14 @@ export const TableTickets = ({
                 <TableRow key={ticket.id}>
                   <TableCell className="font-medium">{ticket.id}</TableCell>
                   <TableCell>{ticket.name}</TableCell>
-                  <TableCell>{ticket.event?.title}</TableCell>
+                  <TableCell>
+                    <Link
+                      href={`/events/${ticket.event?.id}`}
+                      className="underline"
+                    >
+                      {ticket.event?.title}
+                    </Link>
+                  </TableCell>
                   <TableCell>
                     Rp. {ticket?.price?.toLocaleString("id-ID")}
                   </TableCell>
