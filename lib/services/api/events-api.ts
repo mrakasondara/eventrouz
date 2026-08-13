@@ -130,8 +130,43 @@ export class EventsAPI {
     }
   }
 
+  static async getEventDetail(id: number | undefined) {
+    try {
+      const response = await fetch(`${BASE_API}/events/${id}`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+      return response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   static async addEvent({ formData, token }: { formData: any; token: any }) {
     const url = `${BASE_API}/events`;
+    const method = "POST";
+
+    return await handlerAuthAPI({
+      url,
+      method,
+      token,
+      body: formData,
+      isImageUpload: true,
+    });
+  }
+
+  static async updateEvent({
+    formData,
+    token,
+    id,
+  }: {
+    formData: any;
+    token: any;
+    id: number | undefined;
+  }) {
+    const url = `${BASE_API}/events/${id}`;
     const method = "POST";
 
     return await handlerAuthAPI({
