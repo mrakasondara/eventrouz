@@ -1,7 +1,6 @@
 "use client";
-import { Users } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 import { TableEvents } from "./table/TableEvents";
-import { useState } from "react";
 import { getSingleDate } from "@/lib/date";
 import { AddEventDialog } from "./add-dialog/AddEventDialog";
 
@@ -12,7 +11,7 @@ export const AdminEventsContent = ({ events }: { events: any }) => {
     <div className="flex flex-col w-full lg:w-3/4 mx-auto pb-10 h-full mt-20">
       <section className="flex gap-5 font-grotesk items-center">
         <p className="p-3 border-2 bg-blue shadow-[3px_3px_0px_0px_#323232]">
-          <Users size={30} color="white" />
+          <CalendarDays size={30} color="white" />
         </p>
         <div className="flex flex-col gap-1">
           <h2 className="text-xl font-semibold">Daftar Event</h2>
