@@ -23,6 +23,12 @@ export interface getTicketCategories {
   token?: string;
 }
 
+export interface addTicketCategories {
+  id?: string;
+  token?: string;
+  body: ticketStore;
+}
+
 export interface editPersonalInformation {
   token?: string;
   data: dataPersonalInformation;
@@ -32,4 +38,11 @@ interface dataPersonalInformation {
   address: string;
   phone_number: string;
   gender: string;
+}
+
+export interface ticketStore {
+  name: string;
+  price: number;
+  quota: number;
+  reserved: number;
 }

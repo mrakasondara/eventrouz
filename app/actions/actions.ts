@@ -3,6 +3,7 @@
 import { EventsAPI } from "@/lib/services/api/events-api";
 import { getAccessToken } from "./auth";
 import { revalidatePath } from "next/cache";
+import { ticketStore } from "@/types/api";
 
 export type ActionResponse = {
   success: boolean;
@@ -85,9 +86,48 @@ export const deleteEventState = async (
 ): Promise<ActionResponse> => {
   try {
     const token = await getAccessToken();
-    const response = await EventsAPI.deleteEvent({ id, token });
+    const response = await EventsAPI.deleteEvent({ id, token: token ?? "" });
     if (response?.success) {
       revalidatePath("/admin/events");
+      return {
+        success: true,
+        message: response.message,
+      };
+    } else {
+      if (response.message == "Unauthenticated.") {
+        return {
+          success: false,
+          message: "Sesi kedaluarsa, silahkan login ulang",
+        };
+      } else {
+        return {
+          success: false,
+          message: response.message,
+        };
+      }
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something error!",
+    };
+  }
+};
+
+export const addTicketState = async (
+  prevState: ActionResponse,
+  id: string | undefined,
+  body: ticketStore
+): Promise<ActionResponse> => {
+  try {
+    const token = await getAccessToken();
+    const response = await EventsAPI.addTicket({
+      id,
+      token: token ?? "",
+      body,
+    });
+    if (response.success) {
+      revalidatePath("/admin/tickets");
       return {
         success: true,
         message: response.message,
