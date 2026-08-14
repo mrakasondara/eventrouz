@@ -9,8 +9,8 @@ export const AdminTicketsContent = ({ tickets }: { tickets: any }) => {
 
   return (
     <div className="flex flex-col w-full lg:w-3/4 mx-auto pb-10 h-full mt-20">
-      <section className="flex gap-5 font-grotesk items-center">
-        <p className="p-3 border-2 bg-blue shadow-[3px_3px_0px_0px_#323232]">
+      <section className="flex flex-col md:flex-row gap-5 font-grotesk md:items-center">
+        <p className="p-3 border-2 bg-blue shadow-[3px_3px_0px_0px_#323232] self-start">
           <Ticket size={30} color="white" />
         </p>
         <div className="flex flex-col gap-1">

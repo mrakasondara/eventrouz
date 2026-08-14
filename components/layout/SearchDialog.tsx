@@ -69,7 +69,15 @@ export const SearchDialog = () => {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogTrigger render={<Button variant="brutalism" size="icon-sm" />}>
+      <DialogTrigger
+        render={
+          <Button
+            variant="brutalism"
+            size="icon-sm"
+            className="hidden md:flex"
+          />
+        }
+      >
         <Search />
       </DialogTrigger>
       <DialogContent className="sm:max-w-md shadow-[8px_8px_0px_0px_#323232] hover:shadow-[4px_4px_0px_0px_#323232] transition-all ease-in-out border-2 font-grotesk">

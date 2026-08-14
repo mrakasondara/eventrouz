@@ -25,7 +25,7 @@ export const AddTicketDialog = () => {
           <Button
             variant="brutalism"
             size="sm"
-            className="bg-blue capitalize ml-auto self-start"
+            className="bg-blue capitalize ml-auto w-full md:w-auto md:self-start"
           />
         }
       >
