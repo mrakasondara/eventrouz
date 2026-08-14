@@ -35,7 +35,6 @@ export const DeleteEventsDialog = ({
     const stringId = id?.toString();
     startTransition(async () => {
       const response = await deleteEventState(initialState, stringId);
-      console.log(response);
       if (response.success) {
         toast.success(response.message, { style: successStyle });
         setOpen(false);

@@ -21,7 +21,6 @@ export const FeaturedEvents = () => {
         setEvents(response.data);
       } else {
         toast.error(response.message, { style: errorStyle });
-        console.log(response);
       }
     } catch (error) {
       toast.error("something error", { style: errorStyle });
