@@ -73,7 +73,10 @@ export const TableTickets = ({ tickets }: { tickets: Ticket[] }) => {
                   <TableCell>{ticket.reserved}</TableCell>
 
                   <TableCell className="text-right">
-                    <TableTicketsActions id={ticket.id} />
+                    <TableTicketsActions
+                      ticketId={ticket.id}
+                      eventId={ticket.event?.id}
+                    />
                   </TableCell>
                 </TableRow>
               );

@@ -10,7 +10,13 @@ import {
 import { DeleteTicketsDialog } from "./DeleteTicketsDialog";
 import { useState } from "react";
 
-export const TableTicketsActions = ({ id }: { id: number | undefined }) => {
+export const TableTicketsActions = ({
+  eventId,
+  ticketId,
+}: {
+  eventId: number | undefined;
+  ticketId: number | undefined;
+}) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -30,7 +36,12 @@ export const TableTicketsActions = ({ id }: { id: number | undefined }) => {
           <DropdownMenuGroup>
             <DropdownMenuItem className="cursor-pointer">Ubah</DropdownMenuItem>
 
-            <DeleteTicketsDialog id={id} open={open} setOpen={setOpen} />
+            <DeleteTicketsDialog
+              eventId={eventId}
+              ticketId={ticketId}
+              open={open}
+              setOpen={setOpen}
+            />
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>

@@ -233,4 +233,24 @@ export class EventsAPI {
       isImageUpload: false,
     });
   }
+
+  static async deleteTicket({
+    eventId,
+    ticketId,
+    token,
+  }: {
+    eventId: string | undefined;
+    ticketId: string | undefined;
+    token: string | undefined;
+  }) {
+    const url = `${BASE_API}/events/${eventId}/ticket-categories/${ticketId}`;
+    const method = "DELETE";
+
+    return await handlerAuthAPI({
+      url,
+      method,
+      token,
+      isImageUpload: false,
+    });
+  }
 }
