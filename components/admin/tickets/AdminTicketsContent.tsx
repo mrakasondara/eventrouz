@@ -1,12 +1,11 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Ticket } from "lucide-react";
 import { TableTickets } from "./table/TableTickets";
-import { useState } from "react";
 import { getSingleDate } from "@/lib/date";
+import { AddTicketDialog } from "./add-dialog/AddTicketDialog";
 
-export const AdminTicketsContent = () => {
-  const [latestUpdate, setLatestUpdate] = useState<string | undefined>("");
+export const AdminTicketsContent = ({ tickets }: { tickets: any }) => {
+  const latestUpdate = tickets?.data[0].updated_at;
 
   return (
     <div className="flex flex-col w-full lg:w-3/4 mx-auto pb-10 h-full mt-20">
@@ -23,16 +22,10 @@ export const AdminTicketsContent = () => {
               : "-"}
           </p>
         </div>
-        <Button
-          variant="brutalism"
-          size="sm"
-          className="bg-blue capitalize ml-auto self-start"
-        >
-          + tambah tiket baru
-        </Button>
+        <AddTicketDialog />
       </section>
 
-      <TableTickets setUpdate={setLatestUpdate} />
+      <TableTickets tickets={tickets?.data} />
     </div>
   );
 };
