@@ -96,7 +96,5 @@ const getMonthName = ({
     "Desember",
   ];
 
-  return type == "full"
-    ? fullMonths[monthNumber - 1]
-    : shortMonths[monthNumber - 1];
+  return type == "full" ? fullMonths[monthNumber] : shortMonths[monthNumber];
 };
