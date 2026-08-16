@@ -4,6 +4,8 @@ import {
   getEvents,
   editPersonalInformation,
   getTicketCategories,
+  getTicketDetail,
+  updateTicket,
 } from "@/types/api";
 import { addTicketCategories } from "../../../types/api";
 const BASE_API = process.env.NEXT_PUBLIC_BASE_API;
@@ -224,6 +226,31 @@ export class EventsAPI {
   static async addTicket({ id, token, body }: addTicketCategories) {
     const url = `${BASE_API}/events/${id}/ticket-categories`;
     const method = "POST";
+
+    return await handlerAuthAPI({
+      url,
+      method,
+      token,
+      body: JSON.stringify(body),
+      isImageUpload: false,
+    });
+  }
+
+  static async getTicketDetail({ token, eventId, ticketId }: getTicketDetail) {
+    const url = `${BASE_API}/events/${eventId}/ticket-categories/${ticketId}`;
+    const method = "GET";
+
+    return await handlerAuthAPI({
+      url,
+      method,
+      token,
+      isImageUpload: false,
+    });
+  }
+
+  static async updateTicket({ token, eventId, ticketId, body }: updateTicket) {
+    const url = `${BASE_API}/events/${eventId}/ticket-categories/${ticketId}`;
+    const method = "PUT";
 
     return await handlerAuthAPI({
       url,

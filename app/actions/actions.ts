@@ -191,3 +191,44 @@ export const deleteTicketState = async (
     };
   }
 };
+
+export const updateTicketState = async (
+  prevState: ActionResponse,
+  eventId: string | undefined,
+  ticketId: string | undefined,
+  body: ticketStore
+): Promise<ActionResponse> => {
+  try {
+    const token = await getAccessToken();
+    const response = await EventsAPI.updateTicket({
+      token: token ?? "",
+      eventId,
+      ticketId,
+      body,
+    });
+    if (response?.success) {
+      revalidatePath("/admin/tickets");
+      return {
+        success: true,
+        message: response.message,
+      };
+    } else {
+      if (response.message == "Unauthenticated.") {
+        return {
+          success: false,
+          message: "Sesi kedaluarsa, silahkan login ulang",
+        };
+      } else {
+        return {
+          success: false,
+          message: response.message,
+        };
+      }
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something error!",
+    };
+  }
+};

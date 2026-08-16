@@ -4,11 +4,11 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DeleteTicketsDialog } from "./DeleteTicketsDialog";
 import { useState } from "react";
+import { EditTicketDialog } from "../edit-ticket/EditTicketDialog";
 
 export const TableTicketsActions = ({
   eventId,
@@ -34,8 +34,7 @@ export const TableTicketsActions = ({
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuGroup>
-            <DropdownMenuItem className="cursor-pointer">Ubah</DropdownMenuItem>
-
+            <EditTicketDialog eventId={eventId} ticketId={ticketId} />
             <DeleteTicketsDialog
               eventId={eventId}
               ticketId={ticketId}

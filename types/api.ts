@@ -23,6 +23,19 @@ export interface getTicketCategories {
   token?: string;
 }
 
+export interface getTicketDetail {
+  token?: string;
+  eventId?: string;
+  ticketId?: string;
+}
+
+export interface updateTicket {
+  token?: string;
+  eventId?: string;
+  ticketId?: string;
+  body: ticketStore;
+}
+
 export interface addTicketCategories {
   id?: string;
   token?: string;
