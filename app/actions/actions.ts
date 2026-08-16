@@ -10,6 +10,8 @@ export type ActionResponse = {
   message: string;
 };
 
+const unauthenticatedMessage = "Sesi kedaluarsa. Silahkan login ulang!";
+
 export const addEventState = async (
   prevState: ActionResponse,
   formData: FormData
@@ -19,29 +21,16 @@ export const addEventState = async (
     const response = await EventsAPI.addEvent({ formData, token });
     if (response?.success) {
       revalidatePath("/admin/events");
-      return {
-        success: true,
-        message: response.message,
-      };
+      return createResponse(true, response.message);
     } else {
       if (response.message == "Unauthenticated.") {
-        return {
-          success: false,
-          message: "Sesi kedaluarsa, silahkan login ulang",
-        };
-      } else {
-        return {
-          success: false,
-          message: response.message,
-        };
+        return createResponse(false, unauthenticatedMessage);
       }
+      return createResponse(false, response.message);
     }
   } catch (error) {
     console.error(error);
-    return {
-      success: false,
-      message: "Something error!",
-    };
+    return createResponse(false, "Something error.");
   }
 };
 
@@ -55,28 +44,16 @@ export const updateEventState = async (
     const response = await EventsAPI.updateEvent({ formData, token, id });
     if (response?.success) {
       revalidatePath("/admin/events");
-      return {
-        success: true,
-        message: response.message,
-      };
+      return createResponse(true, response.message);
     } else {
       if (response.message == "Unauthenticated.") {
-        return {
-          success: false,
-          message: "Sesi kedaluarsa, silahkan login ulang",
-        };
-      } else {
-        return {
-          success: false,
-          message: response.message,
-        };
+        return createResponse(false, unauthenticatedMessage);
       }
+      return createResponse(false, response.message);
     }
   } catch (error) {
-    return {
-      success: false,
-      message: "Something error!",
-    };
+    console.error(error);
+    return createResponse(false, "Something error.");
   }
 };
 
@@ -89,28 +66,16 @@ export const deleteEventState = async (
     const response = await EventsAPI.deleteEvent({ id, token: token ?? "" });
     if (response?.success) {
       revalidatePath("/admin/events");
-      return {
-        success: true,
-        message: response.message,
-      };
+      return createResponse(true, response.message);
     } else {
       if (response.message == "Unauthenticated.") {
-        return {
-          success: false,
-          message: "Sesi kedaluarsa, silahkan login ulang",
-        };
-      } else {
-        return {
-          success: false,
-          message: response.message,
-        };
+        return createResponse(false, unauthenticatedMessage);
       }
+      return createResponse(false, response.message);
     }
   } catch (error) {
-    return {
-      success: false,
-      message: "Something error!",
-    };
+    console.error(error);
+    return createResponse(false, "Something error.");
   }
 };
 
@@ -128,28 +93,16 @@ export const addTicketState = async (
     });
     if (response.success) {
       revalidatePath("/admin/tickets");
-      return {
-        success: true,
-        message: response.message,
-      };
+      return createResponse(true, response.message);
     } else {
       if (response.message == "Unauthenticated.") {
-        return {
-          success: false,
-          message: "Sesi kedaluarsa, silahkan login ulang",
-        };
-      } else {
-        return {
-          success: false,
-          message: response.message,
-        };
+        return createResponse(false, unauthenticatedMessage);
       }
+      return createResponse(false, response.message);
     }
   } catch (error) {
-    return {
-      success: false,
-      message: "Something error!",
-    };
+    console.error(error);
+    return createResponse(false, "Something error.");
   }
 };
 
@@ -167,28 +120,16 @@ export const deleteTicketState = async (
     });
     if (response?.success) {
       revalidatePath("/admin/tickets");
-      return {
-        success: true,
-        message: response.message,
-      };
+      return createResponse(true, response.message);
     } else {
       if (response.message == "Unauthenticated.") {
-        return {
-          success: false,
-          message: "Sesi kedaluarsa, silahkan login ulang",
-        };
-      } else {
-        return {
-          success: false,
-          message: response.message,
-        };
+        return createResponse(false, unauthenticatedMessage);
       }
+      return createResponse(false, response.message);
     }
   } catch (error) {
-    return {
-      success: false,
-      message: "Something error!",
-    };
+    console.error(error);
+    return createResponse(false, "Something error.");
   }
 };
 
@@ -208,27 +149,20 @@ export const updateTicketState = async (
     });
     if (response?.success) {
       revalidatePath("/admin/tickets");
-      return {
-        success: true,
-        message: response.message,
-      };
+      return createResponse(true, response.message);
     } else {
       if (response.message == "Unauthenticated.") {
-        return {
-          success: false,
-          message: "Sesi kedaluarsa, silahkan login ulang",
-        };
-      } else {
-        return {
-          success: false,
-          message: response.message,
-        };
+        return createResponse(false, unauthenticatedMessage);
       }
+      return createResponse(false, response.message);
     }
   } catch (error) {
-    return {
-      success: false,
-      message: "Something error!",
-    };
+    console.error(error);
+    return createResponse(false, "Something error.");
   }
 };
+
+const createResponse = (success: boolean, message: string): ActionResponse => ({
+  success,
+  message,
+});
