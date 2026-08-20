@@ -6,6 +6,7 @@ import {
   getTicketCategories,
   getTicketDetail,
   updateTicket,
+  getUsers,
 } from "@/types/api";
 import { addTicketCategories } from "../../../types/api";
 const BASE_API = process.env.NEXT_PUBLIC_BASE_API;
@@ -83,6 +84,18 @@ export class EventsAPI {
   }
 
   // user
+
+  static async getUsers({ token, limit, search }: getUsers) {
+    const searchParams = new URLSearchParams();
+
+    if (limit) searchParams.set("limit", String(limit));
+    if (search) searchParams.set("search", String(search));
+
+    const url = `${BASE_API}/users?${searchParams.toString()}`
+    const method = 'GET'
+
+    return await handlerAuthAPI({ url, method, token, isImageUpload: false });
+  }
 
   static async getProfile(token: string) {
     const url = `${BASE_API}/profile`;

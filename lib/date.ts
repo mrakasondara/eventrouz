@@ -1,3 +1,6 @@
+import { formatDistanceToNow } from "date-fns";
+import { id } from "date-fns/locale";
+
 export const getEventDate = ({
   start_at,
   end_at,
@@ -97,4 +100,14 @@ const getMonthName = ({
   ];
 
   return type == "full" ? fullMonths[monthNumber] : shortMonths[monthNumber];
+};
+
+export const getRelativeDate = (date: string | undefined) => {
+  const getDate = date ? new Date(date) : "";
+
+  const relativeDate = formatDistanceToNow(getDate, {
+    addSuffix: true,
+    locale: id,
+  });
+  return relativeDate;
 };

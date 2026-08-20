@@ -12,6 +12,12 @@ export interface typeHandlerAuthAPI {
   isImageUpload: boolean;
 }
 
+export interface getUsers {
+  token?: string;
+  limit?: number;
+  search?: string;
+}
+
 export interface getEvents {
   limit?: number;
   search?: string;
