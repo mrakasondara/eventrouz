@@ -9,6 +9,7 @@ import { Toaster } from "sonner";
 import { AppSidebar } from "@/components/layout/sidebar/app-sidebar";
 import { SidebarProviderWrapper } from "@/components/layout/sidebar/sidebar-provider-wrapper";
 import { SidebarInset } from "@/components/ui/sidebar";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const notoSans = Noto_Sans({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -60,18 +61,20 @@ export default function RootLayout({
       <body className="min-h-screen w-full bg-background antialiased">
         <Providers>
           <SidebarProviderWrapper>
-            <AppSidebar />
+            <TooltipProvider>
+              <AppSidebar />
 
-            <SidebarInset className="flex flex-col min-h-screen w-full flex-1">
-              <Header />
-              <Toaster position="top-right" />
+              <SidebarInset className="flex flex-col min-h-screen w-full flex-1">
+                <Header />
+                <Toaster position="top-right" />
 
-              <main className="flex-1 flex flex-col w-full min-h-full">
-                {/*  Wrapper children biarkan auto height (fleksibel) */}
-                <div className="flex-1 w-full">{children}</div>
-              </main>
-              <Footer />
-            </SidebarInset>
+                <main className="flex-1 flex flex-col w-full min-h-full">
+                  {/*  Wrapper children biarkan auto height (fleksibel) */}
+                  <div className="flex-1 w-full">{children}</div>
+                </main>
+                <Footer />
+              </SidebarInset>
+            </TooltipProvider>
           </SidebarProviderWrapper>
         </Providers>
       </body>
