@@ -9,5 +9,6 @@ export async function getAccessToken() {
 
 export async function removeAccessToken() {
   const cookieStore = await cookies();
-  return cookieStore.delete("access_token");
+  cookieStore.delete("access_token");
+  return { success: true };
 }

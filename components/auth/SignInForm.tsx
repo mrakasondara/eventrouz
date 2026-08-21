@@ -13,11 +13,15 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "../ui/spinner";
 import { signIn, useSession } from "next-auth/react";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { removeAccessToken } from "@/app/actions/auth";
 
 export const SignInForm = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
+
+  const searchParams = useSearchParams();
+  const reason = searchParams.get("reason");
 
   const rememberEmailKey = "remember-email";
 
@@ -30,7 +34,8 @@ export const SignInForm = () => {
     if (session) router.push("/profile");
     const storedEmail = localStorage.getItem(rememberEmailKey);
     if (storedEmail) setEmail(storedEmail);
-  }, [status, router]);
+    if (reason === "invalid_token") removeAccessToken();
+  }, [status, router, reason]);
 
   const onSignIn = async (
     e: React.SubmitEvent<HTMLFormElement>

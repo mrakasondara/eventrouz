@@ -19,6 +19,10 @@ export default async function AdminUsers() {
   const token = await getAccessToken();
   const users = await EventsAPI.getUsers({ token: token ?? "" });
 
+  if (!users.success) {
+    return redirect("/signin?reason=invalid_token", RedirectType.replace);
+  }
+
   return (
     <div className="flex flex-col gap-3 px-5 py-12 h-[50rem]">
       <Suspense fallback={<Loading />}>

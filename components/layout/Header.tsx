@@ -46,7 +46,7 @@ export const Header = () => {
               size="sm"
               onClick={async () => {
                 const token = await getAccessToken();
-                const response = await EventsAPI.logout(token);
+                const response = await EventsAPI.logout(token ?? "");
                 if (response.success) {
                   toast.success(response.message);
                   setTimeout(() => {
