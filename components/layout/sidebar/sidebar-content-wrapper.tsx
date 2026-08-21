@@ -6,6 +6,7 @@ import {
   TicketCheck,
   User,
   Users,
+  ShoppingCart,
 } from "lucide-react";
 import {
   SidebarContent,
@@ -36,6 +37,11 @@ export const SidebarContentWrapper = (data: any) => {
       path: "/admin/users",
       title: "daftar pengguna",
       icon: Users,
+    },
+    {
+      path: "/admin/orders",
+      title: "daftar transaksi",
+      icon: ShoppingCart,
     },
   ];
 

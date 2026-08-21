@@ -4,6 +4,17 @@ export interface userRegister {
   password: string;
 }
 
+export interface editPersonalInformation {
+  token?: string;
+  data: dataPersonalInformation;
+}
+
+interface dataPersonalInformation {
+  address: string;
+  phone_number: string;
+  gender: string;
+}
+
 export interface typeHandlerAuthAPI {
   url: string;
   method: string;
@@ -48,20 +59,15 @@ export interface addTicketCategories {
   body: ticketStore;
 }
 
-export interface editPersonalInformation {
-  token?: string;
-  data: dataPersonalInformation;
-}
-
-interface dataPersonalInformation {
-  address: string;
-  phone_number: string;
-  gender: string;
-}
-
 export interface ticketStore {
   name: string;
   price: number;
   quota: number;
   reserved: number;
+}
+
+export interface getOrders {
+  token?: string;
+  limit?: number;
+  status?: string;
 }

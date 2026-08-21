@@ -29,3 +29,19 @@ export interface TicketCategory extends ticketStore {
 export interface EventDetail extends ListEvent {
   ticket_categories?: TicketCategory[];
 }
+
+export interface Order {
+  id?: number;
+  created_at?: string;
+  status?: string;
+  total_price?: number;
+  user?: User;
+}
+
+interface User {
+  id?: number;
+  created_at?: string;
+  email?: string;
+  name?: string;
+  updated_at?: string;
+}

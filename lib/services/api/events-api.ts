@@ -7,6 +7,7 @@ import {
   getTicketDetail,
   updateTicket,
   getUsers,
+  getOrders,
 } from "@/types/api";
 import { addTicketCategories } from "../../../types/api";
 const BASE_API = process.env.NEXT_PUBLIC_BASE_API;
@@ -91,8 +92,8 @@ export class EventsAPI {
     if (limit) searchParams.set("limit", String(limit));
     if (search) searchParams.set("search", String(search));
 
-    const url = `${BASE_API}/users?${searchParams.toString()}`
-    const method = 'GET'
+    const url = `${BASE_API}/users?${searchParams.toString()}`;
+    const method = "GET";
 
     return await handlerAuthAPI({ url, method, token, isImageUpload: false });
   }
@@ -292,5 +293,19 @@ export class EventsAPI {
       token,
       isImageUpload: false,
     });
+  }
+
+  // orders
+
+  static async getOrders({ token, limit, status }: getOrders) {
+    const searchParams = new URLSearchParams();
+
+    if (limit) searchParams.set("limit", String(limit));
+    if (status) searchParams.set("status", String(status));
+
+    const url = `${BASE_API}/orders?${searchParams.toString()}`;
+    const method = "GET";
+
+    return await handlerAuthAPI({ url, method, token, isImageUpload: false });
   }
 }
