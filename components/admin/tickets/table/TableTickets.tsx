@@ -11,21 +11,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TableTicketsActions } from "./TableTicketsActions";
-
-interface Event {
-  id?: number;
-  title?: string;
-  description?: string;
-  status?: string;
-  image_thumb?: string;
-  start_at?: string;
-  end_at?: string;
-  location?: string;
-}
+import { ListEvent } from "@/types/event";
 
 interface Ticket {
   id?: number;
-  event?: Event;
+  event?: ListEvent;
   name?: number;
   price?: number;
   quota?: number;
