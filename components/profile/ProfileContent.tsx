@@ -32,7 +32,7 @@ export const ProfileContent = () => {
         setUser(response.data);
       } else {
         toast.error("Silahkan login ulang", { style: errorStyle });
-        // await removeAccessToken();
+        await removeAccessToken();
         signOut({ callbackUrl: "/signin" });
       }
     } catch (error) {
