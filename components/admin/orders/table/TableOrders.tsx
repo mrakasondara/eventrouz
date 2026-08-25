@@ -10,23 +10,25 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Order } from "@/types/event";
+import { TableOrdersActions } from "./TableOrdersActions";
+
+export const statusStyle = (status: string) => {
+  switch (status) {
+    case "pending":
+      return "bg-[#fffb00] border-2 border-black px-3 py-1 font-bold text-xs uppercase shadow-[2px_2px_0px_0px_#000]";
+
+    case "expired":
+      return "bg-[#ff5959] border-2 border-black px-3 py-1 font-bold text-xs uppercase shadow-[2px_2px_0px_0px_#000]";
+
+    case "paid":
+      return "bg-[#8bff59] border-2 border-black px-3 py-1 font-bold text-xs uppercase shadow-[2px_2px_0px_0px_#000]";
+
+    default:
+      return "bg-slate-200 border-2 border-black px-3 py-1 font-bold text-xs uppercase shadow-[2px_2px_0px_0px_#000]";
+  }
+};
 
 export const TableOrders = ({ orders }: { orders: Order[] }) => {
-  const statusStyle = (status: string) => {
-    switch (status) {
-      case "pending":
-        return "bg-gray";
-
-      case "expired":
-        return "bg-red-500 text-white";
-
-      case "paid":
-        return "bg-green-500 text-white";
-
-      default:
-        return "bg-slate-200";
-    }
-  };
   return (
     <section className="flex flex-col gap-2 mt-5">
       {!orders.length && (
@@ -55,16 +57,13 @@ export const TableOrders = ({ orders }: { orders: Order[] }) => {
                   </TableCell>
                   <TableCell>{order?.created_at}</TableCell>
                   <TableCell>
-                    <span
-                      className={`${statusStyle(
-                        order?.status ?? ""
-                      )} px-2 py-1 uppercase font-semibold`}
-                    >
+                    <span className={`${statusStyle(order?.status ?? "")}`}>
                       {order?.status}
                     </span>
                   </TableCell>
-
-                  <TableCell className="text-right"></TableCell>
+                  <TableCell className="text-right">
+                    <TableOrdersActions id={order?.id} />
+                  </TableCell>
                 </TableRow>
               );
             })}

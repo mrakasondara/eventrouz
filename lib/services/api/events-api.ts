@@ -308,4 +308,11 @@ export class EventsAPI {
 
     return await handlerAuthAPI({ url, method, token, isImageUpload: false });
   }
+
+  static async getOrderDetail({ token, id }: { token?: string; id?: number }) {
+    const url = `${BASE_API}/orders/${id}`;
+    const method = "GET";
+
+    return await handlerAuthAPI({ url, method, token, isImageUpload: false });
+  }
 }
