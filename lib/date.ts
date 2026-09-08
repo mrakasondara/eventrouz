@@ -1,6 +1,13 @@
 import { formatDistanceToNow } from "date-fns";
 import { id } from "date-fns/locale";
 
+export interface DynamicDateItem {
+  id?: string;
+  label?: string;
+  dateString?: string;
+  dayName?: string;
+}
+
 export const getEventDate = ({
   start_at,
   end_at,
@@ -110,4 +117,58 @@ export const getRelativeDate = (date: string | undefined) => {
     locale: id,
   });
   return relativeDate;
+};
+
+export const getParsedDate = (
+  dateRange: string | undefined,
+  isAllDay: boolean | undefined
+): DynamicDateItem[] => {
+  const regex = /^(\d+)\s*-\s*(\d+)\s+([A-Za-z]+)\s+(\d{4})$/;
+  const match = dateRange?.match(regex);
+
+  if (!match) {
+    return [
+      {
+        id: "day-1",
+        label: "Day 1",
+        dateString: dateRange,
+        dayName: "Single Day",
+      },
+    ];
+  }
+
+  if (isAllDay) {
+    return [
+      {
+        id: "all-day",
+        label: "All Day",
+        dateString: dateRange,
+        dayName: "All Day",
+      },
+    ];
+  }
+
+  const [, startDate, endDate, monthStr, yearStr] = match;
+  const start = parseInt(startDate, 10);
+  const end = parseInt(endDate, 10);
+
+  const dates: DynamicDateItem[] = [];
+  let dayCounter = 1;
+
+  for (let d = start; d <= end; d++) {
+    const formattedDateStr = `${d} ${monthStr} ${yearStr}`;
+    const dateObj = new Date(formattedDateStr);
+
+    const dayName = dateObj.toLocaleString("id-ID", { weekday: "long" });
+
+    dates.push({
+      id: `day-${dayCounter}`,
+      label: `Day ${dayCounter}`,
+      dateString: formattedDateStr,
+      dayName,
+    });
+
+    dayCounter++;
+  }
+  return dates;
 };

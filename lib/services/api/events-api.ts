@@ -245,8 +245,8 @@ export class EventsAPI {
       url,
       method,
       token,
-      body: JSON.stringify(body),
-      isImageUpload: false,
+      body,
+      isImageUpload: true,
     });
   }
 

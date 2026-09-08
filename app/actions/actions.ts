@@ -82,7 +82,7 @@ export const deleteEventState = async (
 export const addTicketState = async (
   prevState: ActionResponse,
   id: string | undefined,
-  body: ticketStore
+  body: FormData
 ): Promise<ActionResponse> => {
   try {
     const token = await getAccessToken();

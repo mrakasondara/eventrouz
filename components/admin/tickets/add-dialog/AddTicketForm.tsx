@@ -16,12 +16,25 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { EventsAPI } from "@/lib/services/api/events-api";
 import { errorStyle, successStyle } from "@/lib/toaster-styles";
-import { useEffect, useRef, useState, useTransition } from "react";
+import React, { useEffect, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
+import { PackageTicketOption } from "./PackageTicketOption";
+import { DynamicDateItem, getEventDate, getParsedDate } from "@/lib/date";
 
 interface EventOption {
   id: string;
   title: string;
+  start_at: string;
+  end_at: string;
+}
+
+export interface PackageTicketOptionProps {
+  isPackage: boolean;
+  setIsPackage: React.Dispatch<React.SetStateAction<boolean>>;
+  isMultipleDay: boolean;
+  setIsMultipleDay: React.Dispatch<React.SetStateAction<boolean>>;
+  datesOptions: DynamicDateItem[] | undefined;
+  setDate: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const initialState: ActionResponse = {
@@ -38,14 +51,53 @@ export const AddTicketForm = ({
   const [isPending, startTransition] = useTransition();
 
   const [eventsOptions, setEventsOptions] = useState<EventOption[]>();
+  const [datesOptions, setDatesOptions] = useState<
+    DynamicDateItem[] | undefined
+  >();
   const [loading, setLoading] = useState(false);
 
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [quota, setQuota] = useState("");
-  const [reserved, setReserved] = useState("");
-  const [event, setEvent] = useState("");
-  const [eventId, setEventId] = useState("");
+  const [name, setName] = useState<string | undefined>("");
+  const [date, setDate] = useState<string[]>([]);
+  const [price, setPrice] = useState<number | string | undefined>("");
+  const [quota, setQuota] = useState<number | string | undefined>("");
+  const [reserved, setReserved] = useState<number | string | undefined>("");
+
+  const [event, setEvent] = useState<string | undefined>("");
+  const [eventId, setEventId] = useState<string | undefined>("");
+
+  const [isPackage, setIsPackage] = useState<boolean>(false);
+  const [isMultipleDay, setIsMultipleDay] = useState<boolean>(false);
+  const [allDay, setAllDay] = useState<DynamicDateItem[]>();
+
+  const packageTicketOptionProps: PackageTicketOptionProps = {
+    isPackage,
+    setIsPackage,
+    isMultipleDay,
+    setIsMultipleDay,
+    datesOptions,
+    setDate,
+  };
+
+  const handleEventChange = (value: string | null) => {
+    setEvent(value ?? "");
+    if (value) {
+      const targetedEvent = eventsOptions?.filter(
+        (event) => event.title === value
+      )[0];
+
+      const date = getEventDate({
+        start_at: targetedEvent?.start_at ?? "",
+        end_at: targetedEvent?.end_at ?? "",
+        type: "short",
+      });
+
+      const parsedDate = getParsedDate(date, false);
+      const allDay = getParsedDate(date, true);
+
+      setDatesOptions(parsedDate);
+      setAllDay(allDay);
+    }
+  };
 
   const getEventsOptions = async () => {
     try {
@@ -79,17 +131,25 @@ export const AddTicketForm = ({
       (option) => option.title == event
     );
     const eventId = selectedEvent?.id;
-    setEventId(eventId ?? "");
+    setEventId(eventId);
 
-    const data = {
-      name,
-      price: Number(price),
-      quota: Number(quota),
-      reserved: Number(reserved),
-    };
+    const formData = new FormData();
+    formData.append("name", name ?? "");
+    formData.append("price", price?.toString() ?? "0");
+    formData.append("quota", quota?.toString() ?? "0");
+    formData.append("is_package", String(isPackage));
+
+    if (isMultipleDay) {
+      date?.forEach((d) => {
+        formData.append("event_ticket_date[]", d);
+      });
+    } else {
+      const originalDate = allDay?.[0]?.dateString ?? "";
+      formData.append("event_ticket_date[]", originalDate);
+    }
 
     startTransition(async () => {
-      const response = await addTicketState(initialState, eventId, data);
+      const response = await addTicketState(initialState, eventId, formData);
       if (response.success) {
         toast.success(response.message, { style: successStyle });
         setOpen(false);
@@ -125,11 +185,7 @@ export const AddTicketForm = ({
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="event">Event</label>
-            <Select
-              id="event"
-              value={event}
-              onValueChange={(value) => setEvent(value ?? "")}
-            >
+            <Select id="event" value={event} onValueChange={handleEventChange}>
               <SelectTrigger className="w-full px-3">
                 <SelectValue placeholder="Event" />
               </SelectTrigger>
@@ -146,6 +202,9 @@ export const AddTicketForm = ({
               </SelectContent>
             </Select>
           </div>
+
+          <PackageTicketOption {...packageTicketOptionProps} />
+
           <div className="flex flex-col gap-2">
             <label htmlFor="price">Harga Tiket</label>
             <Input
@@ -169,19 +228,6 @@ export const AddTicketForm = ({
               type="number"
               value={quota}
               onChange={(e) => setQuota(e.target.value)}
-              required
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="reserved">Tiket Terpesan</label>
-            <Input
-              className="border-2 focus:border-black focus-visible:border-b-black border-black bg-white p-2 shadow-[3px_3px_0px_0px_#323232]"
-              id="reserved"
-              name="reserved"
-              placeholder="0"
-              type="number"
-              value={reserved}
-              onChange={(e) => setReserved(e.target.value)}
               required
             />
           </div>

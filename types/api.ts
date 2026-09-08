@@ -19,7 +19,7 @@ export interface typeHandlerAuthAPI {
   url: string;
   method: string;
   token?: string;
-  body?: string;
+  body?: string | FormData;
   isImageUpload: boolean;
 }
 
@@ -56,14 +56,15 @@ export interface updateTicket {
 export interface addTicketCategories {
   id?: string;
   token?: string;
-  body: ticketStore;
+  body: FormData;
 }
 
 export interface ticketStore {
-  name: string;
-  price: number;
-  quota: number;
-  reserved: number;
+  name?: string;
+  price?: number;
+  quota?: number;
+  is_package?: boolean;
+  event_ticket_date?: string[];
 }
 
 export interface getOrders {
