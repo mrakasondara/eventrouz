@@ -60,7 +60,6 @@ export const AddTicketForm = ({
   const [date, setDate] = useState<string[]>([]);
   const [price, setPrice] = useState<number | string | undefined>("");
   const [quota, setQuota] = useState<number | string | undefined>("");
-  const [reserved, setReserved] = useState<number | string | undefined>("");
 
   const [event, setEvent] = useState<string | undefined>("");
   const [eventId, setEventId] = useState<string | undefined>("");
