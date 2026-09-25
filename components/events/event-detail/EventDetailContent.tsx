@@ -1,10 +1,13 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import { getEventDate } from "@/lib/date";
 import { EventDetail } from "@/types/event";
 import { SelectTicketForm } from "./SelectTicketForm";
 
 export const EventDetailContent = ({ data }: { data: EventDetail }) => {
+  const { data: session } = useSession();
+
   const startAt = data?.start_at ?? "";
   const endAt = data?.end_at ?? "";
   const date = getEventDate({
@@ -39,10 +42,12 @@ export const EventDetailContent = ({ data }: { data: EventDetail }) => {
           <p>{data?.description}</p>
         </div>
 
-        <div className="flex flex-col gap-3">
-          <h4 className="font-lilita text-lg">Pilih Tiket</h4>
-          <SelectTicketForm data={data} />
-        </div>
+        {session && (
+          <div className="flex flex-col gap-3">
+            <h4 className="font-lilita text-lg">Pilih Tiket</h4>
+            <SelectTicketForm data={data} />
+          </div>
+        )}
       </section>
     </div>
   );

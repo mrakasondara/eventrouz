@@ -1,10 +1,10 @@
 const BASE_API = process.env.NEXT_PUBLIC_BASE_API;
 
-export interface typeHandlerAuthAPI {
+interface typeHandlerAuthAPI {
   url: string;
   method: string;
   token?: string;
-  body?: string;
+  body?: Record<string, any> | any[] | string;
 }
 
 const handlerAuthAPI = async ({
@@ -20,10 +20,13 @@ const handlerAuthAPI = async ({
       "Content-Type": "application/json",
     };
 
+    const formattedBody =
+      body && typeof body === "object" ? JSON.stringify(body) : body;
+
     const response = await fetch(`${url}`, {
       method,
       headers,
-      body,
+      body: formattedBody,
     });
     return response.json();
   } catch (error) {
@@ -38,7 +41,10 @@ export class CartAPI {
     return await handlerAuthAPI({ url, method, token });
   }
 
-  static async addCartItems(token: string, body: string) {
+  static async addCartItems(
+    token: string,
+    body: Record<string, any> | any[] | string
+  ) {
     const url = `${BASE_API}/cart`;
     const method = "POST";
     return await handlerAuthAPI({ url, method, token, body });

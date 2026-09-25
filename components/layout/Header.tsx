@@ -2,20 +2,34 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import { ShoppingCart, Search, Menu, XIcon } from "lucide-react";
+import { Menu, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getAccessToken } from "@/app/actions/auth";
 import { EventsAPI } from "@/lib/services/api/events-api";
 import { toast } from "sonner";
-import { useSidebarStore } from "@/lib/store";
+import { useCartStore, useSidebarStore } from "@/lib/store";
 import { SearchDialog } from "./SearchDialog";
+import { CartDialog } from "./cart-dialog/CartDialog";
+import { useEffect } from "react";
 
 export const Header = () => {
   const pathname = usePathname();
+  const { fetchCart } = useCartStore();
+
   const toggle = useSidebarStore((s) => s.toggle);
   const { isOpen } = useSidebarStore();
 
   const { data: session } = useSession();
+
+  const initialCart = async () => {
+    const token = await getAccessToken();
+    fetchCart(token ?? "");
+  };
+
+  useEffect(() => {
+    if (pathname === "/signin" || pathname === "/signup") return;
+    initialCart();
+  }, [fetchCart]);
 
   if (pathname === "/signin" || pathname === "/signup") return;
 
@@ -70,11 +84,7 @@ export const Header = () => {
             </Button>
           </Link>
 
-          {session && (
-            <Button variant="brutalism" size="icon-sm">
-              <ShoppingCart />
-            </Button>
-          )}
+          {session && <CartDialog />}
 
           {pathname != "/" && (
             <>

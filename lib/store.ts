@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { CartAPI } from "./services/api/cart-api";
 
 type SidebarStore = {
   isOpen: boolean;
@@ -7,19 +8,57 @@ type SidebarStore = {
   setOpen: (open: boolean) => void;
 };
 
-export interface CartItem {
-  id?: number;
-  event_name?: string;
-  ticket_category_name?: string;
-  price?: number;
+interface CartItemStore {
+  ticket_category_id?: number;
+  total_ticket: number;
+  event_ticket_date?: string[] | null;
 }
 
-type CartStore = {
-  cart: CartItem[];
-  addToCart: (event: CartItem) => void;
-  resetCart: () => void;
-  removeFromCart: (id: number) => void;
-};
+interface Event {
+  id: number;
+  title: string;
+}
+
+interface TicketCategory {
+  id: number;
+  name: string;
+  price: number;
+  is_package: boolean | number;
+  event?: Event;
+}
+
+export interface CartItem {
+  id: number;
+  ticket_category_id: number;
+  event_ticket_date: string;
+  total_ticket: number;
+  ticket_category?: TicketCategory;
+}
+
+export interface Cart {
+  id: number;
+  user_id: number;
+  items: CartItem[];
+}
+
+interface CartState {
+  cart: Cart | null;
+  isLoading: boolean;
+  error: string | null;
+
+  fetchCart: (token?: string) => Promise<void>;
+  addToCart: (
+    payload: CartItemStore,
+    token?: string
+  ) => Promise<{ success: boolean; message: string }>;
+  removeItem: (
+    itemId: number,
+    token?: string
+  ) => Promise<{ success: boolean; message: string }>;
+  clearCart: (token?: string) => Promise<void>;
+
+  getTotalItems: () => number;
+}
 
 export const useSidebarStore = create<SidebarStore>((set) => ({
   isOpen: false,
@@ -27,27 +66,78 @@ export const useSidebarStore = create<SidebarStore>((set) => ({
   setOpen: (open) => set({ isOpen: open }),
 }));
 
-export const useCartStore = create<CartStore>()(
-  persist(
-    (set, get) => ({
-      cart: [],
+export const useCartStore = create<CartState>((set, get) => ({
+  cart: null,
+  isLoading: false,
+  error: null,
 
-      addToCart(event) {
-        const { cart } = get();
-
-        set({ cart: [...cart, event] });
-      },
-
-      resetCart() {
-        set({ cart: [] });
-      },
-
-      removeFromCart(id) {
-        set({ cart: get().cart.filter((item) => item.id !== id) });
-      },
-    }),
-    {
-      name: "event-cart-storage",
+  fetchCart: async (token) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await CartAPI.getCartItems(token ?? "");
+      set({ cart: response.data, isLoading: false });
+    } catch (error: any) {
+      set({
+        error: error.response?.message || "Gagal memuat keranjang",
+        isLoading: false,
+      });
     }
-  )
-);
+  },
+
+  addToCart: async (payload, token) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await CartAPI.addCartItems(token ?? "", payload);
+
+      set({ isLoading: false });
+
+      return {
+        success: response.success,
+        message: response.message,
+      };
+    } catch (error: any) {
+      const errorMessage = error.response?.message || "Gagal memuat keranjang";
+      set({
+        error: errorMessage,
+        isLoading: false,
+      });
+      return {
+        success: false,
+        message: errorMessage,
+      };
+    }
+  },
+
+  removeItem: async (itemId, token) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await CartAPI.removeCartItems(token ?? "", itemId);
+
+      set({ isLoading: false });
+
+      return {
+        success: response.success,
+        message: response.message,
+      };
+    } catch (error: any) {
+      const errorMessage = error.response?.message || "Gagal memuat keranjang";
+      set({
+        error: errorMessage,
+        isLoading: false,
+      });
+      return {
+        success: false,
+        message: errorMessage,
+      };
+    }
+  },
+
+  clearCart: async (token) => {},
+
+  getTotalItems: () => {
+    const cart = get().cart;
+    if (!cart || !cart.items) return 0;
+
+    return cart.items.reduce((total, item) => total + item.total_ticket, 0);
+  },
+}));
