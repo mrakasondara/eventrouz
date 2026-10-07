@@ -20,26 +20,11 @@ export const CartDialog = () => {
     currency: "IDR",
   });
 
-  const { cart, isLoading, fetchCart, clearCart, getTotalItems } =
+  const { cart, isLoading, fetchCart, clearCart, removeItem, getTotalItems } =
     useCartStore();
   const totalItems = getTotalItems();
 
   const [listCart, setListCart] = useState<CartItemInterface[]>([]);
-
-  const addToList = (cart: CartItemInterface) => {
-    const isListed = listCart.find((list) => list?.id === cart?.id);
-
-    if (isListed) {
-      const removeCart = listCart.filter((list) => list?.id != cart?.id);
-      setListCart(removeCart);
-      console.log(listCart);
-
-      return;
-    }
-
-    setListCart((prev) => [...prev, cart]);
-    console.log(listCart);
-  };
 
   const onClearCart = async () => {
     const token = await getAccessToken();
@@ -93,7 +78,7 @@ export const CartDialog = () => {
                 <CartItem
                   cart={item}
                   listCart={listCart}
-                  addToList={addToList}
+                  setListCart={setListCart}
                   key={item.id}
                 />
               );

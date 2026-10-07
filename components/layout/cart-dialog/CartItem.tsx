@@ -1,17 +1,18 @@
 import { HeartIcon, TrashIcon } from "lucide-react";
 import { CartItem as CartItemInterface, useCartStore } from "@/lib/store";
 import { Button } from "../../ui/button";
+import { getAccessToken } from "@/app/actions/auth";
 
 export const CartItem = ({
   cart,
   listCart,
-  addToList,
+  setListCart,
 }: {
   cart: CartItemInterface;
   listCart: CartItemInterface[];
-  addToList: (cart: CartItemInterface) => void;
+  setListCart: React.Dispatch<React.SetStateAction<CartItemInterface[]>>;
 }) => {
-  const { isLoading, removeItem, clearCart } = useCartStore();
+  const { removeItem, fetchCart } = useCartStore();
 
   const formatter = new Intl.NumberFormat("id-ID", {
     style: "currency",
@@ -19,6 +20,26 @@ export const CartItem = ({
   });
 
   const isListed = listCart.find((list) => list?.id === cart?.id);
+
+  const addToList = (cart: CartItemInterface) => {
+    const isListed = listCart.find((list) => list?.id === cart?.id);
+
+    if (isListed) {
+      const removeCart = listCart.filter((list) => list?.id != cart?.id);
+      setListCart(removeCart);
+      return;
+    }
+
+    setListCart((prev) => [...prev, cart]);
+  };
+
+  const onRemoveCartItem = async (id: number) => {
+    const token = await getAccessToken();
+    removeItem(id, token ?? "");
+    const removeCart = listCart.filter((list) => list?.id != cart?.id);
+    setListCart(removeCart);
+    fetchCart(token ?? "");
+  };
 
   return (
     <div className="flex flex-col gap-2 border-b" key={cart.id}>
@@ -33,8 +54,7 @@ export const CartItem = ({
                 -
               </>
             )}{" "}
-            {cart["ticket_category"]?.name} |{" "}
-            {cart["ticket_category"]?.event?.title}
+            {cart["ticket_category"]?.name}
           </h3>
           <input
             type="checkbox"
@@ -47,7 +67,9 @@ export const CartItem = ({
             checked={Boolean(listCart.length ? isListed : false)}
           />
         </div>
-        <h4 className="text-[14px] font-semibold">{/* {cart.event_name} */}</h4>
+        <h4 className="text-[14px] font-semibold">
+          {cart["ticket_category"]?.event?.title}
+        </h4>
         <div className="flex gap-1">
           <h5 className="text-[12px] text-slate-500">
             Tanggal berlaku tiket :{" "}
@@ -81,7 +103,7 @@ export const CartItem = ({
           variant="ghost"
           className="font-grotesk text-[11px] flex items-center cursor-pointer"
           size="xs"
-          // onClick={() => removeFromCart(item?.id ?? "")}
+          onClick={() => onRemoveCartItem(cart.id)}
         >
           Hapus <TrashIcon />
         </Button>
