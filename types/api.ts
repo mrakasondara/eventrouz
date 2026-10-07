@@ -72,3 +72,9 @@ export interface getOrders {
   limit?: number;
   status?: string;
 }
+
+export interface orderTicket {
+  ticket_category_id?: number;
+  event_ticket_date?: string;
+  quantity?: number;
+}

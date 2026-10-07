@@ -8,10 +8,10 @@ type SidebarStore = {
   setOpen: (open: boolean) => void;
 };
 
-interface CartItemStore {
+export interface CartItemStore {
   ticket_category_id?: number;
   total_ticket: number;
-  event_ticket_date?: string[] | null;
+  event_ticket_date?: string[] | null | string;
 }
 
 interface Event {
@@ -55,7 +55,7 @@ interface CartState {
     itemId: number,
     token?: string
   ) => Promise<{ success: boolean; message: string }>;
-  clearCart: (token?: string) => Promise<void>;
+  clearCart: (token?: string) => Promise<{ success: boolean; message: string }>;
 
   getTotalItems: () => number;
 }
@@ -132,7 +132,29 @@ export const useCartStore = create<CartState>((set, get) => ({
     }
   },
 
-  clearCart: async (token) => {},
+  clearCart: async (token) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await CartAPI.clearCart(token ?? "");
+
+      set({ isLoading: false });
+
+      return {
+        success: response.success,
+        message: response.message,
+      };
+    } catch (error: any) {
+      const errorMessage = error.response?.message || "Gagal memuat keranjang";
+      set({
+        error: errorMessage,
+        isLoading: false,
+      });
+      return {
+        success: false,
+        message: errorMessage,
+      };
+    }
+  },
 
   getTotalItems: () => {
     const cart = get().cart;

@@ -6,25 +6,52 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useCartStore } from "@/lib/store";
+import { CartItem as CartItemInterface, useCartStore } from "@/lib/store";
 import { Button } from "../../ui/button";
-import { HeartIcon, ShoppingCart, TrashIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ShoppingCart } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import { getAccessToken } from "@/app/actions/auth";
+import { CartItem } from "./CartItem";
+import { Spinner } from "@/components/ui/spinner";
 
 export const CartDialog = () => {
-  const {
-    cart,
-    isLoading,
-    fetchCart,
-    addToCart,
-    removeItem,
-    clearCart,
-    getTotalItems,
-  } = useCartStore();
+  const formatter = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  });
 
+  const { cart, isLoading, fetchCart, clearCart, getTotalItems } =
+    useCartStore();
   const totalItems = getTotalItems();
-  const [listCart, setListCart] = useState([]);
+
+  const [listCart, setListCart] = useState<CartItemInterface[]>([]);
+
+  const addToList = (cart: CartItemInterface) => {
+    const isListed = listCart.find((list) => list?.id === cart?.id);
+
+    if (isListed) {
+      const removeCart = listCart.filter((list) => list?.id != cart?.id);
+      setListCart(removeCart);
+      console.log(listCart);
+
+      return;
+    }
+
+    setListCart((prev) => [...prev, cart]);
+    console.log(listCart);
+  };
+
+  const onClearCart = async () => {
+    const token = await getAccessToken();
+    clearCart(token ?? "");
+    fetchCart(token ?? "");
+    setListCart([]);
+  };
+
+  const checkOut = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(listCart);
+  };
 
   const initialCart = async () => {
     const token = await getAccessToken();
@@ -38,13 +65,7 @@ export const CartDialog = () => {
   return (
     <Dialog>
       <DialogTrigger
-        render={
-          <Button
-            variant="brutalism"
-            size="icon-sm"
-            className="hidden md:flex"
-          />
-        }
+        render={<Button variant="brutalism" size="icon-sm" className="flex" />}
       >
         <ShoppingCart />
       </DialogTrigger>
@@ -58,96 +79,65 @@ export const CartDialog = () => {
           {isLoading && (
             <div className="p-8 text-center">Memuat keranjang...</div>
           )}
-          {!totalItems && (
-            <h3 className="text-[16px] text-center capitalize font-semibold">
+
+          {!totalItems && !isLoading && (
+            <h3 className="text-[16px] text-center capitalize">
               Wah keranjang anda kosong
             </h3>
           )}
-          {Boolean(totalItems) &&
-            cart?.items.map((item) => {
-              const formatter = new Intl.NumberFormat("id-ID", {
-                style: "currency",
-                currency: "IDR",
-              });
 
+          {!isLoading &&
+            Boolean(totalItems) &&
+            cart?.items.map((item) => {
               return (
-                <div className="flex flex-col gap-2 border-b-1" key={item.id}>
-                  <div className="flex flex-col gap-1">
-                    <div className="flex justify-between">
-                      <h3 className="text-[16px] uppercase font-bold">
-                        {/* {Boolean(item.is_package) && (
-                          <>
-                            <span className="bg-blue px-1 text-white uppercase font-bold">
-                              tiket bundle
-                            </span>{" "}
-                            -
-                          </>
-                        )}{" "} */}
-                        {item["ticket_category"]?.name}
-                      </h3>
-                      <input
-                        type="checkbox"
-                        id={String(item.id)}
-                        value={item["ticket_category"]?.id}
-                        className="text-xl w-5 h-5 ml-auto has-checked:bg-blue has-checked:text-white"
-                        // onChange={listCart.find((cart) => cart.id === item.id)}
-                      />
-                    </div>
-                    <h4 className="text-[14px] font-semibold">
-                      {/* {item.event_name} */}
-                    </h4>
-                    <div className="flex gap-1">
-                      <h5 className="text-[12px] text-slate-500">
-                        Tanggal berlaku tiket :{" "}
-                        {Array.isArray(item.event_ticket_date)
-                          ? item.event_ticket_date.join(", ")
-                          : item.event_ticket_date}
-                      </h5>
-                    </div>
-                  </div>
-                  <div className="flex justify-between mt-2 -mb-2">
-                    <h5 className="text-[13px] flex items-center font-semibold">
-                      {formatter.format(item["ticket_category"]?.price ?? 0)} *{" "}
-                      {item.total_ticket}
-                    </h5>
-                    <h6 className="text-[14px] font-bold">
-                      {formatter.format(
-                        Number(item["ticket_category"]?.price ?? 0) *
-                          Number(item?.total_ticket ?? 0)
-                      )}
-                    </h6>
-                  </div>
-                  <div className="flex p-1 justify-end">
-                    <Button
-                      variant="ghost"
-                      className="font-grotesk text-[11px] flex items-center cursor-pointer"
-                      size="xs"
-                    >
-                      Pindahkan ke Wishlist <HeartIcon />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      className="font-grotesk text-[11px] flex items-center cursor-pointer"
-                      size="xs"
-                      // onClick={() => removeFromCart(item?.id ?? "")}
-                    >
-                      Hapus <TrashIcon />
-                    </Button>
-                  </div>
-                </div>
+                <CartItem
+                  cart={item}
+                  listCart={listCart}
+                  addToList={addToList}
+                  key={item.id}
+                />
               );
             })}
 
-          {Boolean(totalItems) && (
-            <div className="flex justify-between border-2 p-3">
+          {Boolean(listCart.length) && (
+            <form
+              className="flex justify-between border-2 p-3"
+              onSubmit={checkOut}
+            >
               <div className="flex flex-col font-semibold">
                 <p className="text-sm">Total Harga</p>
-                <h6 className="text-blue">Rp. 343.000</h6>
+                <h6 className="font-bold">
+                  {formatter.format(
+                    listCart.reduce((acc, val) => {
+                      const totalTicket = val?.total_ticket ?? 0;
+                      const price = val?.ticket_category?.price ?? 0;
+
+                      return acc + totalTicket * price;
+                    }, 0)
+                  )}
+                </h6>
               </div>
-              <Button variant="brutalism" className="bg-blue" size="sm">
-                Beli
-              </Button>
-            </div>
+              <div className="flex items-center gap-3">
+                {listCart.length === cart?.items.length && (
+                  <Button
+                    variant="link"
+                    size="xs"
+                    className="self-end hover:text-red-600 cursor-pointer capitalize transition ease-in-out"
+                    onClick={onClearCart}
+                  >
+                    {isLoading && <Spinner />} Hapus semua
+                  </Button>
+                )}
+                <Button
+                  variant="brutalism"
+                  className="bg-blue"
+                  size="sm"
+                  type="submit"
+                >
+                  Beli
+                </Button>
+              </div>
+            </form>
           )}
         </div>
       </DialogContent>
