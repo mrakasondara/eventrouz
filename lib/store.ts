@@ -41,6 +41,10 @@ export interface Cart {
   items: CartItem[];
 }
 
+export interface bulkDeleteBody {
+  cart_item_ids?: number[];
+}
+
 interface CartState {
   cart: Cart | null;
   isLoading: boolean;
@@ -54,6 +58,10 @@ interface CartState {
   removeItem: (
     itemId: number,
     token?: string
+  ) => Promise<{ success: boolean; message: string }>;
+  removeItems: (
+    token?: string,
+    body?: bulkDeleteBody
   ) => Promise<{ success: boolean; message: string }>;
   clearCart: (token?: string) => Promise<{ success: boolean; message: string }>;
 
@@ -111,7 +119,31 @@ export const useCartStore = create<CartState>((set, get) => ({
   removeItem: async (itemId, token) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await CartAPI.removeCartItems(token ?? "", itemId);
+      const response = await CartAPI.removeCartItem(token ?? "", itemId);
+
+      set({ isLoading: false });
+
+      return {
+        success: response.success,
+        message: response.message,
+      };
+    } catch (error: any) {
+      const errorMessage = error.response?.message || "Gagal memuat keranjang";
+      set({
+        error: errorMessage,
+        isLoading: false,
+      });
+      return {
+        success: false,
+        message: errorMessage,
+      };
+    }
+  },
+
+  removeItems: async (token, body) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await CartAPI.removeCartItems(token ?? "", body ?? {});
 
       set({ isLoading: false });
 

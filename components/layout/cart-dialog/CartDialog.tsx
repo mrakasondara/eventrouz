@@ -20,7 +20,7 @@ export const CartDialog = () => {
     currency: "IDR",
   });
 
-  const { cart, isLoading, fetchCart, clearCart, removeItem, getTotalItems } =
+  const { cart, isLoading, fetchCart, clearCart, removeItems, getTotalItems } =
     useCartStore();
   const totalItems = getTotalItems();
 
@@ -28,7 +28,14 @@ export const CartDialog = () => {
 
   const onClearCart = async () => {
     const token = await getAccessToken();
-    clearCart(token ?? "");
+    if (cart?.items.length == listCart?.length) {
+      clearCart(token ?? "");
+    } else {
+      const ids = listCart.map((list) => list.id);
+      const body = { cart_item_ids: ids };
+      removeItems(token ?? "", body ?? {});
+    }
+
     fetchCart(token ?? "");
     setListCart([]);
   };
@@ -103,16 +110,14 @@ export const CartDialog = () => {
                 </h6>
               </div>
               <div className="flex items-center gap-3">
-                {listCart.length === cart?.items.length && (
-                  <Button
-                    variant="link"
-                    size="xs"
-                    className="self-end hover:text-red-600 cursor-pointer capitalize transition ease-in-out"
-                    onClick={onClearCart}
-                  >
-                    {isLoading && <Spinner />} Hapus semua
-                  </Button>
-                )}
+                <Button
+                  variant="link"
+                  size="xs"
+                  className="self-end hover:text-red-600 font-sans cursor-pointer capitalize transition ease-in-out"
+                  onClick={onClearCart}
+                >
+                  {isLoading && <Spinner />} Hapus item
+                </Button>
                 <Button
                   variant="brutalism"
                   className="bg-blue"

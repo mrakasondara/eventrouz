@@ -1,3 +1,5 @@
+import { bulkDeleteBody } from "@/lib/store";
+
 const BASE_API = process.env.NEXT_PUBLIC_BASE_API;
 
 interface typeHandlerAuthAPI {
@@ -50,10 +52,16 @@ export class CartAPI {
     return await handlerAuthAPI({ url, method, token, body });
   }
 
-  static async removeCartItems(token: string, id: number) {
+  static async removeCartItem(token: string, id: number) {
     const url = `${BASE_API}/cart/${id}`;
     const method = "DELETE";
     return await handlerAuthAPI({ url, method, token });
+  }
+
+  static async removeCartItems(token: string, body: bulkDeleteBody) {
+    const url = `${BASE_API}/cart/bulk-delete`;
+    const method = "POST";
+    return await handlerAuthAPI({ url, method, token, body });
   }
 
   static async clearCart(token: string) {
