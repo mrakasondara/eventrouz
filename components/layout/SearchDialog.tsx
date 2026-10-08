@@ -40,7 +40,7 @@ export const SearchDialog = () => {
 
     SearchDialogHistory.addToHistory(searchHistory);
     setSearchValue("");
-    replace(`${pathname}?${params.toString()}`, { scroll: false });
+    replace(`events/?${params.toString()}`, { scroll: false });
     setTimeout(() => setOpen(false), 400);
   };
 
