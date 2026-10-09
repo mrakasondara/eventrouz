@@ -52,12 +52,12 @@ interface CartState {
 
   fetchCart: (token?: string) => Promise<void>;
   addToCart: (
-    payload: CartItemStore,
-    token?: string
+    token?: string,
+    payload?: CartItemStore
   ) => Promise<{ success: boolean; message: string }>;
   removeItem: (
-    itemId: number,
-    token?: string
+    token?: string,
+    itemId?: number
   ) => Promise<{ success: boolean; message: string }>;
   removeItems: (
     token?: string,
@@ -92,10 +92,10 @@ export const useCartStore = create<CartState>((set, get) => ({
     }
   },
 
-  addToCart: async (payload, token) => {
+  addToCart: async (token, payload) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await CartAPI.addCartItems(token ?? "", payload);
+      const response = await CartAPI.addCartItems(token ?? "", payload ?? []);
 
       set({ isLoading: false });
 
@@ -116,10 +116,10 @@ export const useCartStore = create<CartState>((set, get) => ({
     }
   },
 
-  removeItem: async (itemId, token) => {
+  removeItem: async (token, itemId) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await CartAPI.removeCartItem(token ?? "", itemId);
+      const response = await CartAPI.removeCartItem(token ?? "", itemId ?? 0);
 
       set({ isLoading: false });
 

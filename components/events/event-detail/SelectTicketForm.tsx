@@ -11,6 +11,7 @@ import { CartItem, useCartStore } from "@/lib/store";
 import { errorStyle, successStyle, warningStyle } from "@/lib/toaster-styles";
 import { getAccessToken } from "@/app/actions/auth";
 import { Spinner } from "@/components/ui/spinner";
+import { signOut } from "next-auth/react";
 
 export interface TicketData {
   id?: string;
@@ -73,13 +74,20 @@ export const SelectTicketForm = ({ data }: { data: EventDetail }) => {
 
     const token = await getAccessToken();
 
-    const response = await addToCart(ticket, token ?? "");
+    const response = await addToCart(token ?? "", ticket);
 
     if (response.success) {
       fetchCart(token ?? "");
       toast.success(response.message, { style: successStyle });
     } else {
-      toast.error(response.message, { style: errorStyle });
+      if (response.message == "Unauthenticated.") {
+        toast.error("Sesi kedaluarsa, silahkan login ulang", {
+          style: errorStyle,
+        });
+        setTimeout(() => signOut({ callbackUrl: "/signin" }), 300);
+      } else {
+        toast.error(response.message, { style: errorStyle });
+      }
     }
   };
 
