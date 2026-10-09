@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Noto_Sans, Lilita_One, Chewy } from "next/font/google";
+import {
+  Space_Grotesk,
+  Noto_Sans,
+  Lilita_One,
+  Chewy,
+  Plus_Jakarta_Sans,
+} from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/layout/Header";
@@ -32,6 +38,13 @@ const lilita = Lilita_One({
   display: "swap",
 });
 
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-jakarta",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "Eventrouz - Book your event",
@@ -55,7 +68,8 @@ export default function RootLayout({
         "font-sans",
         notoSans.variable,
         chewy.variable,
-        lilita.variable
+        lilita.variable,
+        plusJakartaSans.variable
       )}
     >
       <body className="min-h-screen w-full bg-background antialiased">
