@@ -1,5 +1,7 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
+import { ShoppingCart } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -8,11 +10,10 @@ import {
 } from "@/components/ui/dialog";
 import { CartItem as CartItemInterface, useCartStore } from "@/lib/store";
 import { Button } from "../../ui/button";
-import { ShoppingCart } from "lucide-react";
-import React, { useEffect, useState } from "react";
 import { getAccessToken } from "@/app/actions/auth";
 import { CartItem } from "./CartItem";
 import { Spinner } from "@/components/ui/spinner";
+import { EventsAPI } from "@/lib/services/api/events-api";
 
 export const CartDialog = () => {
   const formatter = new Intl.NumberFormat("id-ID", {
@@ -20,8 +21,15 @@ export const CartDialog = () => {
     currency: "IDR",
   });
 
-  const { cart, isLoading, fetchCart, clearCart, removeItems, getTotalItems } =
-    useCartStore();
+  const {
+    cart,
+    isLoading,
+    fetchCart,
+    clearCart,
+    removeItems,
+    removeItem,
+    getTotalItems,
+  } = useCartStore();
   const totalItems = getTotalItems();
 
   const [listCart, setListCart] = useState<CartItemInterface[]>([]);
@@ -40,9 +48,31 @@ export const CartDialog = () => {
     setListCart([]);
   };
 
-  const checkOut = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const checkOut = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(listCart);
+
+    const formatData = () => {
+      return listCart.map((cart) => {
+        return {
+          ticket_category_id: cart.ticket_category_id,
+          event_ticket_date: cart.event_ticket_date.toString(),
+          quantity: cart.total_ticket,
+        };
+      });
+    };
+
+    const token = (await getAccessToken()) ?? "";
+    const items = formatData();
+
+    try {
+      const response = await EventsAPI.addOrder({ token, items });
+      if (response.success) {
+        listCart.forEach((cart) => removeItem(token, cart.id));
+        fetchCart(token ?? "");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const initialCart = async () => {

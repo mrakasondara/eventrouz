@@ -8,6 +8,7 @@ import {
   updateTicket,
   getUsers,
   getOrders,
+  addOrder,
 } from "@/types/api";
 import { addTicketCategories } from "../../../types/api";
 const BASE_API = process.env.NEXT_PUBLIC_BASE_API;
@@ -314,5 +315,20 @@ export class EventsAPI {
     const method = "GET";
 
     return await handlerAuthAPI({ url, method, token, isImageUpload: false });
+  }
+
+  static async addOrder({ token, items }: addOrder) {
+    const url = `${BASE_API}/orders`;
+    const method = "POST";
+
+    const body = { items };
+
+    return await handlerAuthAPI({
+      url,
+      method,
+      token,
+      body: JSON.stringify(body),
+      isImageUpload: false,
+    });
   }
 }

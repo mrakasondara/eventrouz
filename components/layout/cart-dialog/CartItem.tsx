@@ -43,9 +43,9 @@ export const CartItem = ({
 
   return (
     <div className="flex flex-col gap-2 border-b font-jakarta" key={cart.id}>
-      <div className="flex flex-col gap-1 font-sans">
+      <div className="flex flex-col gap-1">
         <div className="flex justify-between">
-          <h3 className="text-[16px] uppercase font-bold">
+          <h3 className="text-[16px] uppercase font-bold font-sans!">
             {Boolean(cart["ticket_category"]?.is_package) && (
               <>
                 <span className="bg-blue px-1 text-slate-200 uppercase font-bold">

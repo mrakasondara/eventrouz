@@ -78,3 +78,14 @@ export interface orderTicket {
   event_ticket_date?: string;
   quantity?: number;
 }
+
+export interface addOrder {
+  token?: string;
+  items?: orderItem[];
+}
+
+interface orderItem {
+  ticket_category_id: number;
+  event_ticket_date: string;
+  quantity: number;
+}
