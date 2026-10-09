@@ -13,7 +13,7 @@ export const FeaturedCard = ({
   const date = getEventDate({ start_at, end_at, type: "short" });
 
   return (
-    <Link href={`/event/${id}`}>
+    <Link href={`/events/${id}`}>
       <article className="flex hover:-translate-[3px] flex-col border-2 shadow-[3px_4px_0px_0px_#091413] hover:shadow-[5px_7px_0px_0px_#091413] relative cursor-pointer">
         <img
           src={image_thumb_url}
