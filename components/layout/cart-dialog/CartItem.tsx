@@ -35,15 +35,15 @@ export const CartItem = ({
 
   const onRemoveCartItem = async (id: number) => {
     const token = await getAccessToken();
-    removeItem(id, token ?? "");
+    removeItem(token ?? "", id);
     const removeCart = listCart.filter((list) => list?.id != cart?.id);
     setListCart(removeCart);
     fetchCart(token ?? "");
   };
 
   return (
-    <div className="flex flex-col gap-2 border-b" key={cart.id}>
-      <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-2 border-b font-jakarta" key={cart.id}>
+      <div className="flex flex-col gap-1 font-sans">
         <div className="flex justify-between">
           <h3 className="text-[16px] uppercase font-bold">
             {Boolean(cart["ticket_category"]?.is_package) && (
