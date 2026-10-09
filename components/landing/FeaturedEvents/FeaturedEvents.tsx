@@ -44,7 +44,7 @@ export const FeaturedEvents = () => {
           </span>
         </h2>
       </div>
-      <div className="w-full grid grid-cols-2 md:w-3/4 lg:w-1/2 gap-5 -mt-15 pb-30 z-10 mx-auto px-5">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 md:w-3/4 lg:w-1/2 gap-3 md:gap-5 -mt-15 pb-30 z-10 mx-auto px-5">
         {loading ? (
           <SkeletonFeaturedEvents />
         ) : (
@@ -56,7 +56,7 @@ export const FeaturedEvents = () => {
       {!loading && (
         <Link
           href="/events"
-          className="-mt-25 mb-5 px-5 underline md:w-3/4 lg:w-1/2 md:mx-auto cursor-pointer z-10"
+          className="-mt-25 mb-5 px-5 underline md:w-3/4 lg:w-1/2 md:mx-auto cursor-pointer z-10 ml-auto"
         >
           Lihat event lainnya
         </Link>
