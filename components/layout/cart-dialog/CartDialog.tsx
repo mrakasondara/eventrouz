@@ -14,6 +14,7 @@ import { getAccessToken } from "@/app/actions/auth";
 import { CartItem } from "./CartItem";
 import { Spinner } from "@/components/ui/spinner";
 import { EventsAPI } from "@/lib/services/api/events-api";
+import { handleSnapPopup } from "@/lib/services/midtrans";
 
 export const CartDialog = () => {
   const formatter = new Intl.NumberFormat("id-ID", {
@@ -67,7 +68,10 @@ export const CartDialog = () => {
     try {
       const response = await EventsAPI.addOrder({ token, items });
       if (response.success) {
+        await handleSnapPopup({ token, id: response.data.id ?? 0 });
+
         listCart.forEach((cart) => removeItem(token, cart.id));
+
         fetchCart(token ?? "");
       }
     } catch (error) {

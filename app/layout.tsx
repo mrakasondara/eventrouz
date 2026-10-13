@@ -83,7 +83,6 @@ export default function RootLayout({
                 <Toaster position="top-right" />
 
                 <main className="flex-1 flex flex-col w-full min-h-full">
-                  {/*  Wrapper children biarkan auto height (fleksibel) */}
                   <div className="flex-1 w-full">{children}</div>
                 </main>
                 <Footer />

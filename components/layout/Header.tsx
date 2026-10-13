@@ -28,6 +28,22 @@ export const Header = () => {
 
   useEffect(() => {
     if (pathname === "/signin" || pathname === "/signup") return;
+
+    const script = "https://app.sandbox.midtrans.com/snap/snap.js";
+    const clientKey = process.env.MIDTRANS_CLIENT_KEY;
+
+    const scriptElement = document.createElement("script");
+    scriptElement.src = script;
+    scriptElement.setAttribute("data-client-key", clientKey ?? "");
+    scriptElement.type = "text/javascript";
+    scriptElement.async = true;
+
+    document.body.appendChild(scriptElement);
+
+    return () => {
+      document.body.removeChild(scriptElement);
+    };
+
     initialCart();
   }, [fetchCart]);
 
