@@ -12,33 +12,39 @@ export const authOptions: AuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials) {
+        if (!credentials?.email || !credentials?.password) {
           return null;
         }
 
-        const { email, password } = credentials;
-
-        if (!email || !password) return null;
-
-        const user = {
-          email,
-          password,
-        };
-
-        const response = await EventsAPI.login(user);
-
-        if (response.success) {
-          await setAccessToken(response.data.token);
-          return {
-            id: response.data.user.id,
-            name: response.data.user.name,
-            email: response.data.user.email,
-            role: response.data.user.role,
-            image: response.data.user.image_profile || "/images/profile.webp",
+        try {
+          const user = {
+            email: credentials.email,
+            password: credentials.password,
           };
-        }
 
-        return null;
+          const response = await EventsAPI.login(user);
+
+          if (response?.success && response?.data) {
+            try {
+              await setAccessToken(response.data.token);
+            } catch (cookieError) {
+              console.error("Gagal set cookie:", cookieError);
+            }
+
+            return {
+              id: response.data.user.id,
+              name: response.data.user.name,
+              email: response.data.user.email,
+              role: response.data.user.role,
+              image: response.data.user.image_profile || "/images/profile.webp",
+            };
+          }
+
+          return null;
+        } catch (error) {
+          console.error("Error authorize:", error);
+          return null;
+        }
       },
     }),
   ],
