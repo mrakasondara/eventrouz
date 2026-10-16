@@ -29,6 +29,8 @@ export const Header = () => {
   useEffect(() => {
     if (pathname === "/signin" || pathname === "/signup") return;
 
+    initialCart();
+
     const script = "https://app.sandbox.midtrans.com/snap/snap.js";
     const clientKey = process.env.MIDTRANS_CLIENT_KEY;
 
@@ -43,8 +45,6 @@ export const Header = () => {
     return () => {
       document.body.removeChild(scriptElement);
     };
-
-    initialCart();
   }, [fetchCart]);
 
   if (pathname === "/signin" || pathname === "/signup") return;
