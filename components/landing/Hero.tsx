@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "../ui/button";
 import { TicketCard } from "./TicketCard";
+import Link from "next/link";
 
 export const Hero = () => {
   return (
@@ -17,14 +18,15 @@ export const Hero = () => {
           Jelajahi acara menarik, amankan tiket Anda, dan ciptakan kenangan tak
           terlupakan.
         </p>
-        <Button
-          variant="brutalism"
-          size="lg"
+        <Link
+          href={"/events"}
           className="w-[50%] md:w-[30%] flex gap-2 -rotate-5 hover:rotate-0 text-lg"
         >
-          <ArrowRight />
-          <span>Explore Events</span>
-        </Button>
+          <Button variant="brutalism" size="lg">
+            <ArrowRight />
+            <span>Explore Events</span>
+          </Button>
+        </Link>
       </div>
     </section>
   );
