@@ -1,6 +1,7 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
-import { OrderDetail } from "@/types/order";
+import { rupiahFormatter } from "@/lib/formatter";
+import { OrderDetail, TicketInOrder } from "@/types/order";
 
 export const TransactionDetailContent = ({
   formatId,
@@ -10,12 +11,6 @@ export const TransactionDetailContent = ({
   data: OrderDetail;
 }) => {
   const { created_at, status, total_price, payment, details } = data;
-
-  const formatter = new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-  });
 
   const badgeIcon = (status: string) => {
     switch (status) {
@@ -55,7 +50,7 @@ export const TransactionDetailContent = ({
         </h6>
         <h5 className="font-semibold mt-4">Item Tiket</h5>
         <div className="flex flex-col gap-2 mt-2">
-          {details.map((item: any) => {
+          {details.map((item: TicketInOrder) => {
             return (
               <div className="flex justify-between" key={item.id}>
                 <div className="flex flex-col gap-1">
@@ -69,7 +64,7 @@ export const TransactionDetailContent = ({
                 </div>
                 <div className="flex items-center">
                   <p className="text-sm font-semibold">
-                    {item.quantity} x {formatter.format(item.price)}
+                    {item.quantity} x {rupiahFormatter.format(item.price)}
                   </p>
                 </div>
               </div>
@@ -110,7 +105,7 @@ export const TransactionDetailContent = ({
           <div className="flex justify-between capitalize text-black font-semibold mt-1">
             <p>Total Bayar</p>
             <p>
-              {formatter.format(
+              {rupiahFormatter.format(
                 status == "paid"
                   ? Number(payment?.gross_amount)
                   : Number(total_price)

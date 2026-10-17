@@ -12,18 +12,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Order } from "@/types/order";
+import { rupiahFormatter } from "@/lib/formatter";
 
 export const TableTransactions = ({
   transactions,
 }: {
   transactions: Order[];
 }) => {
-  const formatter = new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-  });
-
   const badgeIcon = (status: string) => {
     switch (status) {
       case "paid":
@@ -83,7 +78,7 @@ export const TableTransactions = ({
                     )}
                   </TableCell>
                   <TableCell>
-                    {formatter.format(transaction.total_price)}
+                    {rupiahFormatter.format(transaction.total_price)}
                   </TableCell>
                   <TableCell>{transaction.created_at}</TableCell>
                   <TableCell className="capitalize">

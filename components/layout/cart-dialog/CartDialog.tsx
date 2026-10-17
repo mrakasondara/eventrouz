@@ -15,13 +15,9 @@ import { CartItem } from "./CartItem";
 import { Spinner } from "@/components/ui/spinner";
 import { EventsAPI } from "@/lib/services/api/events-api";
 import { handleSnapPopup } from "@/lib/services/midtrans";
+import { rupiahFormatter } from "@/lib/formatter";
 
 export const CartDialog = () => {
-  const formatter = new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-  });
-
   const {
     cart,
     isLoading,
@@ -133,7 +129,7 @@ export const CartDialog = () => {
               <div className="flex flex-col font-semibold">
                 <p className="text-sm">Total Harga</p>
                 <h6 className="font-bold">
-                  {formatter.format(
+                  {rupiahFormatter.format(
                     listCart.reduce((acc, val) => {
                       const totalTicket = val?.total_ticket ?? 0;
                       const price = val?.ticket_category?.price ?? 0;

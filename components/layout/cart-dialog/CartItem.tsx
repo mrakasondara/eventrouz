@@ -2,6 +2,7 @@ import { HeartIcon, TrashIcon } from "lucide-react";
 import { CartItem as CartItemInterface, useCartStore } from "@/lib/store";
 import { Button } from "../../ui/button";
 import { getAccessToken } from "@/app/actions/auth";
+import { rupiahFormatter } from "@/lib/formatter";
 
 export const CartItem = ({
   cart,
@@ -13,11 +14,6 @@ export const CartItem = ({
   setListCart: React.Dispatch<React.SetStateAction<CartItemInterface[]>>;
 }) => {
   const { removeItem, fetchCart } = useCartStore();
-
-  const formatter = new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-  });
 
   const isListed = listCart.find((list) => list?.id === cart?.id);
 
@@ -81,11 +77,11 @@ export const CartItem = ({
       </div>
       <div className="flex justify-between mt-2 -mb-2">
         <h5 className="text-[13px] flex items-center font-semibold">
-          {formatter.format(cart["ticket_category"]?.price ?? 0)} *{" "}
+          {rupiahFormatter.format(cart["ticket_category"]?.price ?? 0)} *{" "}
           {cart.total_ticket}
         </h5>
         <h6 className="text-[14px] font-bold">
-          {formatter.format(
+          {rupiahFormatter.format(
             Number(cart["ticket_category"]?.price ?? 0) *
               Number(cart?.total_ticket ?? 0)
           )}

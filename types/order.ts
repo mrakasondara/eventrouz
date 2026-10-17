@@ -3,10 +3,10 @@ export interface Order {
   status: string;
   total_price: number;
   created_at: string;
-  details: Ticket[];
+  details: TicketInOrder[];
 }
 
-interface Ticket {
+export interface TicketInOrder {
   id: number;
   event_ticket_date: string | string[];
   event_title: string;
