@@ -16,7 +16,7 @@ export interface TicketInOrder {
   quantity: number;
 }
 
-interface Payment {
+export interface Payment {
   id?: number;
   order_id?: number;
   bank?: string;

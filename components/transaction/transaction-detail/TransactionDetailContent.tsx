@@ -1,7 +1,8 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
-import { rupiahFormatter } from "@/lib/formatter";
 import { OrderDetail, TicketInOrder } from "@/types/order";
+import { TicketItem } from "./TicketItem";
+import { PaymentSummary } from "./PaymentSummary";
 
 export const TransactionDetailContent = ({
   formatId,
@@ -51,24 +52,7 @@ export const TransactionDetailContent = ({
         <h5 className="font-semibold mt-4">Item Tiket</h5>
         <div className="flex flex-col gap-2 mt-2">
           {details.map((item: TicketInOrder) => {
-            return (
-              <div className="flex justify-between" key={item.id}>
-                <div className="flex flex-col gap-1">
-                  <p className="text-sm text-black/80">{item.event_title}</p>
-                  <h6 className="text-lg uppercase font-semibold">
-                    {item.ticket_category_name}
-                  </h6>
-                  <p className="text-sm text-black/80">
-                    Tgl Tiket : {item.event_ticket_date}
-                  </p>
-                </div>
-                <div className="flex items-center">
-                  <p className="text-sm font-semibold">
-                    {item.quantity} x {rupiahFormatter.format(item.price)}
-                  </p>
-                </div>
-              </div>
-            );
+            return <TicketItem status={status} data={item} key={item.id} />;
           })}
         </div>
 
@@ -77,42 +61,13 @@ export const TransactionDetailContent = ({
           <p>{badgeIcon(status)}</p>
         </div>
 
-        <div className="flex flex-col gap-2 mt-1 text-sm text-black/80">
-          {status == "paid" && (
-            <>
-              <div className="flex justify-between capitalize">
-                <p>Metode Pembayaran</p>
-                <p>
-                  {payment?.payment_type}{" "}
-                  {Boolean(payment?.bank) ?? `- ${payment?.bank}`}
-                </p>
-              </div>
-
-              {Boolean(payment?.va_number) && (
-                <div className="flex justify-between capitalize">
-                  <p>Va Number</p>
-                  <p>{payment?.va_number}</p>
-                </div>
-              )}
-
-              <div className="flex justify-between capitalize">
-                <p>Tgl Pembayaran</p>
-                <p>{payment?.paid_at}</p>
-              </div>
-            </>
-          )}
-
-          <div className="flex justify-between capitalize text-black font-semibold mt-1">
-            <p>Total Bayar</p>
-            <p>
-              {rupiahFormatter.format(
-                status == "paid"
-                  ? Number(payment?.gross_amount)
-                  : Number(total_price)
-              )}
-            </p>
-          </div>
-        </div>
+        {payment && (
+          <PaymentSummary
+            status={status}
+            total_price={total_price}
+            data={payment}
+          />
+        )}
       </section>
     </div>
   );
