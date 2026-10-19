@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { OrderDetail, TicketInOrder } from "@/types/order";
 import { TicketItem } from "./TicketItem";
 import { PaymentSummary } from "./PaymentSummary";
+import { badgeIcon } from "@/components/admin/orders/table/TableOrders";
 
 export const OrderDetailContent = ({
   formatId,
@@ -12,31 +13,6 @@ export const OrderDetailContent = ({
   data: OrderDetail;
 }) => {
   const { created_at, status, total_price, payment, details } = data;
-
-  console.log(data);
-
-  const badgeIcon = (status: string) => {
-    switch (status) {
-      case "paid":
-        return (
-          <Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300 rounded-md py-1 px-2">
-            Paid
-          </Badge>
-        );
-      case "pending":
-        return (
-          <Badge className="bg-amber-50 text-amber-600 dark:bg-amber-950 dark:text-amber-300 rounded-md py-1 px-2">
-            Pending
-          </Badge>
-        );
-      default:
-        return (
-          <Badge className="bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300 rounded-md py-1 px-2">
-            Failed
-          </Badge>
-        );
-    }
-  };
 
   return (
     <div className="flex flex-col w-full lg:w-3/4 mx-auto pb-10 h-full mt-20 font-jakarta">
