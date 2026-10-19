@@ -1,5 +1,4 @@
 "use client";
-import { Badge } from "@/components/ui/badge";
 import { OrderDetail, TicketInOrder } from "@/types/order";
 import { TicketItem } from "./TicketItem";
 import { PaymentSummary } from "./PaymentSummary";
