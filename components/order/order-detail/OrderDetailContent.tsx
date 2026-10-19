@@ -4,7 +4,7 @@ import { OrderDetail, TicketInOrder } from "@/types/order";
 import { TicketItem } from "./TicketItem";
 import { PaymentSummary } from "./PaymentSummary";
 
-export const TransactionDetailContent = ({
+export const OrderDetailContent = ({
   formatId,
   data,
 }: {

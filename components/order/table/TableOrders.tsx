@@ -14,11 +14,7 @@ import {
 import { Order } from "@/types/order";
 import { rupiahFormatter } from "@/lib/formatter";
 
-export const TableTransactions = ({
-  transactions,
-}: {
-  transactions: Order[];
-}) => {
+export const TableOrders = ({ orders }: { orders: Order[] }) => {
   const badgeIcon = (status: string) => {
     switch (status) {
       case "paid":
@@ -44,7 +40,7 @@ export const TableTransactions = ({
 
   return (
     <section className="flex flex-col gap-2 mt-5">
-      {!transactions.length && (
+      {!orders.length && (
         <TableCaption>Daftar transaksi tidak tersedia.</TableCaption>
       )}
       <Table>
@@ -59,13 +55,13 @@ export const TableTransactions = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {transactions.length &&
-            transactions.map((transaction: Order) => {
-              const detail = transaction?.details;
+          {orders.length &&
+            orders.map((order: Order) => {
+              const detail = order?.details;
               return (
-                <TableRow key={transaction.id} className="font-jakarta">
+                <TableRow key={order.id} className="font-jakarta">
                   <TableCell className="font-medium uppercase">
-                    inv-etz-{transaction.id}
+                    inv-etz-{order.id}
                   </TableCell>
                   <TableCell className="capitalize flex items-center gap-2">
                     {detail[0].ticket_category_name}
@@ -78,14 +74,14 @@ export const TableTransactions = ({
                     )}
                   </TableCell>
                   <TableCell>
-                    {rupiahFormatter.format(transaction.total_price)}
+                    {rupiahFormatter.format(order.total_price)}
                   </TableCell>
-                  <TableCell>{transaction.created_at}</TableCell>
+                  <TableCell>{order.created_at}</TableCell>
                   <TableCell className="capitalize">
-                    {badgeIcon(transaction.status)}
+                    {badgeIcon(order.status)}
                   </TableCell>
                   <TableCell className="text-right capitalize underline">
-                    <Link href={`transactions/inv-etz-${transaction.id}`}>
+                    <Link href={`orders/inv-etz-${order.id}`}>
                       Detail Transaksi
                     </Link>
                   </TableCell>

@@ -52,7 +52,7 @@ export const SidebarContentWrapper = (data: any) => {
       icon: TicketCheck,
     },
     {
-      path: "/transactions",
+      path: "/orders",
       title: "riwayat transaksi",
       icon: List,
     },

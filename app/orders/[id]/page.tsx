@@ -1,7 +1,7 @@
 import { getAccessToken } from "@/app/actions/auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Loading } from "@/components/layout/Loading";
-import { TransactionDetailContent } from "@/components/transaction/transaction-detail/TransactionDetailContent";
+import { OrderDetailContent } from "@/components/order/order-detail/OrderDetailContent";
 import { EventsAPI } from "@/lib/services/api/events-api";
 import { getServerSession } from "next-auth";
 import { RedirectType, notFound, redirect } from "next/navigation";
@@ -43,7 +43,7 @@ export default async function Page({ params }: PageProps) {
   return (
     <div className="flex flex-col gap-3 px-5 py-12">
       <Suspense fallback={<Loading />}>
-        <TransactionDetailContent formatId={id ?? 0} data={response.data} />
+        <OrderDetailContent formatId={id ?? 0} data={response.data} />
       </Suspense>
     </div>
   );

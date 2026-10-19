@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect, RedirectType } from "next/navigation";
-import { TransactionsContent } from "@/components/transaction/TransactionsContent";
+import { OrdersContent } from "@/components/order/OrdersContent";
 import { getAccessToken } from "../actions/auth";
 import { EventsAPI } from "@/lib/services/api/events-api";
 import { Suspense } from "react";
@@ -24,7 +24,7 @@ export default async function Profile() {
   return (
     <div className="flex flex-col gap-3 px-5 py-12 h-[50rem]">
       <Suspense fallback={<Loading />}>
-        <TransactionsContent response={response} />
+        <OrdersContent response={response} />
       </Suspense>
     </div>
   );

@@ -1,6 +1,6 @@
-import { TableTransactions } from "./table/TableTransactions";
+import { TableOrders } from "./table/TableOrders";
 
-export const TransactionsContent = ({ response }: { response: any }) => {
+export const OrdersContent = ({ response }: { response: any }) => {
   return (
     <div className="flex flex-col w-full lg:w-3/4 mx-auto pb-10 h-full mt-20">
       <section className="flex flex-col md:flex-row gap-5 font-grotesk md:items-center">
@@ -9,7 +9,7 @@ export const TransactionsContent = ({ response }: { response: any }) => {
         </div>
       </section>
 
-      <TableTransactions transactions={response?.data} />
+      <TableOrders orders={response?.data} />
     </div>
   );
 };
