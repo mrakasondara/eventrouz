@@ -43,7 +43,7 @@ export default async function Page({ params }: PageProps) {
   return (
     <div className="flex flex-col gap-3 px-5 py-12">
       <Suspense fallback={<Loading />}>
-        <TransactionDetailContent formatId={id} data={response.data} />
+        <TransactionDetailContent formatId={id ?? 0} data={response.data} />
       </Suspense>
     </div>
   );

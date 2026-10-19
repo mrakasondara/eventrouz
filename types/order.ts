@@ -4,6 +4,15 @@ export interface Order {
   total_price: number;
   created_at: string;
   details: TicketInOrder[];
+  user?: User;
+}
+
+interface User {
+  id?: number;
+  created_at?: string;
+  email?: string;
+  name?: string;
+  updated_at?: string;
 }
 
 export interface TicketInOrder {
@@ -30,5 +39,6 @@ export interface Payment {
 }
 
 export interface OrderDetail extends Order {
+  details: TicketInOrder[];
   payment?: Payment;
 }

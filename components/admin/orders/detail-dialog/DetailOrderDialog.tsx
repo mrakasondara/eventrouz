@@ -14,12 +14,12 @@ import {
 import { EventsAPI } from "@/lib/services/api/events-api";
 import { errorStyle } from "@/lib/toaster-styles";
 import { statusStyle } from "../table/TableOrders";
-import { Detail, OrderDetail } from "@/types/event";
 import { QrCode } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { OrderDetail } from "@/types/order";
 
 export const DetailOrderDialog = ({ id }: { id: number | undefined }) => {
-  const [order, setOrder] = useState<OrderDetail>({});
+  const [order, setOrder] = useState<OrderDetail>({} | []);
   const [loading, setLoading] = useState<boolean>(false);
 
   const getOrderDetail = async () => {
@@ -68,7 +68,7 @@ export const DetailOrderDialog = ({ id }: { id: number | undefined }) => {
             </section>
 
             <section className="flex flex-col gap-3 mt-7">
-              {order?.details?.map((detail: Detail, index) => {
+              {order?.details?.map((detail: OrderDetail, index) => {
                 return (
                   <div
                     className="flex flex-col gap-2 p-2 border-t-2 border-b-2"

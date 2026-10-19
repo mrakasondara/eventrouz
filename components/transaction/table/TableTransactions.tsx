@@ -60,7 +60,7 @@ export const TableTransactions = ({
         </TableHeader>
         <TableBody>
           {transactions.length &&
-            transactions.map((transaction: any) => {
+            transactions.map((transaction: Order) => {
               const detail = transaction?.details;
               return (
                 <TableRow key={transaction.id} className="font-jakarta">

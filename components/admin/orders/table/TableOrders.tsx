@@ -9,22 +9,30 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Order } from "@/types/event";
 import { TableOrdersActions } from "./TableOrdersActions";
+import { Order } from "@/types/order";
+import { Badge } from "@/components/ui/badge";
 
-export const statusStyle = (status: string) => {
+export const badgeIcon = (status: string) => {
   switch (status) {
-    case "pending":
-      return "bg-[#fffb00] border-2 border-black px-3 py-1 font-bold text-xs uppercase shadow-[2px_2px_0px_0px_#000]";
-
-    case "expired":
-      return "bg-[#ff5959] border-2 border-black px-3 py-1 font-bold text-xs uppercase shadow-[2px_2px_0px_0px_#000]";
-
     case "paid":
-      return "bg-[#8bff59] border-2 border-black px-3 py-1 font-bold text-xs uppercase shadow-[2px_2px_0px_0px_#000]";
-
+      return (
+        <Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300 rounded-md py-1 px-2">
+          Paid
+        </Badge>
+      );
+    case "pending":
+      return (
+        <Badge className="bg-amber-50 text-amber-600 dark:bg-amber-950 dark:text-amber-300 rounded-md py-1 px-2">
+          Pending
+        </Badge>
+      );
     default:
-      return "bg-slate-200 border-2 border-black px-3 py-1 font-bold text-xs uppercase shadow-[2px_2px_0px_0px_#000]";
+      return (
+        <Badge className="bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300 rounded-md py-1 px-2">
+          Failed
+        </Badge>
+      );
   }
 };
 
@@ -49,18 +57,16 @@ export const TableOrders = ({ orders }: { orders: Order[] }) => {
           {orders.length &&
             orders.map((order: Order) => {
               return (
-                <TableRow key={order.id}>
-                  <TableCell className="font-medium">{order.id}</TableCell>
+                <TableRow key={order.id} className="font-jakarta">
+                  <TableCell className="font-medium uppercase">
+                    inv-etz-{order.id}
+                  </TableCell>
                   <TableCell>{order?.user?.email}</TableCell>
                   <TableCell>
                     Rp. {order?.total_price?.toLocaleString("id-ID")}
                   </TableCell>
                   <TableCell>{order?.created_at}</TableCell>
-                  <TableCell>
-                    <span className={`${statusStyle(order?.status ?? "")}`}>
-                      {order?.status}
-                    </span>
-                  </TableCell>
+                  <TableCell>{badgeIcon(order?.status)}</TableCell>
                   <TableCell className="text-right">
                     <TableOrdersActions id={order?.id} />
                   </TableCell>

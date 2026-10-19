@@ -23,7 +23,7 @@ export const TableOrdersActions = ({ id }: { id: number | undefined }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuGroup>
-          <DetailOrderDialog id={id} />
+          {/* <DetailOrderDialog id={id} /> */}
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

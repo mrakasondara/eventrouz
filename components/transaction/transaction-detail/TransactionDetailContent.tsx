@@ -13,6 +13,8 @@ export const TransactionDetailContent = ({
 }) => {
   const { created_at, status, total_price, payment, details } = data;
 
+  console.log(data);
+
   const badgeIcon = (status: string) => {
     switch (status) {
       case "paid":
