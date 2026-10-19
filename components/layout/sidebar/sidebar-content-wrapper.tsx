@@ -93,7 +93,7 @@ export const SidebarContentWrapper = (data: any) => {
                   <Link href={link.path}>
                     <SidebarMenuButton
                       className={`gap-5 text-md ${
-                        pathActive == link.path &&
+                        pathActive.startsWith(link.path) &&
                         "bg-blue border-2 font-semibold shadow-[3px_3px_0px_0px_#323232]"
                       } hover:border-2 hover:bg-blue hover:shadow-[3px_3px_0px_0px_#323232] transition-all ease-in-out capitalize cursor-pointer`}
                     >

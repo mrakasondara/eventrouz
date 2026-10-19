@@ -82,7 +82,7 @@ export default function RootLayout({
                 <Header />
                 <Toaster position="top-right" />
 
-                <main className="flex-1 flex flex-col w-full min-h-full">
+                <main className="flex-1 flex flex-col w-full h-full">
                   <div className="flex-1 w-full">{children}</div>
                 </main>
                 <Footer />
