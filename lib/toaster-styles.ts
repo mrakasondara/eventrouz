@@ -1,5 +1,5 @@
 export const successStyle = {
-  "--normal-bg": "var(--color-green-100/50)",
+  "--normal-bg": "var(--color-green-100)",
   "--normal-text": "light-dark(var(--color-green-600), var(--color-green-400))",
   "--normal-border":
     "light-dark(var(--color-green-600), var(--color-green-400))",

@@ -80,7 +80,15 @@ export default function RootLayout({
 
               <SidebarInset className="flex flex-col min-h-screen w-full flex-1">
                 <Header />
-                <Toaster position="top-right" />
+                <Toaster
+                  position="top-right"
+                  toastOptions={{
+                    classNames: {
+                      toast:
+                        "!border-black !text-[15px] !border-2 !font-grotesk !rounded-none !shadow-[4px_4px_0px_0px_#323232]",
+                    },
+                  }}
+                />
 
                 <main className="flex-1 flex flex-col w-full h-full">
                   <div className="flex-1 w-full">{children}</div>
