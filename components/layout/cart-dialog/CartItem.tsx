@@ -17,6 +17,7 @@ export const CartItem = ({
 
   const isListed = listCart.find((list) => list?.id === cart?.id);
 
+
   const addToList = (cart: CartItemInterface) => {
     const isListed = listCart.find((list) => list?.id === cart?.id);
 

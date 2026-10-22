@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ShoppingCart } from "lucide-react";
 import {
   Dialog,
@@ -16,6 +16,8 @@ import { Spinner } from "@/components/ui/spinner";
 import { EventsAPI } from "@/lib/services/api/events-api";
 import { handleSnapPopup } from "@/lib/services/midtrans";
 import { rupiahFormatter } from "@/lib/formatter";
+import { toast } from "sonner";
+import { errorStyle } from "@/lib/toaster-styles";
 
 export const CartDialog = () => {
   const {
@@ -30,6 +32,16 @@ export const CartDialog = () => {
   const totalItems = getTotalItems();
 
   const [listCart, setListCart] = useState<CartItemInterface[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const totalPrice = useMemo(() => {
+    return listCart.reduce((acc, val) => {
+      const totalTicket = val?.total_ticket ?? 0;
+      const price = val?.ticket_category?.price ?? 0;
+
+      return acc + totalTicket * price;
+    }, 0);
+  }, [listCart]);
 
   const onClearCart = async () => {
     const token = await getAccessToken();
@@ -58,10 +70,10 @@ export const CartDialog = () => {
       });
     };
 
-    const token = (await getAccessToken()) ?? "";
     const items = formatData();
-
+    const token = (await getAccessToken()) ?? "";
     try {
+      setLoading(true);
       const response = await EventsAPI.addOrder({ token, items });
       if (response.success) {
         await handleSnapPopup({ token, id: response.data.id ?? 0 });
@@ -69,9 +81,13 @@ export const CartDialog = () => {
         listCart.forEach((cart) => removeItem(token, cart.id));
 
         fetchCart(token ?? "");
+      } else {
+        toast.error(response.message, { style: errorStyle });
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -129,14 +145,7 @@ export const CartDialog = () => {
               <div className="flex flex-col font-semibold">
                 <p className="text-sm">Total Harga</p>
                 <h6 className="font-bold">
-                  {rupiahFormatter.format(
-                    listCart.reduce((acc, val) => {
-                      const totalTicket = val?.total_ticket ?? 0;
-                      const price = val?.ticket_category?.price ?? 0;
-
-                      return acc + totalTicket * price;
-                    }, 0)
-                  )}
+                  {rupiahFormatter.format(totalPrice ?? 0)}
                 </h6>
               </div>
               <div className="flex items-center gap-3">
@@ -154,7 +163,7 @@ export const CartDialog = () => {
                   size="sm"
                   type="submit"
                 >
-                  Beli
+                  {loading && <Spinner />} Beli
                 </Button>
               </div>
             </form>
