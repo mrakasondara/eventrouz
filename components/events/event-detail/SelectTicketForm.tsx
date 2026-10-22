@@ -47,7 +47,9 @@ export const SelectTicketForm = ({ data }: { data: EventDetail }) => {
     e.preventDefault();
 
     if (!selectedTicket || !quantity) {
-      return toast.warning("Silahkan pilih tiket dan masukkan jumlah tiket");
+      return toast.warning("Silahkan pilih tiket dan masukkan jumlah tiket", {
+        style: warningStyle,
+      });
     }
 
     const ticket = {
