@@ -41,4 +41,5 @@ export interface Payment {
 export interface OrderDetail extends Order {
   details: TicketInOrder[];
   payment?: Payment;
+  snap_token?: string;
 }

@@ -15,6 +15,24 @@ interface snapPopup {
   id?: number;
 }
 
+export const snapPay = (token: string) => {
+  return window?.snap?.pay(token, {
+    onSuccess: function (result: any) {
+      toast.success("Pembayaran berhasil!", { style: successStyle });
+      location.reload();
+    },
+    onPending: function (result: any) {
+      toast.info("Pembayaran tertunda!", { style: infoStyle });
+    },
+    onError: function (result: any) {
+      toast.error("Pembayaran gagal!", { style: errorStyle });
+    },
+    onClose: function () {
+      toast.warning("Pembayaran tertunda!", { style: warningStyle });
+    },
+  });
+};
+
 export const handleSnapPopup = async ({ token, id }: snapPopup) => {
   try {
     const response = await fetch(`${BASE_API}/payment/create/${id}`, {
@@ -28,20 +46,7 @@ export const handleSnapPopup = async ({ token, id }: snapPopup) => {
     const responseData = await response.json();
     const snapToken = responseData?.snapToken;
 
-    window?.snap?.pay(snapToken, {
-      onSuccess: function (result: any) {
-        toast.success("Pembayaran berhasil!", { style: successStyle });
-      },
-      onPending: function (result: any) {
-        toast.info("Pembayaran berhasil!", { style: infoStyle });
-      },
-      onError: function (result: any) {
-        toast.error("Pembayaran berhasil!", { style: errorStyle });
-      },
-      onClose: function () {
-        toast.warning("Pembayaran berhasil!", { style: warningStyle });
-      },
-    });
+    snapPay(snapToken);
   } catch (error) {
     console.error(error);
   }
