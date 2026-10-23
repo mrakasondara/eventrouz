@@ -18,9 +18,6 @@ import { badgeIcon } from "@/components/admin/orders/table/TableOrders";
 export const TableOrders = ({ orders }: { orders: Order[] }) => {
   return (
     <section className="flex flex-col gap-2 mt-5">
-      {!orders.length && (
-        <TableCaption>Daftar transaksi tidak tersedia.</TableCaption>
-      )}
       <Table>
         <TableHeader className="bg-gray font-sans font-semibold">
           <TableRow>
@@ -33,7 +30,7 @@ export const TableOrders = ({ orders }: { orders: Order[] }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {orders.length &&
+          {Boolean(orders.length) &&
             orders.map((order: Order) => {
               const detail = order?.details;
               return (
@@ -67,6 +64,9 @@ export const TableOrders = ({ orders }: { orders: Order[] }) => {
               );
             })}
         </TableBody>
+        {!Boolean(orders.length) && (
+          <TableCaption>Daftar transaksi tidak tersedia.</TableCaption>
+        )}
       </Table>
     </section>
   );
