@@ -11,6 +11,7 @@ import { useCartStore, useSidebarStore } from "@/lib/store";
 import { SearchDialog } from "./SearchDialog";
 import { CartDialog } from "./cart-dialog/CartDialog";
 import { useEffect } from "react";
+import { successStyle } from "@/lib/toaster-styles";
 
 export const Header = () => {
   const pathname = usePathname();
@@ -78,7 +79,7 @@ export const Header = () => {
                 const token = await getAccessToken();
                 const response = await EventsAPI.logout(token ?? "");
                 if (response.success) {
-                  toast.success(response.message);
+                  toast.success(response.message, { style: successStyle });
                   setTimeout(() => {
                     signOut({ callbackUrl: "/signin" });
                   }, 700);

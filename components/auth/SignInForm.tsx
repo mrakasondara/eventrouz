@@ -15,6 +15,7 @@ import { signIn, useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
 import { removeAccessToken } from "@/app/actions/auth";
+import { errorStyle, successStyle } from "@/lib/toaster-styles";
 
 export const SignInForm = () => {
   const router = useRouter();
@@ -53,9 +54,9 @@ export const SignInForm = () => {
     setLoading(false);
 
     if (response?.error) {
-      toast.error("Email atau password salah");
+      toast.error("Email atau password salah", { style: errorStyle });
     } else {
-      toast.success("Login berhasil");
+      toast.success("Login berhasil", { style: successStyle });
       if (isRemember) {
         window.localStorage.setItem(rememberEmailKey, email);
       }
