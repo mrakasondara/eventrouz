@@ -19,7 +19,7 @@ export default async function AdminTickets() {
   const tickets = await EventsAPI.getTickets({ token: token ?? "" });
 
   return (
-    <div className="flex flex-col gap-3 px-5 py-12 h-[50rem]">
+    <div className="flex flex-col gap-3 px-5 py-12 min-h-[50rem]">
       <Suspense fallback={<Loading />}>
         <AdminTicketsContent tickets={tickets} />
       </Suspense>
