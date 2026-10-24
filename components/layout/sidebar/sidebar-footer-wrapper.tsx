@@ -13,6 +13,7 @@ import { SidebarFooter } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getAccessToken } from "@/app/actions/auth";
 import { EventsAPI } from "@/lib/services/api/events-api";
+import { successStyle } from "@/lib/toaster-styles";
 export const SidebarFooterWrapper = () => {
   const { data: session } = useSession();
 
@@ -38,9 +39,9 @@ export const SidebarFooterWrapper = () => {
               className="cursor-pointer hover:bg-red-500 hover:text-white hover:border-2 hover:border-black"
               onClick={async () => {
                 const token = await getAccessToken();
-                const response = await EventsAPI.logout(token);
+                const response = await EventsAPI.logout(token ?? "");
                 if (response.success) {
-                  toast.success(response.message);
+                  toast.success(response.message, { style: successStyle });
                   setTimeout(() => {
                     signOut({ callbackUrl: "/signin" });
                   }, 700);
