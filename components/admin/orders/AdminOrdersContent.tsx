@@ -1,10 +1,10 @@
+"use client";
 import { getSingleDate } from "@/lib/date";
 import { ShoppingCart } from "lucide-react";
 import { TableOrders } from "./table/TableOrders";
 
 export const AdminOrdersContent = ({ orders }: { orders: any }) => {
   const latestUpdate = orders?.data[0].created_at;
-
   return (
     <div className="flex flex-col w-full lg:w-3/4 mx-auto pb-10 h-full mt-20">
       <section className="flex flex-col md:flex-row gap-5 font-grotesk md:items-center">
@@ -20,7 +20,6 @@ export const AdminOrdersContent = ({ orders }: { orders: any }) => {
               : "-"}
           </p>
         </div>
-        {/* <AddTicketDialog /> */}
       </section>
 
       <TableOrders orders={orders?.data} />

@@ -21,7 +21,6 @@ export const AdminUsersContent = ({ users }: { users: any }) => {
               : "-"}
           </p>
         </div>
-        {/* <AddTicketDialog /> */}
       </section>
 
       <TableUsers users={users?.data} />
