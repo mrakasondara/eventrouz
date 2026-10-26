@@ -40,7 +40,7 @@ export const badgeIcon = (status: string) => {
 export const TableOrders = ({ orders }: { orders: Order[] }) => {
   return (
     <section className="flex flex-col gap-2 mt-5">
-      {!orders.length && (
+      {!Boolean(orders.length) && (
         <TableCaption>Daftar tranaksi tidak tersedia.</TableCaption>
       )}
       <Table>
@@ -55,7 +55,7 @@ export const TableOrders = ({ orders }: { orders: Order[] }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {orders.length &&
+          {Boolean(orders.length) &&
             orders.map((order: Order) => {
               return (
                 <TableRow key={order.id} className="font-jakarta">
