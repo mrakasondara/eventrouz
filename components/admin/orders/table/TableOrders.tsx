@@ -12,6 +12,7 @@ import {
 import { TableOrdersActions } from "./TableOrdersActions";
 import { Order } from "@/types/order";
 import { Badge } from "@/components/ui/badge";
+import { getSingleDate } from "@/lib/date";
 
 export const badgeIcon = (status: string) => {
   switch (status) {
@@ -65,7 +66,12 @@ export const TableOrders = ({ orders }: { orders: Order[] }) => {
                   <TableCell>
                     Rp. {order?.total_price?.toLocaleString("id-ID")}
                   </TableCell>
-                  <TableCell>{order?.created_at}</TableCell>
+                  <TableCell>
+                    {getSingleDate({
+                      date: order?.created_at,
+                      type: "short",
+                    })}
+                  </TableCell>
                   <TableCell>{badgeIcon(order?.status)}</TableCell>
                   <TableCell className="text-right">
                     <TableOrdersActions id={order?.id} />

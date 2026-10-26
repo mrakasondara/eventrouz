@@ -1,4 +1,4 @@
-import { EllipsisVertical, ReceiptText } from "lucide-react";
+import { EllipsisVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { DetailOrderDialog } from "../detail-dialog/DetailOrderDialog";
+import Link from "next/link";
 export const TableOrdersActions = ({ id }: { id: number | undefined }) => {
   return (
     <DropdownMenu>
@@ -23,7 +23,11 @@ export const TableOrdersActions = ({ id }: { id: number | undefined }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuGroup>
-          {/* <DetailOrderDialog id={id} /> */}
+          <Link href={`orders/inv-etz-${id}`}>
+            <DropdownMenuItem className="cursor-pointer">
+              Detail Transaksi
+            </DropdownMenuItem>
+          </Link>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
