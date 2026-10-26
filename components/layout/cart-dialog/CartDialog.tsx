@@ -63,6 +63,7 @@ export const CartDialog = () => {
     const formatData = () => {
       return listCart.map((cart) => {
         return {
+          id: cart.id,
           ticket_category_id: cart.ticket_category_id,
           event_ticket_date: cart.event_ticket_date.toString(),
           quantity: cart.total_ticket,
@@ -74,11 +75,19 @@ export const CartDialog = () => {
     const token = (await getAccessToken()) ?? "";
     try {
       setLoading(true);
+
       const response = await EventsAPI.addOrder({ token, items });
       if (response.success) {
         await handleSnapPopup({ token, id: response.data.id ?? 0 });
 
         listCart.forEach((cart) => removeItem(token, cart.id));
+
+        const idsToRemove = items.map((item) => item.id);
+
+        const removedItem = listCart.filter(
+          (cart) => !idsToRemove.includes(cart.id)
+        );
+        setListCart(removedItem);
 
         fetchCart(token ?? "");
       } else {
@@ -145,7 +154,7 @@ export const CartDialog = () => {
               <div className="flex flex-col font-semibold">
                 <p className="text-sm">Total Harga</p>
                 <h6 className="font-bold">
-                  {rupiahFormatter.format(totalPrice ?? 0)}
+                  {rupiahFormatter.format(listCart.length ? totalPrice : 0)}
                 </h6>
               </div>
               <div className="flex items-center gap-3">
