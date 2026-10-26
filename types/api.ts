@@ -85,6 +85,7 @@ export interface addOrder {
 }
 
 interface orderItem {
+  id?: number;
   ticket_category_id: number;
   event_ticket_date: string;
   quantity: number;

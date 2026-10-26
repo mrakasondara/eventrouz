@@ -238,6 +238,13 @@ export class EventsAPI {
     return await handlerAuthAPI({ url, method, token, isImageUpload: false });
   }
 
+  static async getMyTickets(token: string) {
+    const url = `${BASE_API}/tickets`;
+    const method = "GET";
+
+    return await handlerAuthAPI({ url, method, token, isImageUpload: false });
+  }
+
   static async addTicket({ id, token, body }: addTicketCategories) {
     const url = `${BASE_API}/events/${id}/ticket-categories`;
     const method = "POST";
