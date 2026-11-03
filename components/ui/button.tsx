@@ -35,6 +35,8 @@ const buttonVariants = cva(
           "size-7 [&_svg:not([class*='size-'])]:size-3 -translate-y-[1px] hover:translate-[2px] hover:shadow-none shadow-[2px_2px_0px_0px_#323232]",
         "icon-sm":
           "size-9 -translate-y-[1px] hover:translate-[3px] hover:shadow-none shadow-[3px_3px_0px_0px_#323232]",
+        "icon-md":
+          "size-10 -translate-y-[1px] hover:translate-[3px] hover:shadow-none shadow-[3px_3px_0px_0px_#323232]",
         "icon-lg": "size-11",
       },
     },
