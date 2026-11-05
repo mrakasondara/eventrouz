@@ -7,6 +7,7 @@ import {
   User,
   Users,
   ShoppingCart,
+  ScanQrCode,
 } from "lucide-react";
 import {
   SidebarContent,
@@ -32,6 +33,11 @@ export const SidebarContentWrapper = (data: any) => {
       path: "/admin/tickets",
       title: "daftar tiket",
       icon: Ticket,
+    },
+    {
+      path: "/admin/scan-ticket",
+      title: "pindai tiket",
+      icon: ScanQrCode,
     },
     {
       path: "/admin/users",

@@ -303,6 +303,24 @@ export class EventsAPI {
     });
   }
 
+  static async checkinTicket({
+    token,
+    ticketCode,
+  }: {
+    token: string | undefined;
+    ticketCode: string | undefined;
+  }) {
+    const url = `${BASE_API}/tickets/check-in/${ticketCode}`;
+    const method = "POST";
+
+    return await handlerAuthAPI({
+      url,
+      method,
+      token,
+      isImageUpload: false,
+    });
+  }
+
   // orders
 
   static async getOrders({ token, limit, status }: getOrders) {
