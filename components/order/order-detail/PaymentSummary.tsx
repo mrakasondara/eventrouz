@@ -27,7 +27,7 @@ export const PaymentSummary = ({
             <p>Metode Pembayaran</p>
             <p>
               {payment_type ?? ""}
-              {Boolean(bank) ?? `- ${bank}`}
+              {Boolean(bank) && ` - ${bank}`}
             </p>
           </div>
 
