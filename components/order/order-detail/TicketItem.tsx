@@ -26,7 +26,7 @@ export const TicketItem = ({
           {ticket_category_name}
         </h6>
         <p className="text-sm text-black/80">Tgl Tiket : {event_ticket_date}</p>
-        {status === "paid" && <QRDialog ticket_code={ticket_code} />}
+        {status === "paid" && <QRDialog {...data} />}
       </div>
       <div className="flex items-center">
         <p className="text-sm font-semibold">
