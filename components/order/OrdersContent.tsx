@@ -1,4 +1,5 @@
-import { TableOrders } from "./table/TableOrders";
+import { Order } from "@/types/order";
+import { OrderCard } from "./OrderCard";
 
 export const OrdersContent = ({ response }: { response: any }) => {
   return (
@@ -9,7 +10,13 @@ export const OrdersContent = ({ response }: { response: any }) => {
         </div>
       </section>
 
-      <TableOrders orders={response?.data} />
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+        {Boolean(response.data)
+          ? response.data.map((order: Order) => {
+              return <OrderCard {...order} key={order.id} />;
+            })
+          : "Daftar transaksi tidak tersedia"}
+      </div>
     </div>
   );
 };
