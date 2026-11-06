@@ -26,7 +26,7 @@ export const OrderCard = ({
         {badgeIcon(status)}
       </div>
 
-      <div className="flex flex-col gap-2 py-4 px-6 border-b-4">
+      <div className="flex flex-col gap-2 py-4 px-3 md:px-6 border-b-4">
         <div className="flex gap-2 items-center">
           <h3 className="font-bold uppercase text-xl font-sans truncate">
             {details[0].ticket_category_name}
@@ -39,7 +39,8 @@ export const OrderCard = ({
           )}
         </div>
         <p className="flex px-2 py-1 items-center border-2 gap-1 self-start text-sm font-medium bg-beige">
-          <ShoppingCart size={15} /> Beli : {created_at}
+          <ShoppingCart size={15} className="hidden md:block" /> Beli :{" "}
+          {created_at}
         </p>
 
         <div className="flex flex-col gap-1 mt-6 font-bold">
