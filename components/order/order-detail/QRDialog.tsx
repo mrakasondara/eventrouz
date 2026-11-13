@@ -6,16 +6,18 @@ import {
   DialogContent,
   DialogHeader,
 } from "@/components/ui/dialog";
-import { TicketInOrder } from "@/types/order";
 import { Button } from "@/components/ui/button";
+import { QRTicketDialog } from "@/types/ticket";
 
 export const QRDialog = ({
   event_ticket_date,
   event_title,
+  event_location,
   ticket_category_name,
   ticket_code,
   quantity,
-}: TicketInOrder) => {
+  is_icon_show = true,
+}: QRTicketDialog) => {
   const { Canvas } = useQRCode();
 
   const handleDownloadQR = () => {
@@ -38,10 +40,14 @@ export const QRDialog = ({
     <Dialog>
       <DialogTrigger
         render={
-          <button className="mt-1 flex gap-2 text-sm underline cursor-pointer" />
+          <button
+            className={`mt-1 flex gap-2 text-sm underline cursor-pointer ${
+              !is_icon_show && "justify-center"
+            }`}
+          />
         }
       >
-        <QrCode size={20} />
+        {is_icon_show && <QrCode size={20} />}
         Lihat QR Code
       </DialogTrigger>
       <DialogContent className="sm:max-w-md md:max-w-2xl shadow-[8px_8px_0px_0px_#323232] transition-all ease-in-out border-8 font-grotesk p-0">
@@ -77,7 +83,7 @@ export const QRDialog = ({
                   <Pin className="mr-1" size={16} /> Lokasi / Venue
                 </p>
                 <h2 className="uppercase text-lg font-extrabold">
-                  stadion utama gbk
+                  {event_location}
                 </h2>
               </div>
             </div>

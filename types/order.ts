@@ -16,13 +16,13 @@ interface User {
 }
 
 export interface TicketInOrder {
-  id: number;
-  event_ticket_date: string | string[];
-  event_title: string;
-  ticket_category_name: string;
+  id?: number;
+  event_ticket_date?: string | string[];
+  event_title?: string;
+  ticket_category_name?: string;
   ticket_code?: string;
-  price: number;
-  quantity: number;
+  price?: number;
+  quantity?: number;
 }
 
 export interface Payment {

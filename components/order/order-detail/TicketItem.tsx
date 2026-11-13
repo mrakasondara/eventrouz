@@ -1,16 +1,21 @@
 import { rupiahFormatter } from "@/lib/formatter";
-import { TicketInOrder } from "@/types/order";
 import { QRDialog } from "./QRDialog";
+import { QRTicketDialog } from "@/types/ticket";
+
+interface TicketItemInterface extends QRTicketDialog {
+  price?: number;
+}
 
 export const TicketItem = ({
   status,
   data,
 }: {
   status: string;
-  data: TicketInOrder;
+  data: TicketItemInterface;
 }) => {
   const {
     event_ticket_date,
+    event_location,
     event_title,
     ticket_category_name,
     ticket_code,
@@ -30,7 +35,7 @@ export const TicketItem = ({
       </div>
       <div className="flex items-center">
         <p className="text-sm font-semibold">
-          {quantity} x {rupiahFormatter.format(price)}
+          {quantity} x {rupiahFormatter.format(price ?? 0)}
         </p>
       </div>
     </div>
