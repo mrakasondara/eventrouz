@@ -11,6 +11,8 @@ import {
 import { Badge } from "../ui/badge";
 import { Ticket as TicketInterface } from "@/types/ticket";
 import { QRTicket } from "./QRTicket";
+import { QRDialog } from "../order/order-detail/QRDialog";
+import { getRelativeDate } from "@/lib/date";
 
 const badgeStatus = (status: string) => {
   switch (status) {
@@ -66,6 +68,8 @@ const iconData = ({
 export const MyTicketCard = ({
   id,
   status_event,
+  is_checkin,
+  checkin_time,
   ticket_code,
   quantity,
   ticket_date,
@@ -73,6 +77,17 @@ export const MyTicketCard = ({
   event_title,
   event_location,
 }: TicketInterface) => {
+  const QRData = {
+    event_ticket_date: ticket_date,
+    event_title,
+    event_location,
+    ticket_category_name: ticket_category,
+    ticket_code,
+    quantity,
+  };
+
+  const getDateTime = new Date(checkin_time ?? 0).toLocaleString() ?? 0;
+
   return (
     <article
       className={`flex flex-col md:flex-row gap-5 font-jakarta border-2 -translate-y-0.75 hover:translate-1 hover:shadow-none shadow-[5px_5px_0px_0px_#323232] cursor-pointer transition-all ease-in-out ${
@@ -123,6 +138,12 @@ export const MyTicketCard = ({
               <CheckCheck size={50} className="mx-auto" />
             </div>
             <p className="text-sm">Acara telah berakhir</p>
+            <div className="flex flex-col gap-1">
+              <p className="text-sm">Waktu check-in :</p>
+              <p className="text-sm">
+                {is_checkin ? getDateTime : "Anda tidak checkin"}
+              </p>
+            </div>
           </>
         ) : (
           <>
@@ -130,6 +151,7 @@ export const MyTicketCard = ({
               <QRTicket ticket_code={ticket_code ?? ""} />
             </div>
             <p className="text-sm">Tunjukkan QR Code ini saat di pintu masuk</p>
+            <QRDialog {...QRData} is_icon_show={false} />
           </>
         )}
       </div>

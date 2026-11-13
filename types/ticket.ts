@@ -1,6 +1,8 @@
 export interface Ticket {
   id?: number;
   status_event?: string;
+  is_checkin?: boolean;
+  checkin_time?: Date | string;
   ticket_code?: string;
   quantity?: number;
   ticket_date?: string;
