@@ -103,14 +103,10 @@ export const Header = () => {
 
           {session && <CartDialog />}
 
-          {pathname != "/" && (
-            <>
-              <SearchDialog />
-              <Button variant="brutalism" size="icon-sm" onClick={toggle}>
-                {isOpen ? <XIcon /> : <Menu />}
-              </Button>
-            </>
-          )}
+          <SearchDialog />
+          <Button variant="brutalism" size="icon-sm" onClick={toggle}>
+            {isOpen ? <XIcon /> : <Menu />}
+          </Button>
         </div>
       </div>
     </header>
